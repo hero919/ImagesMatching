@@ -22,6 +22,7 @@ BasicModeWindow::BasicModeWindow(QWidget *parent) :
     helpDialog = new HelpDialog(ui->picWidget);
     ui->progressBar->setValue(totleTime);//progressBar初始化
     grid = new QGridLayout(ui->picWidget); //为游戏棋盘创建网格布局
+
     timer = new QTimer(this);
     painter = new QPainter(this);
     drawLineLayer = new DrawLineLayer(this);
@@ -320,7 +321,9 @@ void BasicModeWindow::reset(bool flag) {
             MapButton *pic = new MapButton();
             if (randomPicIndex == 0) {
                 pic->setStyleSheet("background:transparent");
+                //i means the number of rows and j is the number of columns.
                 pic->setObjectName(QString::number(i * 18 + j));
+                //Set the size of icons to fill the widge
                 pic->setIconSize(QSize(40, 40));
                 pic->setMinimumSize(40, 40);
                 pic->setMaximumSize(40, 40);
