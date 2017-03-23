@@ -35,7 +35,7 @@
      <string notr="true">background-color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>开始游戏</string>
+     <string>Start</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_2">
@@ -56,7 +56,7 @@
      <string notr="true">background-color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>暂停游戏</string>
+     <string>Pause</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_3">
@@ -72,7 +72,7 @@
      <string notr="true">background-color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>提示</string>
+     <string>Hint</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_4">
@@ -88,7 +88,7 @@
      <string notr="true">background-color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>重排</string>
+     <string>Reset</string>
     </property>
    </widget>
    <widget class="QWidget" name="picWidget" native="true">
@@ -117,7 +117,7 @@
      <string notr="true">background-color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>设置</string>
+     <string>Setting</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_6">
@@ -133,7 +133,7 @@
      <string notr="true">background-color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>帮助</string>
+     <string>Help</string>
     </property>
    </widget>
    <widget class="QProgressBar" name="progressBar">
@@ -166,6 +166,19 @@
     </property>
     <property name="text">
      <string>剩余时间：</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="BackToMain">
+    <property name="geometry">
+     <rect>
+      <x>720</x>
+      <y>220</y>
+      <width>71</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Back</string>
     </property>
    </widget>
   </widget>

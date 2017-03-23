@@ -36,7 +36,7 @@
      <string notr="true">background-image: url();</string>
     </property>
     <property name="text">
-     <string>关卡模式</string>
+     <string>Level Mode</string>
     </property>
    </widget>
    <widget class="QPushButton" name="button2">
@@ -52,7 +52,7 @@
      <string notr="true">background-image: url();</string>
     </property>
     <property name="text">
-     <string>休闲模式</string>
+     <string>Relex Mode</string>
     </property>
    </widget>
    <widget class="QPushButton" name="button3">
@@ -68,15 +68,15 @@
      <string notr="true">background-image: url();</string>
     </property>
     <property name="text">
-     <string>基本模式</string>
+     <string>Basic Mode</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>550</x>
+      <x>520</x>
       <y>550</y>
-      <width>71</width>
+      <width>81</width>
       <height>41</height>
      </rect>
     </property>
@@ -84,15 +84,15 @@
      <string notr="true">background-image: url();</string>
     </property>
     <property name="text">
-     <string>排行榜</string>
+     <string>Ranking</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_4">
     <property name="geometry">
      <rect>
-      <x>630</x>
+      <x>600</x>
       <y>550</y>
-      <width>71</width>
+      <width>81</width>
       <height>41</height>
      </rect>
     </property>
@@ -100,15 +100,15 @@
      <string notr="true">background-image: url();</string>
     </property>
     <property name="text">
-     <string>设置</string>
+     <string>Settings</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_5">
     <property name="geometry">
      <rect>
-      <x>710</x>
+      <x>680</x>
       <y>550</y>
-      <width>71</width>
+      <width>91</width>
       <height>41</height>
      </rect>
     </property>
@@ -116,7 +116,7 @@
      <string notr="true">background-image: url();</string>
     </property>
     <property name="text">
-     <string>帮助</string>
+     <string>Help</string>
     </property>
    </widget>
   </widget>

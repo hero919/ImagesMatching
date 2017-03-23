@@ -57,6 +57,7 @@ public slots:
     void showHelp(); //显示帮助
     void changeSpeed();
     void _changeSpeed();
+    void BackToMainPage();
 
 };
 

@@ -1,6 +1,7 @@
 #include "basicmodewindow.h"
 #include "ui_basicmodewindow.h"
 #include "Model/game.h"
+#include "MainWindow/mainwindow.h"
 #include <random>
 #include <iostream>
 #include <QString>
@@ -39,6 +40,7 @@ BasicModeWindow::BasicModeWindow(QWidget *parent) :
     connect(ui->pushButton_4, SIGNAL(clicked(bool)), this, SLOT(resetMap()));
     connect(ui->pushButton_5, SIGNAL(clicked(bool)), this, SLOT(changeSpeed()));
     connect(ui->pushButton_6, SIGNAL(clicked(bool)), this, SLOT(showHelp()));
+    connect(ui->BackToMain, SIGNAL(clicked(bool)), this, SLOT(BackToMainPage()));
 }
 
 BasicModeWindow::~BasicModeWindow()
@@ -48,6 +50,14 @@ BasicModeWindow::~BasicModeWindow()
     delete grid;
     delete painter;
 }
+
+
+void BasicModeWindow::BackToMainPage(){
+      MainWindow *mainWindow = new MainWindow();
+      mainWindow->show();
+      this->hide();
+}
+
 
 
 void BasicModeWindow::startGame() { //开始游戏

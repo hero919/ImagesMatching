@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/images">
         <file>res/background1.jpg</file>
+        <file>res/Pokemon.jpg</file>
     </qresource>
     <qresource prefix="/icon">
         <file>res/1.png</file>
