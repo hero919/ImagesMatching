@@ -68,12 +68,12 @@ void MainWindow::setUpWelcomeWindow() { //创建欢迎界面
     window->setCentralWidget(cenWidget);
     QLabel *emptyLabel = new QLabel(cenWidget);
     QLabel *welcomeLabel = new QLabel(cenWidget);
-    welcomeLabel->setText("WELCOME TO LIANLIANKAN");
+    welcomeLabel->setText("CS3650 Project: Images Matching Game");
     QLabel *nameLabel = new QLabel(cenWidget);
-    nameLabel->setText("\t\t by 程厚森");
+    nameLabel->setText("\t\t by Zeqing Zhang, Kaimong Wong, Zhaoxing Hong");
     QGridLayout *gridLayout = new QGridLayout(cenWidget);
     QFont ft;
-    ft.setPointSize(32);
+    ft.setPointSize(40);
     QPalette pa;
     pa.setColor(QPalette::WindowText,Qt::red);
     welcomeLabel->setFont(ft);
@@ -91,7 +91,7 @@ void MainWindow::setUpWelcomeWindow() { //创建欢迎界面
     window->show();
     QTime t;
     t.start();
-    while(t.elapsed()<1000) //让欢迎界面延迟1s
+    while(t.elapsed()<4000) //让欢迎界面延迟1s
         QCoreApplication::processEvents();
     window->close();
 }

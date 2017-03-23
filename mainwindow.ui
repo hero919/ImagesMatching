@@ -20,7 +20,7 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-image: url(:/images/res/background1.jpg);</string>
+   <string notr="true">background-image: url(:/images/res/Pokemon.jpg);</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QPushButton" name="button1">
