@@ -37,7 +37,6 @@ private:
     Ui::MainWindow *ui;
     QTableView *rankTableView;
     ScoreDao *scoreDao;
-    bool IsPlayingMusic = true;
     QSound sound;
 
 };

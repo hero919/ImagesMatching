@@ -33,11 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->button1, SIGNAL(clicked(bool)), this, SLOT(showLevelModeWindow()));
     connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(showRankingList()));
     connect(ui->pushButton_5, SIGNAL(clicked(bool)), this, SLOT(showHelp()));
-    if(IsPlayingMusic){
-        connect(ui->MusicButton, SIGNAL(clicked(bool)), this, SLOT(stopMusic()));
-    }else{
-        connect(ui->MusicButton, SIGNAL(clicked(bool)), this, SLOT(playMusic()));
-    }
+    connect(ui->MusicButton, SIGNAL(clicked(bool)), this, SLOT(stopMusic()));
 
 }
 
@@ -52,7 +48,9 @@ void MainWindow::playMusic(){
     musicButton->setIcon(QIcon(":/icon/res/1.png"));
     musicButton->setIconSize(QSize(40,40));
     sound.play();
-    IsPlayingMusic = true;
+    if(disconnect(ui->MusicButton, SIGNAL(clicked(bool)), this, SLOT(playMusic()))){
+        connect(ui->MusicButton, SIGNAL(clicked(bool)), this, SLOT(stopMusic()));
+    }
 }
 
 
@@ -61,7 +59,9 @@ void MainWindow::stopMusic(){
     musicButton->setIcon(QIcon(":/icon/res/2.png"));
     musicButton->setIconSize(QSize(40,40));
     sound.stop();
-    IsPlayingMusic = false;
+    if(disconnect(ui->MusicButton, SIGNAL(clicked(bool)), this, SLOT(stopMusic()))){
+        connect(ui->MusicButton, SIGNAL(clicked(bool)), this, SLOT(playMusic()));
+    }
 }
 
 
