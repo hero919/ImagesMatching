@@ -13,10 +13,12 @@
 #include <QStandardItemModel>
 #include <vector>
 #include <fstream>
+#include <QSound>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    sound(":/music/res/Music01.wav")
 {
     setUpWelcomeWindow();
 
@@ -24,19 +26,46 @@ MainWindow::MainWindow(QWidget *parent) :
 
     scoreDao = new ScoreDao();
     scoreDao->init();
-
+    playMusic();
     //为不同模式的按钮添加信号槽
     connect(ui->button3, SIGNAL(clicked(bool)), this, SLOT(showBasicModeWindow()));
     connect(ui->button2, SIGNAL(clicked(bool)), this, SLOT(showRelaxedModeWindow()));
     connect(ui->button1, SIGNAL(clicked(bool)), this, SLOT(showLevelModeWindow()));
     connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(showRankingList()));
     connect(ui->pushButton_5, SIGNAL(clicked(bool)), this, SLOT(showHelp()));
+    if(IsPlayingMusic){
+        connect(ui->MusicButton, SIGNAL(clicked(bool)), this, SLOT(stopMusic()));
+    }else{
+        connect(ui->MusicButton, SIGNAL(clicked(bool)), this, SLOT(playMusic()));
+    }
+
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+
+void MainWindow::playMusic(){
+    QPushButton *musicButton = ui->MusicButton;
+    musicButton->setIcon(QIcon(":/icon/res/1.png"));
+    musicButton->setIconSize(QSize(40,40));
+    sound.play();
+    IsPlayingMusic = true;
+}
+
+
+void MainWindow::stopMusic(){
+    QPushButton *musicButton = ui->MusicButton;
+    musicButton->setIcon(QIcon(":/icon/res/2.png"));
+    musicButton->setIconSize(QSize(40,40));
+    sound.stop();
+    IsPlayingMusic = false;
+}
+
+
+
 
 void MainWindow::showBasicModeWindow() {
     BasicModeWindow *bmw = new BasicModeWindow();

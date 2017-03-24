@@ -22,6 +22,7 @@ BasicModeWindow::BasicModeWindow(QWidget *parent) :
     gameModel.init();
     helpDialog = new HelpDialog(ui->picWidget);
     ui->progressBar->setValue(totleTime);//progressBar初始化
+    //picWidget is the blank area in main window
     grid = new QGridLayout(ui->picWidget); //为游戏棋盘创建网格布局
 
     timer = new QTimer(this);
@@ -69,7 +70,7 @@ void BasicModeWindow::startGame() { //开始游戏
     ui->pushButton_3->setEnabled(true);
     ui->pushButton_4->setEnabled(true);
     ui->pushButton_5->setEnabled(false);
-    ui->pushButton->setText("重新开始");
+    ui->pushButton->setText("Restart");
     //如果pushButton之前绑定了startGame方法, 就先解除绑定，然后绑定reStartGame方法
     if (disconnect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(startGame())))
         connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(reStartGame()));
@@ -103,14 +104,14 @@ void BasicModeWindow::resetMap() {
 
 void BasicModeWindow::pauseGame() {
     if (timer->isActive()) {
-        ui->pushButton_2->setText("继续游戏");
+        ui->pushButton_2->setText("Continue Game");
         timer->stop();
         ui->picWidget->setDisabled(true);
         ui->pushButton->setDisabled(true);
         ui->pushButton_3->setDisabled(true);
         ui->pushButton_4->setDisabled(true);
     } else {
-        ui->pushButton_2->setText("暂停游戏");
+        ui->pushButton_2->setText("Pause Game");
         timer->start();
         ui->picWidget->setDisabled(false);
         ui->pushButton->setDisabled(false);
@@ -295,6 +296,7 @@ void BasicModeWindow::reset(bool flag) {
         gameModel.clearRawMap();
         for (int i = 0; i < 12; i++) {
             for (int j = 0; j < 18; j++) {
+                //To avoid i - 1 or j - 1 out of bound
                 if (i == 0 || i == 11 || j == 0 || j == 17) {
                     continue;
                 }
@@ -316,6 +318,7 @@ void BasicModeWindow::reset(bool flag) {
     }
     for (int i = 0; i < 12; i++) {
         for (int j = 0; j < 18; j++) {
+            //Add Around Images
             if (i == 0 || i == 11 || j == 0 || j == 17) {
                 MapButton *w = new MapButton();
                 w->setStyleSheet("background:transparent");
@@ -329,6 +332,7 @@ void BasicModeWindow::reset(bool flag) {
 
             int randomPicIndex = gameModel.rawMap[i-1][j-1];
             MapButton *pic = new MapButton();
+            //If the image is deleted, then set the randimPicIndex to be 0. Means it is deleted.
             if (randomPicIndex == 0) {
                 pic->setStyleSheet("background:transparent");
                 //i means the number of rows and j is the number of columns.

@@ -32,4 +32,8 @@
         <file>res/exit.png</file>
         <file>res/icon.png</file>
     </qresource>
+    <qresource prefix="/music">
+        <file>res/Music01.mp3</file>
+        <file>res/Music01.wav</file>
+    </qresource>
 </RCC>

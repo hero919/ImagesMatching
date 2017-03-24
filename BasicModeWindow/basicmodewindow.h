@@ -33,7 +33,7 @@ protected:
     QGridLayout *grid;
     double totleTime = 100; //总时间
     double speed = 0.5; //速率系数
-    int PIC_NUM = 10; //花色数
+    int PIC_NUM = 8; //花色数
     QTimer *timer;
     QPainter* painter;
     DrawLineLayer* drawLineLayer; //用于画线的layer

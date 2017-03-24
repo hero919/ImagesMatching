@@ -5,6 +5,7 @@
 #include <QPushButton>
 #include <QDialog>
 #include <QTableView>
+#include <QSound>
 #include "Dao/scoredao.h"
 
 namespace Ui {
@@ -29,11 +30,15 @@ public slots:
     void showLevelModeWindow();
     void showHelp();
     void showRankingList();
+    void playMusic();
+    void stopMusic();
 
 private:
     Ui::MainWindow *ui;
     QTableView *rankTableView;
     ScoreDao *scoreDao;
+    bool IsPlayingMusic = true;
+    QSound sound;
 
 };
 

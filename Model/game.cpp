@@ -225,13 +225,17 @@ void Game::useTool(QString pic1, QString pic2) {
 }
 
 void Game::clearRawMap() {
-    for (int i = 0; i < 10; i++)
-        for (int j = 0; j < 16; j++)
+    for (int i = 0; i < 10; i++){
+        for (int j = 0; j < 16; j++){
             rawMap[i][j] = 0;
+        }
+    }
 }
 
 void Game::init() {
-    for(int i = 0; i < 12; i++)
-        for(int j = 0; j < 18; j++)
+    for(int i = 0; i < 12; i++){
+        for(int j = 0; j < 18; j++){
             map[i][j] = 0;
+        }
+    }
 }

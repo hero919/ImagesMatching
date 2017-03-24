@@ -35,7 +35,7 @@
      <string notr="true">background-color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>Start</string>
+     <string>Restart</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_2">
