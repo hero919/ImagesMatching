@@ -10,6 +10,7 @@ LevelModeWindow::LevelModeWindow(QWidget *parent) :
     gameModel.init();
     grid = new QGridLayout(ui->picWidget);
     timer = new QTimer(this);
+    timer ->start(1000);
     painter = new QPainter(this);
     drawLineLayer = new DrawLineLayer(this);
     drawLineLayer->hide();
@@ -34,25 +35,32 @@ LevelModeWindow::~LevelModeWindow()
 
 
 void LevelModeWindow::initMap(){
+    //Initialize the rawMap
+    for(unsigned int i = 0; i < 10; i++){
+        for(unsigned int j = 0 ; j < 16; j++){
+            gameModel.rawMap[i][j] = gameModel.totalPic++ / (PIC_NUM + LEVEL * 2) + 1;
+        }
+    }
 
-
-
+    //Initialize the map
+    for(unsigned int i = 0; i < 10; i++){
+        for(unsigned int j = 0; j < 16; j++){
+            gameModel.map[i + 1][j + 1] = gameModel.rawMap[i][j];
+        }
+    }
 }
 
 
 void LevelModeWindow::timerUpDate(){
-    timer->start(1000);
     totleTime -= speed;
     ui->NumberClock->display(totleTime);
-
-
 }
 
 
 
 
 void LevelModeWindow::startGame(){
-
+    reset(true);
 }
 
 void LevelModeWindow::pauseGame(){
@@ -82,8 +90,17 @@ void LevelModeWindow::BackToMainPage(){
 
 }
 
-
+//If flag is true, it means totally restarted the whole game,
+//If it is false, it only reset the images but keep the deleted images.
 void LevelModeWindow::reset(bool flag){
+    if(flag){
+
+    }
+
+
+
+
+
 
 }
 
