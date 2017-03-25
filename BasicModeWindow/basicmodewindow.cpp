@@ -16,7 +16,7 @@ BasicModeWindow::BasicModeWindow(QWidget *parent) :
     ui(new Ui::BasicModeWindow)
 {
     ui->setupUi(this);
-    setWindowTitle("欢乐连连看");
+    setWindowTitle("Images Matching Game");
     scoreDao = new ScoreDao();
     scoreDao->init();
     gameModel.init();
@@ -33,7 +33,7 @@ BasicModeWindow::BasicModeWindow(QWidget *parent) :
     ui->pushButton_2->setEnabled(false);
     ui->pushButton_3->setEnabled(false);
     ui->pushButton_4->setEnabled(false);
-    //为开始游戏和暂停游戏按钮设置信号槽
+    //Set Sinal and slots for buttons
     connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(startGame()));
     connect(ui->pushButton_2, SIGNAL(clicked(bool)), this, SLOT(pauseGame()));
     connect(timer,SIGNAL(timeout()),this,SLOT(timerUpDate())); //将timer和timerUpDate方法关联
@@ -195,6 +195,10 @@ void BasicModeWindow::select(const QString &msg) {
 void BasicModeWindow::timerUpDate() {
     totleTime -= speed; //timer每更新一次，总时间减去0.5s
     ui->progressBar->setValue(totleTime); //更新progressBar的值
+//    QPalette p();
+//    p.setColor(QPalette::Highlight, Qt::green);
+//    setPalette(p);
+
     if (totleTime == 0) {
         //向排行榜插入一条记录
         QDateTime time = QDateTime::currentDateTime();//获取系统现在的时间
