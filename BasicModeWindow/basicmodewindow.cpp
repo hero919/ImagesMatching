@@ -308,7 +308,7 @@ void BasicModeWindow::reset(bool flag) {
             }
         }
     }
-    srand((int)time(0));
+    srand((int)time(nullptr));
     int randx1, randx2, randy1, randy2;
     //将地图中的图片进行300次随机对调，从而打乱棋盘
     for (int k = 0; k < 300; k++) {
