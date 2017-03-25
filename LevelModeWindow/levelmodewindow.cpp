@@ -64,7 +64,29 @@ void LevelModeWindow::startGame(){
 }
 
 void LevelModeWindow::pauseGame(){
-
+    if(timer->isActive()){
+        timer->stop();
+        ui->pushButton->setDisabled(true);
+        ui->pushButton_3->setDisabled(true);
+        ui->pushButton_4->setDisabled(true);
+        ui->pushButton_5->setDisabled(true);
+        ui->pushButton_6->setDisabled(true);
+        ui->pushButton_7->setDisabled(true);
+        ui->pushButton_8->setDisabled(true);
+        ui->picWidget->setDisabled(true);
+        ui->pushButton_2->setText("Consume");
+    }else{
+        timer->start();
+        ui->pushButton->setDisabled(false);
+        ui->pushButton_3->setDisabled(false);
+        ui->pushButton_4->setDisabled(false);
+        ui->pushButton_5->setDisabled(false);
+        ui->pushButton_6->setDisabled(false);
+        ui->pushButton_7->setDisabled(false);
+        ui->pushButton_8->setDisabled(false);
+        ui->picWidget->setDisabled(false);
+        ui->pushButton_2->setText("Pause");
+    }
 }
 
 
