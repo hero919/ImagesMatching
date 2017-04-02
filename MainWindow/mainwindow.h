@@ -38,6 +38,7 @@ private:
     QTableView *rankTableView;
     ScoreDao *scoreDao;
     QSound sound;
+    bool firstTimeStartGame = true;
 
 };
 

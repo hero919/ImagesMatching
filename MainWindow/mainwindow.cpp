@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
     scoreDao = new ScoreDao();
     scoreDao->init();
     playMusic();
-    //为不同模式的按钮添加信号槽
+    //Add signals and its corresponding slots
     connect(ui->button3, SIGNAL(clicked(bool)), this, SLOT(showBasicModeWindow()));
     connect(ui->button2, SIGNAL(clicked(bool)), this, SLOT(showRelaxedModeWindow()));
     connect(ui->button1, SIGNAL(clicked(bool)), this, SLOT(showLevelModeWindow()));
@@ -69,26 +69,29 @@ void MainWindow::stopMusic(){
 
 void MainWindow::showBasicModeWindow() {
     BasicModeWindow *bmw = new BasicModeWindow();
-    bmw->setWindowTitle("欢乐连连看－基本模式");
+    bmw->setWindowTitle("Basic Mode");
     bmw->show();
     this->hide();
 }
 
 void MainWindow::showRelaxedModeWindow() {
     RelaxedModeWindow *rmw = new RelaxedModeWindow();
-    rmw->setWindowTitle("欢乐连连看－休闲模式");
+    rmw->setWindowTitle("Relax Mode");
     rmw->show();
     this->hide();
 }
 
 void MainWindow::showLevelModeWindow() {
     LevelModeWindow *lmw = new LevelModeWindow();
-    lmw->setWindowTitle("欢乐连连看－关卡模式（简单）");
+    lmw->setWindowTitle("Level Mode");
     lmw->show();
     this->hide();
 }
 
-void MainWindow::setUpWelcomeWindow() { //创建欢迎界面
+void MainWindow::setUpWelcomeWindow() { //Create Welcome Page
+    if(!firstTimeStartGame){
+        return;
+    }
     QMainWindow *window = new QMainWindow();
     window->setFixedSize(800,600);
     QCoreApplication::processEvents();
@@ -120,7 +123,7 @@ void MainWindow::setUpWelcomeWindow() { //创建欢迎界面
     window->show();
     QTime t;
     t.start();
-    while(t.elapsed()<4000) //让欢迎界面延迟1s
+    while(t.elapsed()<4000) //Delay 4 seconds for starting page
         QCoreApplication::processEvents();
     window->close();
 }
@@ -138,17 +141,17 @@ void MainWindow::showRankingList() {
     rankTableView = new QTableView();
     rankTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     rankTableView->setGeometry(550, 300, 155, 200);
-    rankModel->setHorizontalHeaderItem(0, new QStandardItem("玩家姓名"));
-    rankModel->setHorizontalHeaderItem(1, new QStandardItem("积分"));
+    rankModel->setHorizontalHeaderItem(0, new QStandardItem("User Name"));
+    rankModel->setHorizontalHeaderItem(1, new QStandardItem("Scores"));
 
-    //从文件中读取排行榜
+    //Read Ranking Hostory from the files
     char buffer[100];
     while (scoreDao->in->getline(buffer, sizeof(buffer))) {
         QString data(buffer);
         scoreDao->insertItem(data.left(12), data.right(3));
     }
 
-    //给Model添加数据
+    //Add data to the model
     int row = 0;
     for (std::vector<QString>* each : *(scoreDao->items)) {
         rankModel->setItem(row, 0, new QStandardItem(each->at(0)));

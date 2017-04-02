@@ -126,40 +126,40 @@ void LevelModeWindow::BackToMainPage(){
 //If flag is true, it means totally restarted the whole game,
 //If it is false, it only reset the images but keep the deleted images.
 void LevelModeWindow::reset(bool flag){
-    if(flag){
+//    if(flag){
 
-    }
-    //Reorder the graph
-    srand((int)time(nullptr));
-    int x1, y1, x2, y2;
-    //Shuffle the Numbers
-    for(unsigned int i = 0; i < 300; i++){
-        x1 = random() % 16;
-        y1 = random() % 10;
-        x2 = random() % 16;
-        y2 = random() % 10;
+//    }
+//    //Reorder the graph
+//    srand((int)time(nullptr));
+//    int x1, y1, x2, y2;
+//    //Shuffle the Numbers
+//    for(unsigned int i = 0; i < 300; i++){
+//        x1 = random() % 16;
+//        y1 = random() % 10;
+//        x2 = random() % 16;
+//        y2 = random() % 10;
 
-        int temp = gameModel.rawMap[x1][y1];
-        gameModel.rawMap[x1][y1] = gameModel.rawMap[x2][y2];
-        gameModel.rawMap[x2][y2] = temp;
-    }
+//        int temp = gameModel.rawMap[x1][y1];
+//        gameModel.rawMap[x1][y1] = gameModel.rawMap[x2][y2];
+//        gameModel.rawMap[x2][y2] = temp;
+//    }
 
-    //Fill Images
-    for(unsigned int i = 0; i < 18; i++){
-        for(unsigned int j = 0; j < 12; j++){
-            //Corners should be all empty
-            if(i == 0 || j == 0 || i == 17 || j == 11){
-                MapButton* b = new MapButton();
-                b ->setStyleSheet("background:transparent");
-                b ->setObjectName(QString::number(18 * i + j));
-                w->setMinimumSize(40, 40);
-                w->setMaximumSize(40, 40);
-                w->setParent(ui->picWidget);
-                grid->addWidget(w, i, j);
-                continue;
-            }
-        }
-    }
+//    //Fill Images
+//    for(unsigned int i = 0; i < 18; i++){
+//        for(unsigned int j = 0; j < 12; j++){
+//            //Corners should be all empty
+//            if(i == 0 || j == 0 || i == 17 || j == 11){
+//                MapButton* b = new MapButton();
+//                b ->setStyleSheet("background:transparent");
+//                b ->setObjectName(QString::number(18 * i + j));
+//                w->setMinimumSize(40, 40);
+//                w->setMaximumSize(40, 40);
+//                w->setParent(ui->picWidget);
+//                grid->addWidget(w, i, j);
+//                continue;
+//            }
+//        }
+//    }
 
 }
 

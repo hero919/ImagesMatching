@@ -5,11 +5,7 @@
 using namespace std;
 
 bool Game::isWin() {
-    if (totalPic == 0) {
-        return true;
-    } else {
-        return false;
-    }
+    return totalPic == 0;
 }
 
 void Game::getPosition(int &x1, int &y1, int &x2, int & y2, QString pic1, QString pic2) {
