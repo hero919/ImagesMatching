@@ -127,7 +127,7 @@ void BasicModeWindow::initMap() {
         }
     }
 
-    reset(false); //打乱rawMap
+    reset(false); //shuffle rawMap
 }
 
 //鼠标点击图片时触发的事件

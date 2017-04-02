@@ -20,37 +20,51 @@ void Game::getPosition(int &x1, int &y1, int &x2, int & y2, QString pic1, QStrin
 
 bool Game::link(int x1, int y1, int x2, int y2) {
     int k = 0;
+    //If one of x, y is not in the same line
     if (x1 != x2 && y1 != y2) {
         return false;
     }
+
+    //Two Images with different contents
     if (map[x1][y1] != map[x2][y2]) {
         return false;
     }
+
     //Map to determing wether two images are the same image
     if (map[x1][y1] == 0 || map[x2][y2] == 0) {
         return false;
     }
+
     if (x1 == x2) {
-        for (k = y1 + 1; k < y2; k++)
-            if (map[x1][k] != 0)
+        for (k = y1 + 1; k < y2; k++){
+            if (map[x1][k] != 0){
                 return false;
-        for (k = y2 + 1; k < y1; k++)
-            if (map[x1][k] != 0)
+            }
+        }
+        for (k = y2 + 1; k < y1; k++){
+            if (map[x1][k] != 0){
                 return false;
+            }
+        }
     }
     if (y1 == y2) {
-        for (k = x1 + 1; k < x2; k++)
-            if (map[k][y1] != 0)
+        for (k = x1 + 1; k < x2; k++){
+            if (map[k][y1] != 0){
                 return false;
-        for (k = x2 + 1; k < x1; k++)
-            if (map[k][y1] != 0)
+            }
+        }
+        for (k = x2 + 1; k < x1; k++){
+            if (map[k][y1] != 0){
                 return false;
+            }
+        }
     }
     return true;
 }
 
 bool Game::linkWithNoCorner(QString pic1, QString pic2) {
     int x1, x2, y1, y2;
+    //Put value to different variables.
     getPosition(x1, y1, x2, y2, pic1, pic2);
 
     bool result = link(x1, y1, x2, y2);
