@@ -210,6 +210,7 @@ void LevelModeWindow::select(const QString &msg){
 
       if(selected  == ""){
           gameModel.selectedPic = sb->objectName();
+          
       }
 
 
