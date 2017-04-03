@@ -153,6 +153,7 @@ void LevelModeWindow::reset(bool flag){
         gameModel.rawMap[x2][y2] = temp;
     }
 
+
     //Fill Images
     for (int i = 0; i < 12; i++) {
         for (int j = 0; j < 18; j++) {
@@ -187,7 +188,7 @@ void LevelModeWindow::reset(bool flag){
                 pic->setMinimumSize(40, 40);
                 pic->setMaximumSize(40, 40);
                 pic->setCheckable(true);
-                connect(pic, &MapButton::keyClicked, this, &BasicModeWindow::select);
+                connect(pic, &MapButton::keyClicked, this, &LevelModeWindow::select);
                 gameModel.map[i][j] = randomPicIndex;
             }
             grid->addWidget(pic, i, j);
@@ -201,7 +202,7 @@ void LevelModeWindow::select(const QString &msg){
       if (sb == NULL) {
           return;
       }
-      string selected = gameModel.selectedPic;
+      QString selected = gameModel.selectedPic;
       if(selected  == sb->objectName()){
             sb->setChecked(false);
             gameModel.selectedPic = "";
@@ -210,6 +211,7 @@ void LevelModeWindow::select(const QString &msg){
 
       if(selected  == ""){
           gameModel.selectedPic = sb->objectName();
+
       }
 
 

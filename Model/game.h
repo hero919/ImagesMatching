@@ -21,7 +21,6 @@ public:
     bool isWin();
     void clearRawMap();
     void init();
-    bool firstTimeStartGame = true;
 
 
 protected:
