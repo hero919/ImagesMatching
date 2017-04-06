@@ -35,6 +35,7 @@ LevelModeWindow::LevelModeWindow(QWidget *parent) :
     connect(ui->pushButton_5, SIGNAL(clicked(bool)), this, SLOT(changeSpeed()));
     connect(ui->pushButton_6, SIGNAL(clicked(bool)), this, SLOT(showHelp()));
     connect(ui->BackToMain, SIGNAL(clicked(bool)), this, SLOT(BackToMainPage()));
+    startGame();
 }
 
 LevelModeWindow::~LevelModeWindow()
@@ -54,7 +55,7 @@ void LevelModeWindow::initMap(){
 
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 16; j++) {
-            gameModel.rawMap[i][j] = gameModel.totalPic++ % PIC_NUM + 1; //初始化未经打乱的棋盘
+            gameModel.rawMap[i][j] = gameModel.totalPic++ / (PIC_NUM + LEVEL * 2) + 1; //初始化未经打乱的棋盘
         }
     }
 
@@ -63,8 +64,20 @@ void LevelModeWindow::initMap(){
 
 
 void LevelModeWindow::timerUpDate(){
-    totleTime -= speed;
-    ui->NumberClock->display(totleTime);
+    totalTime -= speed;
+    ui->NumberClock->display(totalTime);
+    if(totalTime == 95){
+        QMessageBox *box = new QMessageBox(this);
+        box->setInformativeText("Time is UP!!!");
+        box->show();
+        timer->stop();
+        ui->pushButton->setEnabled(false);
+        ui->pushButton_2->setEnabled(false);
+        ui->pushButton_3->setEnabled(false);
+        ui->pushButton_4->setEnabled(false);
+        ui->pushButton_5->setEnabled(false);
+        ui->pushButton_6->setEnabled(false);
+    }
 }
 
 
@@ -72,7 +85,7 @@ void LevelModeWindow::timerUpDate(){
 
 void LevelModeWindow::startGame(){
     initMap(); //初始化游戏棋盘
-    totleTime = 100;
+    totalTime = 100;
     timer->start(1000); //开始计时，时间间隔为1000ms
     ui->pushButton_2->setEnabled(true);
     ui->pushButton_3->setEnabled(true);
@@ -93,7 +106,7 @@ void LevelModeWindow::pauseGame(){
         ui->pushButton_4->setDisabled(true);
         ui->pushButton_5->setDisabled(true);
         ui->pushButton_6->setDisabled(true);
-        ui->pushButton_7->setDisabled(true);
+        //ui->pushButton_7->setDisabled(true);
         ui->pushButton_8->setDisabled(true);
         ui->picWidget->setDisabled(true);
         ui->pushButton_2->setText("Consume");
@@ -104,7 +117,7 @@ void LevelModeWindow::pauseGame(){
         ui->pushButton_4->setDisabled(false);
         ui->pushButton_5->setDisabled(false);
         ui->pushButton_6->setDisabled(false);
-        ui->pushButton_7->setDisabled(false);
+        //ui->pushButton_7->setDisabled(false);
         ui->pushButton_8->setDisabled(false);
         ui->picWidget->setDisabled(false);
         ui->pushButton_2->setText("Pause");

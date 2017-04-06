@@ -32,7 +32,7 @@ private:
 protected:
     Game gameModel; //model层，用来进行逻辑处理
     QGridLayout *grid;
-    double totleTime = 100; //总时间
+    double totalTime = 100; //总时间
     double speed = 1; //速率系数
     int PIC_NUM = 5; //花色数
     int LEVEL = 1;
