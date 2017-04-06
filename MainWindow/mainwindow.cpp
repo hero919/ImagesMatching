@@ -19,7 +19,7 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    sound(":/music/res/Music01.wav")
+    sound(":/music/res/Pokemon01.wav")
 {
     setUpWelcomeWindow();
 
