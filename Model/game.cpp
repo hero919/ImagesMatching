@@ -19,6 +19,7 @@ void Game::getPosition(int &x1, int &y1, int &x2, int & y2, QString pic1, QStrin
     y2 = pic2.toInt() % 18;
 }
 
+//Link without corner
 bool Game::link(int x1, int y1, int x2, int y2) {
     int k = 0;
     //If one of x, y is not in the same line
@@ -62,6 +63,8 @@ bool Game::link(int x1, int y1, int x2, int y2) {
     }
     return true;
 }
+
+
 
 bool Game::linkWithNoCorner(QString pic1, QString pic2) {
     int x1, x2, y1, y2;
