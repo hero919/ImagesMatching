@@ -198,7 +198,8 @@ void LevelModeWindow::showHelp(){
 }
 
 void LevelModeWindow::BackToMainPage(){
-    p->show();
+    MainWindow *mainWindow = new MainWindow();
+    mainWindow->show();
     this->hide();
 }
 
@@ -305,8 +306,36 @@ void LevelModeWindow::select(const QString &msg){
             scores += 10;
             ui->Scores->setText(QString::number(scores));
 
-            gameModel.selectedPic = "";
 
+//            if(LEVEL == 1){
+//                int first = gameModel.selectedPic.toInt();
+//                int second = sb->objectName().toInt();
+//                //Handle first
+//                int rows = first / 18;
+//                int columns = first % 18;
+//                //set rawMap
+//                int index = 9;
+//                for(int i = 10; i > 0; i--){
+//                    if((ui->picWidget->findChild<MapButton*>((i + 1) * 18 + columns))->isVisible()){
+//                        gameModel.rawMap[index--][rows - 1] = gameModel.rawMap[i - 1][rows - 1];
+//                    }
+//                }
+
+//                for(int j = index; j > 0; j--){
+//                    gameModel.rawMap[index--][rows - 1] = 0;
+//                }
+
+//                for(int i = 10; i > 0; i--){
+//                    if (i == 0 || i == 11 || j == 0 || j == 17) {
+
+//                    }
+//                }
+
+
+//            }
+
+
+            gameModel.selectedPic = "";
 
             if(gameModel.isWin() && LEVEL == 3){
                 QMessageBox *box = new QMessageBox(this);
