@@ -14,7 +14,9 @@ LevelModeWindow::LevelModeWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::LevelModeWindow)
 {
+//    parent->hide();
     ui->setupUi(this);
+//    p = parent;
     setWindowTitle("Level Mode");
     gameModel.init();
     grid = new QGridLayout(ui->picWidget);
@@ -196,8 +198,7 @@ void LevelModeWindow::showHelp(){
 }
 
 void LevelModeWindow::BackToMainPage(){
-    MainWindow *mainWindow = new MainWindow();
-    mainWindow->show();
+    p->show();
     this->hide();
 }
 
@@ -324,9 +325,39 @@ void LevelModeWindow::select(const QString &msg){
                 scores += totalTime * 3;
                 totalTime = 200 - LEVEL * 20;
                 LEVEL += 1;
-
-
                 initMap();
+
+//                QCoreApplication::processEvents();
+//                QWidget *cenWidget = new QWidget(window);
+//                window->setCentralWidget(cenWidget);
+//                QLabel *emptyLabel = new QLabel(cenWidget);
+//                QLabel *welcomeLabel = new QLabel(cenWidget);
+//                welcomeLabel->setText("CS3650 Project: Images Matching Game");
+//                QLabel *nameLabel = new QLabel(cenWidget);
+//                nameLabel->setText("\t\t by Zeqing Zhang, Kaimong Wong, Zhaoxing Hong");
+//                QGridLayout *gridLayout = new QGridLayout(cenWidget);
+//                QFont ft;
+//                ft.setPointSize(40);
+//                QPalette pa;
+//                pa.setColor(QPalette::WindowText,Qt::red);
+//                welcomeLabel->setFont(ft);
+//                welcomeLabel->setPalette(pa);
+//                welcomeLabel->setAlignment(Qt::AlignCenter);
+//                ft.setPointSize(24);
+//                nameLabel->setFont(ft);
+//                nameLabel->setPalette(pa);
+//                nameLabel->setAlignment(Qt::AlignCenter);
+
+//                gridLayout->addWidget(emptyLabel);
+//                gridLayout->addWidget(welcomeLabel);
+//                gridLayout->addWidget(nameLabel);
+
+//                window->show();
+//                QTime t;
+//                t.start();
+//                while(t.elapsed()<4000) //Delay 4 seconds for starting page
+//                    QCoreApplication::processEvents();
+//                window->close();
             }
 
         } else {
