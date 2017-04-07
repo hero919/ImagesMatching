@@ -19,11 +19,26 @@ LevelModeWindow::LevelModeWindow(QWidget *parent) :
     gameModel.init();
     grid = new QGridLayout(ui->picWidget);
     timer = new QTimer(this);
-    timer ->start(1000);
+    timer->setInterval(totalTime * 1000);
+    timer->start(1000);
     painter = new QPainter(this);
     drawLineLayer = new DrawLineLayer(this);
     drawLineLayer->hide();
     drawLineLayer->setGeometry(QRect(0, 0, 720, 480));
+    QFont font;
+    font.setBold(true);
+    font.setPointSize(36);
+    ui->ScoresLabel->setFont(font);
+    ui->ScoresLabel->setText("Scores: ");
+    font.setBold(false);
+    ui->Scores->setFont(font);
+    ui->Scores->setText(QString::number(scores));
+    font.setPointSize(20);
+    QString showLevel = "";
+    showLevel.append("Level: ");
+    showLevel.append(QString::number(LEVEL));
+    ui->ShowLevels->setFont(font);
+    ui->ShowLevels->setText(showLevel);
     ui->pushButton_2->setEnabled(false);
     ui->pushButton_3->setEnabled(false);
     ui->pushButton_4->setEnabled(false);
@@ -35,6 +50,7 @@ LevelModeWindow::LevelModeWindow(QWidget *parent) :
     connect(ui->pushButton_5, SIGNAL(clicked(bool)), this, SLOT(changeSpeed()));
     connect(ui->pushButton_6, SIGNAL(clicked(bool)), this, SLOT(showHelp()));
     connect(ui->BackToMain, SIGNAL(clicked(bool)), this, SLOT(BackToMainPage()));
+    startGame();
 }
 
 LevelModeWindow::~LevelModeWindow()
@@ -44,33 +60,59 @@ LevelModeWindow::~LevelModeWindow()
 
 
 void LevelModeWindow::initMap(){
-    //Initialize the rawMap
-    for(unsigned int i = 0; i < 10; i++){
-        for(unsigned int j = 0 ; j < 16; j++){
-            gameModel.rawMap[i][j] = gameModel.totalPic++ / (PIC_NUM + LEVEL * 2) + 1;
+
+    int PIC_NUM;
+    if(LEVEL == 1){
+        PIC_NUM = 8;
+    }else if(LEVEL == 2){
+        PIC_NUM = 10;
+    }else{
+        PIC_NUM = 16;
+    }
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 16; j++) {
+            gameModel.rawMap[i][j] = gameModel.totalPic++ % PIC_NUM + 1; //Init Map
         }
     }
 
-    //Initialize the map
-    for(unsigned int i = 0; i < 10; i++){
-        for(unsigned int j = 0; j < 16; j++){
-            gameModel.map[i + 1][j + 1] = gameModel.rawMap[i][j];
-        }
-    }
+    reset(false); //shuffle rawMap
 }
 
 
 void LevelModeWindow::timerUpDate(){
-    totleTime -= speed;
-    ui->NumberClock->display(totleTime);
+    totalTime -= speed;
+    ui->NumberClock->display(totalTime);
+    if(totalTime == 0){
+        QMessageBox *box = new QMessageBox(this);
+        box->setInformativeText("Time is UP!!!");
+        box->setStyleSheet("QLabel{height: 100px;min-height: 100px; max-height: 100px; width: 100px;min-width: 100px; max-wdith: 100px;}");
+        box->show();
+        timer->stop();
+        ui->pushButton->setEnabled(false);
+        ui->pushButton_2->setEnabled(false);
+        ui->pushButton_3->setEnabled(false);
+        ui->pushButton_4->setEnabled(false);
+        ui->pushButton_5->setEnabled(false);
+        ui->pushButton_6->setEnabled(false);
+    }
 }
 
 
 
 
 void LevelModeWindow::startGame(){
-    reset(true);
+    initMap(); //Init Map
+    ui->pushButton_2->setEnabled(true);
+    ui->pushButton_3->setEnabled(true);
+    ui->pushButton_4->setEnabled(true);
+    ui->pushButton_5->setEnabled(false);
+    ui->pushButton->setText("Restart");
+    //If pushButton bind with startGame,
+    //unbind startGame then bin restartGame
+    if (disconnect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(startGame())))
+        connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(reStartGame()));
 }
+
 
 void LevelModeWindow::pauseGame(){
     if(timer->isActive()){
@@ -80,7 +122,7 @@ void LevelModeWindow::pauseGame(){
         ui->pushButton_4->setDisabled(true);
         ui->pushButton_5->setDisabled(true);
         ui->pushButton_6->setDisabled(true);
-        ui->pushButton_7->setDisabled(true);
+        //ui->pushButton_7->setDisabled(true);
         ui->pushButton_8->setDisabled(true);
         ui->picWidget->setDisabled(true);
         ui->pushButton_2->setText("Consume");
@@ -91,7 +133,7 @@ void LevelModeWindow::pauseGame(){
         ui->pushButton_4->setDisabled(false);
         ui->pushButton_5->setDisabled(false);
         ui->pushButton_6->setDisabled(false);
-        ui->pushButton_7->setDisabled(false);
+        //ui->pushButton_7->setDisabled(false);
         ui->pushButton_8->setDisabled(false);
         ui->picWidget->setDisabled(false);
         ui->pushButton_2->setText("Pause");
@@ -100,12 +142,48 @@ void LevelModeWindow::pauseGame(){
 
 
 void LevelModeWindow::findHint(){
+    QString pos2, pos3;
+    QString pic1, pic2;
+    int tmp1, tmp2;
+    bool success = false;
+    for (int i = 0; i < 216 && !success; i++) {
+        for (int j = 0; j < 216 && !success && j!=i; j++) {
+            if (i % 18 == 0 || i % 18 == 17 || i<18 || i>=198 || j % 18 == 0 || j % 18 == 17 || j<18 || j>=198)
+                continue;
+            pic1 = QString::number(i);
+            pic2 = QString::number(j);
 
+            tmp1 = gameModel.map[i/18][i%18];
+            tmp2 = gameModel.map[j/18][j%18];
+
+            //If any one of the situation is correct then the images can be deleted
+            if (gameModel.linkWithNoCorner(pic1, pic2)
+                               || gameModel.linkWithOneCorner(pic1, pic2, pos2)
+                               || gameModel.linkWithTwoCorner(pic1, pic2, pos2, pos3)) {
+                drawLine(pic1, pic2, pos2, pos3);
+
+                success = true;
+                gameModel.map[i/18][i%18] = tmp1;
+                gameModel.map[j/18][j%18] = tmp2;
+
+                gameModel.totalPic += 2; //Recover deleted images
+            }
+
+        }
+    }
 }
 
 
 void LevelModeWindow::resetMap(){
+    auto children = ui->picWidget->children();
+    for (int i = 1; i < 217; i++) {
+        if (children[i]->objectName() != "") {
+            grid->removeWidget((QWidget*)children[i]);
+            children[i]->deleteLater();
+        }
+    }
 
+    reset(true);
 }
 
 
@@ -126,7 +204,7 @@ void LevelModeWindow::BackToMainPage(){
 //If flag is true, it means totally restarted the whole game,
 //If it is false, it only reset the images but keep the deleted images.
 void LevelModeWindow::reset(bool flag){
-    if(flag){
+    if (flag) {
         gameModel.clearRawMap();
         for (int i = 0; i < 12; i++) {
             for (int j = 0; j < 18; j++) {
@@ -138,22 +216,29 @@ void LevelModeWindow::reset(bool flag){
             }
         }
     }
-    //Reorder the graph
+
+    QFont font;
+    font.setBold(true);
+    font.setPointSize(24);
+    ui->ShowLevels->setFont(font);
+    QString showLevel = "";
+    showLevel.append("Level: ");
+    showLevel.append(QString::number(LEVEL));
+    ui->ShowLevels->setText(showLevel);
+    ui->Scores->setText(QString::number(scores));
+
     srand((int)time(nullptr));
-    int x1, y1, x2, y2;
-    //Shuffle the Numbers
-    for(unsigned int i = 0; i < 300; i++){
-        x1 = random() % 16;
-        y1 = random() % 10;
-        x2 = random() % 16;
-        y2 = random() % 10;
-
-        int temp = gameModel.rawMap[x1][y1];
-        gameModel.rawMap[x1][y1] = gameModel.rawMap[x2][y2];
-        gameModel.rawMap[x2][y2] = temp;
+    int randx1, randx2, randy1, randy2;
+    //Shuffle the rawMap
+    for (int k = 0; k < 300; k++) {
+        randx1 = random() % 10;
+        randx2 = random() % 10;
+        randy1 = random() % 16;
+        randy2 = random() % 16;
+        int tmp = gameModel.rawMap[randx1][randy1];
+        gameModel.rawMap[randx1][randy1] = gameModel.rawMap[randx2][randy2];
+        gameModel.rawMap[randx2][randy2] = tmp;
     }
-
-    //Fill Images
     for (int i = 0; i < 12; i++) {
         for (int j = 0; j < 18; j++) {
             //Add Around Images
@@ -187,40 +272,127 @@ void LevelModeWindow::reset(bool flag){
                 pic->setMinimumSize(40, 40);
                 pic->setMaximumSize(40, 40);
                 pic->setCheckable(true);
-                connect(pic, &MapButton::keyClicked, this, &BasicModeWindow::select);
+                connect(pic, &MapButton::keyClicked, this, &LevelModeWindow::select);
                 gameModel.map[i][j] = randomPicIndex;
             }
             grid->addWidget(pic, i, j);
-
         }
     }
 }
 
 void LevelModeWindow::select(const QString &msg){
-     MapButton *sb = ui->picWidget->findChild<MapButton*>(msg);
-      if (sb == NULL) {
-          return;
-      }
-      string selected = gameModel.selectedPic;
-      if(selected  == sb->objectName()){
+    QString pos2, pos3;
+    MapButton *sb = ui->picWidget->findChild<MapButton*>(msg);
+    if (sb != NULL) {
+        if (gameModel.selectedPic == sb->objectName()) {
             sb->setChecked(false);
             gameModel.selectedPic = "";
-            return;
-      }
 
-      if(selected  == ""){
-          gameModel.selectedPic = sb->objectName();
-      }
+        } else if (gameModel.selectedPic == "") {
+            gameModel.selectedPic = sb->objectName();
+        } else if (gameModel.linkWithNoCorner(gameModel.selectedPic, sb->objectName())
+                   || gameModel.linkWithOneCorner(gameModel.selectedPic, sb->objectName(), pos2)
+                   || gameModel.linkWithTwoCorner(gameModel.selectedPic, sb->objectName(), pos2, pos3)) {
+
+            drawLine(gameModel.selectedPic, sb->objectName(), pos2, pos3);
+            MapButton *p1 = ui->picWidget->findChild<MapButton*>(gameModel.selectedPic);
+            MapButton *p2 = ui->picWidget->findChild<MapButton*>(sb->objectName());
+            p1->setVisible(false);
+            p1->setStyleSheet("background:transparent");
+            p2->setVisible(false);
+            p2->setStyleSheet("background:transparent");
+            scores += 10;
+            ui->Scores->setText(QString::number(scores));
+
+            gameModel.selectedPic = "";
 
 
+            if(gameModel.isWin() && LEVEL == 3){
+                QMessageBox *box = new QMessageBox(this);
+                box->setInformativeText("Congratulations！You are the winner!");
+                box->show();
+                ui->pushButton_2->setEnabled(false);
+                ui->pushButton_3->setEnabled(false);
+                ui->pushButton_4->setEnabled(false);
+                return;
+            }
+
+            if (gameModel.isWin()){
+                QMessageBox *box = new QMessageBox(this);
+                box->setInformativeText("Congratulations！You have entered next level!");
+                box->show();
+                scores += totalTime * 3;
+                totalTime = 200 - LEVEL * 20;
+                LEVEL += 1;
+
+
+                initMap();
+            }
+
+        } else {
+            //Old image unchecked
+            MapButton *p1 = ui->picWidget->findChild<MapButton*>(gameModel.selectedPic);
+            p1->setChecked(false);
+            gameModel.selectedPic = sb->objectName();
+            //New images chosen
+            sb->setChecked(true);
+        }
+    }
 }
 
 void LevelModeWindow::reStartGame(){
-
+    auto children = ui->picWidget->children();
+    for (int i = 1; i < 217; i++) {
+        if (children[i]->objectName() != "") {
+            grid->removeWidget((QWidget*)children[i]);
+            children[i]->deleteLater();
+        }
+    }
+    startGame();
 }
 
 void LevelModeWindow::_changeSpeed(){
 
+}
+
+
+void LevelModeWindow::drawLine(QString pic1, QString pic2, QString pos2, QString pos3) {
+    MapButton *p1 = ui->picWidget->findChild<MapButton*>(pic1);
+    MapButton *p2 = ui->picWidget->findChild<MapButton*>(pic2);
+    //Draw Lines
+    if (gameModel.flagA) { //No Corner
+        drawLineLayer->setPos1(p1->pos());
+        drawLineLayer->setPos2(p2->pos());
+        gameModel.flagA = false;
+    } else if (gameModel.flagB) {// Two Corners
+        drawLineLayer->setPos1(p1->pos());
+        drawLineLayer->setPos2(ui->picWidget->findChild<MapButton*>(pos2)->pos());
+        drawLineLayer->setPos3(p2->pos());
+        gameModel.flagB = false;
+    } else if (gameModel.flagC) { // Three Corners
+        drawLineLayer->setPos1(p1->pos());
+        QWidget *tmpP1;
+        QWidget *tmpP2;
+        tmpP1 = ui->picWidget->findChild<QWidget*>(pos2);
+        tmpP2 = ui->picWidget->findChild<QWidget*>(pos3);
+        if (tmpP1 != nullptr) {
+            QPoint pp1 = tmpP1->pos();
+            drawLineLayer->setPos2(pp1);
+        }
+        if (tmpP2 != nullptr) {
+            QPoint pp2 = tmpP2->pos();
+            drawLineLayer->setPos3(pp2);
+        }
+        QPoint pp4 = p2->pos();
+        drawLineLayer->setPos4(pp4);
+        gameModel.flagC = false;
+    }
+    drawLineLayer->show();
+    QTime t;
+    t.start();
+    while(t.elapsed()<200) //draw line delat 0.2s
+        QCoreApplication::processEvents();
+    drawLineLayer->clear();
 }
 
 

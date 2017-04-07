@@ -9,7 +9,7 @@
 #include "Dao/scoredao.h"
 
 namespace Ui {
-class MainWindow; //模式选择界面
+class MainWindow;
 }
 
 class MainWindow : public QMainWindow
@@ -18,13 +18,11 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
-    //创建欢迎界面
     void setUpWelcomeWindow();
-
     ~MainWindow();
 
 public slots:
-    //弹出各种模式对应的窗口
+    //Different Modes
     void showBasicModeWindow();
     void showRelaxedModeWindow();
     void showLevelModeWindow();
@@ -38,7 +36,7 @@ private:
     QTableView *rankTableView;
     ScoreDao *scoreDao;
     QSound sound;
-    bool firstTimeStartGame = true;
+
 
 };
 
