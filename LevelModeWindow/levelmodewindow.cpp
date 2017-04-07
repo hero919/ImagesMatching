@@ -24,6 +24,14 @@ LevelModeWindow::LevelModeWindow(QWidget *parent) :
     drawLineLayer = new DrawLineLayer(this);
     drawLineLayer->hide();
     drawLineLayer->setGeometry(QRect(0, 0, 720, 480));
+    QFont font;
+    font.setBold(true);
+    font.setPointSize(36);
+    ui->ScoresLabel->setFont(font);
+    ui->ScoresLabel->setText("Scores: ");
+    font.setBold(false);
+    ui->Scores->setFont(font);
+    ui->Scores->setText(QString::number(scores));
     ui->pushButton_2->setEnabled(false);
     ui->pushButton_3->setEnabled(false);
     ui->pushButton_4->setEnabled(false);
@@ -55,7 +63,7 @@ void LevelModeWindow::initMap(){
 
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 16; j++) {
-            gameModel.rawMap[i][j] = gameModel.totalPic++ % PIC_NUM + 1; //初始化未经打乱的棋盘
+            gameModel.rawMap[i][j] = gameModel.totalPic++ % (PIC_NUM + LEVEL * 2) + 1; //初始化未经打乱的棋盘
         }
     }
 
@@ -66,7 +74,7 @@ void LevelModeWindow::initMap(){
 void LevelModeWindow::timerUpDate(){
     totalTime -= speed;
     ui->NumberClock->display(totalTime);
-    if(totalTime == 95){
+    if(totalTime == 0){
         QMessageBox *box = new QMessageBox(this);
         box->setInformativeText("Time is UP!!!");
         box->setStyleSheet("QLabel{height: 100px;min-height: 100px; max-height: 100px; width: 100px;min-width: 100px; max-wdith: 100px;}");
@@ -275,6 +283,8 @@ void LevelModeWindow::select(const QString &msg){
             p1->setStyleSheet("background:transparent");
             p2->setVisible(false);
             p2->setStyleSheet("background:transparent");
+            scores += 10;
+            ui->Scores->setText(QString::number(scores));
 
             gameModel.selectedPic = "";
 
