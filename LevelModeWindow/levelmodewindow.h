@@ -34,7 +34,7 @@ protected:
     QGridLayout *grid;
     double totalTime = 200; //总时间
     double speed = 1; //速率系数
-    int PIC_NUM = 9; //花色数
+//    int PIC_NUM = 9; //花色数
     int LEVEL = 1;
     QTimer *timer;
     QPainter* painter;
