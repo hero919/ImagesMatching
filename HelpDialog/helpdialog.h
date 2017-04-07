@@ -19,20 +19,18 @@ public:
         QTextBrowser *tb = new QTextBrowser();
         layout->addWidget(tb);
         QString text = "";
-        text = text + R"(<strong><span style="font-size:16px;">基本模式</span></strong><br />
-                基本模式是“欢乐连连看”游戏的基本模式，包含游戏的基本功能：开始游戏、暂停游戏、提示、重排、计时。<br />
-                <strong>1、开始游戏</strong><br />
-                当第一次进入游戏或者完成一局游戏后，点击开始游戏可以生成游戏地图，进行连连看游戏，在游戏地图中用鼠标左键点击任意位置的两张图片，选中图片后，图片的显示效果会变成被按下去的样子，并判断是否能消子。<br />
-                <strong>2、暂停游戏</strong><br />
-                当游戏开始后，可以点击“暂停”按钮，将游戏暂停。暂停游戏后，可以点击“继续游戏”按钮，继续游戏。<br />
-                <strong>3、提示</strong><br />
-                当游戏开始后，可以点击“提示”按钮，将在游戏地图中，用红色虚线连接一对可以消除的图片。<br />
-                <strong>4、重排</strong><br />
-                游戏开始后，可以点击“重排”按钮，将游戏地图中，剩余的位置的图片重新排列。<br />
-                <br />
-                <span style="color:#999999;">Created by 程厚森 on 16/05/24</span><br />
-                <span style="color:#999999;">Copyright &copy; 2016年 whut0121410870523. All rights reserved.</span><br />
-                <br />)";
+        text = text + R"(<strong><span style="font-size:16px;"></span></strong>
+                <strong>1. Play </strong><br />
+                Click on "Start" button to load game map. Find the two identical objects as qucikly as possible.<br />
+                <strong>2. Pause </strong><br />
+                Click on "Pause" button to pause the game. Click on "Continue" to resume the game. <br />
+                <strong>3. Hint</strong><br />
+                Click on "Hint" button. A pair of objects that can be matched will be connected with a dotted red line.<br />
+                <strong>4. Reset</strong><br />
+                Click on "Reset" button to shuffle the rest of objects.<br />
+                <strong>5. Back</strong><br />
+                Click on "Back" button to be navigated to the main menu.<br />
+                )";
 
         tb->setHtml(text);
         hd->setLayout(layout);
