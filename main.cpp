@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 
     MainWindow w;
 
-    w.setWindowTitle("欢乐连连看");
+    w.setWindowTitle("Images Matching Game");
 
     w.show();
 

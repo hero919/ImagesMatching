@@ -214,7 +214,7 @@ void BasicModeWindow::timerUpDate() {
         scoreDao->outputItem(name, score);
 
         QMessageBox *box = new QMessageBox(this);
-        box->setInformativeText("时间到！");
+        box->setInformativeText("Time Up！");
         box->show();
         ui->pushButton->setEnabled(true);
         ui->pushButton_2->setEnabled(false);
@@ -383,7 +383,7 @@ void BasicModeWindow::changeSpeed() {
     layout->addWidget(box, 0, 1);
     layout->addWidget(label2, 1, 0);
     layout->addWidget(box2, 1, 1);
-    QPushButton *button = new QPushButton("确定");
+    QPushButton *button = new QPushButton("Confirm");
     connect(button, SIGNAL(clicked(bool)), this, SLOT(_changeSpeed()));
     layout->addWidget(button, 2, 0);
     changeSpeedDialog->setLayout(layout);
