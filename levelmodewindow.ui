@@ -176,6 +176,19 @@
      <string>TextLabel</string>
     </property>
    </widget>
+   <widget class="QLabel" name="ShowLevels">
+    <property name="geometry">
+     <rect>
+      <x>699</x>
+      <y>315</y>
+      <width>81</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>

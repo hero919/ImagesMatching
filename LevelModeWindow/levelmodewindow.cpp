@@ -32,6 +32,12 @@ LevelModeWindow::LevelModeWindow(QWidget *parent) :
     font.setBold(false);
     ui->Scores->setFont(font);
     ui->Scores->setText(QString::number(scores));
+    font.setPointSize(24);
+    QString showLevel = "";
+    showLevel.append("Level: ");
+    showLevel.append(QString::number(LEVEL));
+    ui->ShowLevels->setFont(font);
+    ui->ShowLevels->setText(showLevel);
     ui->pushButton_2->setEnabled(false);
     ui->pushButton_3->setEnabled(false);
     ui->pushButton_4->setEnabled(false);
