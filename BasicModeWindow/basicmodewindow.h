@@ -31,12 +31,12 @@ private:
 protected:
     Game gameModel; //model层，用来进行逻辑处理
     QGridLayout *grid;
-    double totleTime = 100; //总时间
-    double speed = 0.5; //速率系数
-    int PIC_NUM = 8; //花色数
+    double totalTime = 100; //Time
+    double speed = 0.5; //velocity
+    int PIC_NUM = 8; //pattern
     QTimer *timer;
     QPainter* painter;
-    DrawLineLayer* drawLineLayer; //用于画线的layer
+    DrawLineLayer* drawLineLayer;
     HelpDialog *helpDialog;
     QSpinBox *box; // 设置时间
     QSpinBox *box2; // 设置花色数
@@ -45,16 +45,16 @@ protected:
 
     void initMap();
     void reset(bool flag);
-    void select(const QString &msg); //鼠标点击图片时触发的事件
+    void select(const QString &msg); //MouseEvent
 
 public slots:
     void startGame();
     void reStartGame();
     void pauseGame();
-    void timerUpDate(); //计时器更新
-    void resetMap(); //图片重排
-    void findHint(); //提示
-    void showHelp(); //显示帮助
+    void timerUpDate();
+    void resetMap();
+    void findHint();
+    void showHelp();
     void changeSpeed();
     void _changeSpeed();
     void BackToMainPage();

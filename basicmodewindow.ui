@@ -17,7 +17,7 @@
    <string notr="true">background-color: rgb(99, 200, 255);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="startButton">
     <property name="geometry">
      <rect>
       <x>720</x>
@@ -38,7 +38,7 @@
      <string>Start</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="pauseButton">
     <property name="geometry">
      <rect>
       <x>720</x>
@@ -59,7 +59,7 @@
      <string>Pause</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="hintButton">
     <property name="geometry">
      <rect>
       <x>720</x>
@@ -75,7 +75,7 @@
      <string>Hint</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QPushButton" name="resetButton">
     <property name="geometry">
      <rect>
       <x>720</x>
@@ -104,7 +104,7 @@
      <string notr="true">background-image: url();</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_5">
+   <widget class="QPushButton" name="settingButton">
     <property name="geometry">
      <rect>
       <x>710</x>
@@ -117,10 +117,10 @@
      <string notr="true">background-color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>Setting</string>
+     <string>Settings</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_6">
+   <widget class="QPushButton" name="helpButton">
     <property name="geometry">
      <rect>
       <x>710</x>

@@ -21,26 +21,28 @@ BasicModeWindow::BasicModeWindow(QWidget *parent) :
     scoreDao->init();
     gameModel.init();
     helpDialog = new HelpDialog(ui->picWidget);
-    ui->progressBar->setValue(totleTime);//progressBar初始化
+    //initialize progressBar
+    ui->progressBar->setValue(totalTime);
     //picWidget is the blank area in main window
-    grid = new QGridLayout(ui->picWidget); //为游戏棋盘创建网格布局
+    //initialize game model
+    grid = new QGridLayout(ui->picWidget);
 
     timer = new QTimer(this);
     painter = new QPainter(this);
     drawLineLayer = new DrawLineLayer(this);
     drawLineLayer->hide();
     drawLineLayer->setGeometry(QRect(0, 0, 720, 480));
-    ui->pushButton_2->setEnabled(false);
-    ui->pushButton_3->setEnabled(false);
-    ui->pushButton_4->setEnabled(false);
-    //Set Sinal and slots for buttons
-    connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(startGame()));
-    connect(ui->pushButton_2, SIGNAL(clicked(bool)), this, SLOT(pauseGame()));
-    connect(timer,SIGNAL(timeout()),this,SLOT(timerUpDate())); //将timer和timerUpDate方法关联
-    connect(ui->pushButton_3, SIGNAL(clicked(bool)), this, SLOT(findHint()));
-    connect(ui->pushButton_4, SIGNAL(clicked(bool)), this, SLOT(resetMap()));
-    connect(ui->pushButton_5, SIGNAL(clicked(bool)), this, SLOT(changeSpeed()));
-    connect(ui->pushButton_6, SIGNAL(clicked(bool)), this, SLOT(showHelp()));
+    ui->pauseButton->setEnabled(false);
+    ui->hintButton->setEnabled(false);
+    ui->resetButton->setEnabled(false);
+    //Set Signal and slots for buttons
+    connect(ui->startButton, SIGNAL(clicked(bool)), this, SLOT(startGame()));
+    connect(ui->pauseButton, SIGNAL(clicked(bool)), this, SLOT(pauseGame()));
+    connect(timer,SIGNAL(timeout()),this,SLOT(timerUpDate()));
+    connect(ui->hintButton, SIGNAL(clicked(bool)), this, SLOT(findHint()));
+    connect(ui->resetButton, SIGNAL(clicked(bool)), this, SLOT(resetMap()));
+    connect(ui->settingButton, SIGNAL(clicked(bool)), this, SLOT(changeSpeed()));
+    connect(ui->helpButton, SIGNAL(clicked(bool)), this, SLOT(showHelp()));
     connect(ui->BackToMain, SIGNAL(clicked(bool)), this, SLOT(BackToMainPage()));
 }
 
@@ -61,23 +63,23 @@ void BasicModeWindow::BackToMainPage(){
 
 
 
-void BasicModeWindow::startGame() { //开始游戏
-    initMap(); //初始化游戏棋盘
-    totleTime = 100;
-//    ui->progressBar->setValue(totleTime);//progressBar初始化
-    timer->start(1000); //开始计时，时间间隔为1000ms
-    ui->pushButton_2->setEnabled(true);
-    ui->pushButton_3->setEnabled(true);
-    ui->pushButton_4->setEnabled(true);
-    ui->pushButton_5->setEnabled(false);
-    ui->pushButton->setText("Restart");
-    //如果pushButton之前绑定了startGame方法, 就先解除绑定，然后绑定reStartGame方法
-    if (disconnect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(startGame())))
-        connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(reStartGame()));
+void BasicModeWindow::startGame() {
+    //initialize game board
+    initMap();
+    totalTime = 100;
+    timer->start(1000);
+    ui->pauseButton->setEnabled(true);
+    ui->hintButton->setEnabled(true);
+    ui->resetButton->setEnabled(true);
+    ui->settingButton->setEnabled(false);
+    ui->startButton->setText("Restart");
+    //To connect Restart game, release startGame signal and then connect.
+    if (disconnect(ui->startButton, SIGNAL(clicked(bool)), this, SLOT(startGame())))
+        connect(ui->startButton, SIGNAL(clicked(bool)), this, SLOT(reStartGame()));
 }
 
-void BasicModeWindow::reStartGame() { //重新开始游戏
-    //清除游戏棋盘
+void BasicModeWindow::reStartGame() {
+    //shuffle
     auto children = ui->picWidget->children();
     for (int i = 1; i < 217; i++) {
         if (children[i]->objectName() != "") {
@@ -104,19 +106,19 @@ void BasicModeWindow::resetMap() {
 
 void BasicModeWindow::pauseGame() {
     if (timer->isActive()) {
-        ui->pushButton_2->setText("Continue Game");
+        ui->pauseButton->setText("Continue");
         timer->stop();
         ui->picWidget->setDisabled(true);
-        ui->pushButton->setDisabled(true);
-        ui->pushButton_3->setDisabled(true);
-        ui->pushButton_4->setDisabled(true);
+        ui->startButton->setDisabled(true);
+        ui->hintButton->setDisabled(true);
+        ui->resetButton->setDisabled(true);
     } else {
-        ui->pushButton_2->setText("Pause Game");
+        ui->pauseButton->setText("Pause Game");
         timer->start();
         ui->picWidget->setDisabled(false);
-        ui->pushButton->setDisabled(false);
-        ui->pushButton_3->setDisabled(false);
-        ui->pushButton_4->setDisabled(false);
+        ui->startButton->setDisabled(false);
+        ui->hintButton->setDisabled(false);
+        ui->resetButton->setDisabled(false);
     }
 }
 
@@ -130,7 +132,7 @@ void BasicModeWindow::initMap() {
     reset(false); //shuffle rawMap
 }
 
-//鼠标点击图片时触发的事件
+
 void BasicModeWindow::select(const QString &msg) {
     QString pos2, pos3;
     MapButton *sb = ui->picWidget->findChild<MapButton*>(msg);
@@ -163,9 +165,9 @@ void BasicModeWindow::select(const QString &msg) {
                 box->setInformativeText("Congratulations！");
                 box->show();
                 timer->stop();
-                ui->pushButton_2->setEnabled(false);
-                ui->pushButton_3->setEnabled(false);
-                ui->pushButton_4->setEnabled(false);
+                ui->pauseButton->setEnabled(false);
+                ui->hintButton->setEnabled(false);
+                ui->resetButton->setEnabled(false);
 
                 //向排行榜插入一条记录
                 QDateTime time = QDateTime::currentDateTime();//获取系统现在的时间
@@ -193,13 +195,13 @@ void BasicModeWindow::select(const QString &msg) {
 }
 
 void BasicModeWindow::timerUpDate() {
-    totleTime -= speed; //timer每更新一次，总时间减去0.5s
-    ui->progressBar->setValue(totleTime); //更新progressBar的值
+    totalTime -= speed; //timer每更新一次，总时间减去0.5s
+    ui->progressBar->setValue(totalTime); //更新progressBar的值
 //    QPalette p();
 //    p.setColor(QPalette::Highlight, Qt::green);
 //    setPalette(p);
 
-    if (totleTime == 0) {
+    if (totalTime == 0) {
         //向排行榜插入一条记录
         QDateTime time = QDateTime::currentDateTime();//获取系统现在的时间
         QString name = time.toString("yyyyMMddhhmm"); //设置显示格式
@@ -216,10 +218,10 @@ void BasicModeWindow::timerUpDate() {
         QMessageBox *box = new QMessageBox(this);
         box->setInformativeText("时间到！");
         box->show();
-        ui->pushButton->setEnabled(true);
-        ui->pushButton_2->setEnabled(false);
-        ui->pushButton_3->setEnabled(false);
-        ui->pushButton_4->setEnabled(false);
+        ui->startButton->setEnabled(true);
+        ui->pauseButton->setEnabled(false);
+        ui->hintButton->setEnabled(false);
+        ui->resetButton->setEnabled(false);
     }
 }
 
@@ -383,7 +385,7 @@ void BasicModeWindow::changeSpeed() {
     layout->addWidget(box, 0, 1);
     layout->addWidget(label2, 1, 0);
     layout->addWidget(box2, 1, 1);
-    QPushButton *button = new QPushButton("确定");
+    QPushButton *button = new QPushButton("OK");
     connect(button, SIGNAL(clicked(bool)), this, SLOT(_changeSpeed()));
     layout->addWidget(button, 2, 0);
     changeSpeedDialog->setLayout(layout);

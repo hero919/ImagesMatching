@@ -15,7 +15,7 @@ RelaxedModeWindow::RelaxedModeWindow(QWidget *parent) :
     scoreDao->init();
     gameModel.init();
     helpDialog = new HelpDialog(ui->picWidget);
-    ui->progressBar->setValue(totleTime);//progressBar初始化
+    ui->progressBar->setValue(totalTime);//progressBar初始化
     grid = new QGridLayout(ui->picWidget); //为游戏棋盘创建网格布局
     timer = new QTimer(this);
     painter = new QPainter(this);
@@ -45,8 +45,8 @@ RelaxedModeWindow::~RelaxedModeWindow()
 
 void RelaxedModeWindow::startGame() { //开始游戏
     initMap(); //初始化游戏棋盘
-    totleTime = 100;
-    ui->progressBar->setValue(totleTime);//progressBar初始化
+    totalTime = 100;
+    ui->progressBar->setValue(totalTime);//progressBar初始化
     timer->start(1000); //开始计时，时间间隔为1000ms
     credit = 0;
     ui->label_2->setText(QString::number(credit)); //积分清零
@@ -91,9 +91,9 @@ void RelaxedModeWindow::pauseGame() {
 }
 
 void RelaxedModeWindow::timerUpDate() {
-    totleTime -= speed; //timer每更新一次，总时间减去0.5s
-    ui->progressBar->setValue(totleTime); //更新progressBar的值
-    if (totleTime == 0) {
+    totalTime -= speed; //timer每更新一次，总时间减去0.5s
+    ui->progressBar->setValue(totalTime); //更新progressBar的值
+    if (totalTime == 0) {
         QMessageBox *box = new QMessageBox(this);
         box->setInformativeText("时间到！");
         box->show();
