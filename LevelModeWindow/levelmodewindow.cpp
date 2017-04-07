@@ -18,8 +18,8 @@ LevelModeWindow::LevelModeWindow(QWidget *parent) :
     setWindowTitle("Level Mode");
     gameModel.init();
     grid = new QGridLayout(ui->picWidget);
-    timer = new QTimer(this);
-    timer ->start(1000);
+//    timer = new QTimer(this);
+//    timer ->start(totalTime * 10);
     painter = new QPainter(this);
     drawLineLayer = new DrawLineLayer(this);
     drawLineLayer->hide();
@@ -295,15 +295,25 @@ void LevelModeWindow::select(const QString &msg){
             gameModel.selectedPic = "";
 
 
-            //在消子之后判断是否获胜
-            if (gameModel.isWin()){
+            if(gameModel.isWin() && LEVEL == 4){
                 QMessageBox *box = new QMessageBox(this);
-                box->setInformativeText("Congratulations！");
+                box->setInformativeText("Congratulations！You are the winner!");
                 box->show();
-                timer->stop();
                 ui->pushButton_2->setEnabled(false);
                 ui->pushButton_3->setEnabled(false);
                 ui->pushButton_4->setEnabled(false);
+                return;
+            }
+            //在消子之后判断是否获胜
+            if (gameModel.isWin()){
+                QMessageBox *box = new QMessageBox(this);
+                box->setInformativeText("Congratulations！You have entered next level!");
+                box->show();
+                scores += totalTime * 3;
+                totalTime = 200 - LEVEL * 20;
+                LEVEL += 1;
+
+                initMap();
             }
 
         } else { //不可消去
