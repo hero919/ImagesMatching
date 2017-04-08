@@ -56,9 +56,9 @@ BasicModeWindow::~BasicModeWindow()
 
 
 void BasicModeWindow::BackToMainPage(){
-      MainWindow *mainWindow = new MainWindow();
-      mainWindow->show();
-      this->hide();
+    MainWindow *mainWindow = new MainWindow();
+    mainWindow->show();
+    this->hide();
 }
 
 
@@ -125,7 +125,8 @@ void BasicModeWindow::pauseGame() {
 void BasicModeWindow::initMap() {
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 16; j++) {
-            gameModel.rawMap[i][j] = gameModel.totalPic++ % PIC_NUM + 1; //初始化未经打乱的棋盘
+            //board initialization
+            gameModel.rawMap[i][j] = gameModel.totalPic++ % PIC_NUM + 1;
         }
     }
 
@@ -133,22 +134,29 @@ void BasicModeWindow::initMap() {
 }
 
 
+
 void BasicModeWindow::select(const QString &msg) {
     QString pos2, pos3;
     MapButton *sb = ui->picWidget->findChild<MapButton*>(msg);
     if (sb != NULL) {
-        if (gameModel.selectedPic == sb->objectName()) { //连续点击同一个图片
+        //click on just one image
+        if (gameModel.selectedPic == sb->objectName()) {
             sb->setChecked(false);
             gameModel.selectedPic = "";
 
-        } else if (gameModel.selectedPic == "") { //当前未选中任何一个图片
+        }
+        //no image get selected
+        else if (gameModel.selectedPic == "") {
             gameModel.selectedPic = sb->objectName();
-        } else if (gameModel.linkWithNoCorner(gameModel.selectedPic, sb->objectName())
-                   || gameModel.linkWithOneCorner(gameModel.selectedPic, sb->objectName(), pos2)
-                   || gameModel.linkWithTwoCorner(gameModel.selectedPic, sb->objectName(), pos2, pos3)) { //可消去
-
-            drawLine(gameModel.selectedPic, sb->objectName(), pos2, pos3); //画线
-            //让两个图片弹起来并消除
+        }
+        //select two images that can be eliminated
+        else if (gameModel.linkWithNoCorner(gameModel.selectedPic, sb->objectName())
+                 || gameModel.linkWithOneCorner(gameModel.selectedPic, sb->objectName(), pos2)
+                 || gameModel.linkWithTwoCorner(gameModel.selectedPic, sb->objectName(), pos2, pos3))
+        {
+            //draw line to connet two images
+            drawLine(gameModel.selectedPic, sb->objectName(), pos2, pos3);
+            //eliminate images
             MapButton *p1 = ui->picWidget->findChild<MapButton*>(gameModel.selectedPic);
             MapButton *p2 = ui->picWidget->findChild<MapButton*>(sb->objectName());
             p1->setVisible(false);
@@ -158,8 +166,7 @@ void BasicModeWindow::select(const QString &msg) {
 
             gameModel.selectedPic = "";
 
-
-            //在消子之后判断是否获胜
+            //Does the player win the game?
             if (gameModel.isWin()){
                 QMessageBox *box = new QMessageBox(this);
                 box->setInformativeText("Congratulations！");
@@ -169,9 +176,10 @@ void BasicModeWindow::select(const QString &msg) {
                 ui->hintButton->setEnabled(false);
                 ui->resetButton->setEnabled(false);
 
-                //向排行榜插入一条记录
-                QDateTime time = QDateTime::currentDateTime();//获取系统现在的时间
-                QString name = time.toString("yyyyMMddhhmm"); //设置显示格式
+                //insert a record to the rank
+                //get current ime
+                QDateTime time = QDateTime::currentDateTime();
+                QString name = time.toString("yyyyMMddhhmm");
                 int s = (160 - gameModel.totalPic) * 5;
                 if (s < 0)
                     s = 0;
@@ -183,12 +191,12 @@ void BasicModeWindow::select(const QString &msg) {
                 scoreDao->outputItem(name, score);
             }
 
-        } else { //不可消去
-            //让原来的pic1弹起来
+        }
+        //select two images that cannot be eliminated
+        else {
             MapButton *p1 = ui->picWidget->findChild<MapButton*>(gameModel.selectedPic);
             p1->setChecked(false);
             gameModel.selectedPic = sb->objectName();
-            //新的pic1按下去
             sb->setChecked(true);
         }
     }
@@ -197,14 +205,12 @@ void BasicModeWindow::select(const QString &msg) {
 void BasicModeWindow::timerUpDate() {
     totalTime -= speed; //timer每更新一次，总时间减去0.5s
     ui->progressBar->setValue(totalTime); //更新progressBar的值
-//    QPalette p();
-//    p.setColor(QPalette::Highlight, Qt::green);
-//    setPalette(p);
 
     if (totalTime == 0) {
-        //向排行榜插入一条记录
-        QDateTime time = QDateTime::currentDateTime();//获取系统现在的时间
-        QString name = time.toString("yyyyMMddhhmm"); //设置显示格式
+        //insert a record to the rank
+        //get current ime
+        QDateTime time = QDateTime::currentDateTime();
+        QString name = time.toString("yyyyMMddhhmm");
         int s = (160 - gameModel.totalPic) * 5;
         if (s < 0)
             s = 0;
@@ -216,7 +222,7 @@ void BasicModeWindow::timerUpDate() {
         scoreDao->outputItem(name, score);
 
         QMessageBox *box = new QMessageBox(this);
-        box->setInformativeText("时间到！");
+        box->setInformativeText("Time is up！");
         box->show();
         ui->startButton->setEnabled(true);
         ui->pauseButton->setEnabled(false);
@@ -226,6 +232,7 @@ void BasicModeWindow::timerUpDate() {
 }
 
 
+//Help the player find two images that can be eliminated
 void BasicModeWindow::findHint() {
     QString pos2, pos3;
     QString pic1, pic2;
@@ -242,15 +249,15 @@ void BasicModeWindow::findHint() {
             tmp2 = gameModel.map[j/18][j%18];
 
             if (gameModel.linkWithNoCorner(pic1, pic2)
-                               || gameModel.linkWithOneCorner(pic1, pic2, pos2)
-                               || gameModel.linkWithTwoCorner(pic1, pic2, pos2, pos3)) {//可消去
+                    || gameModel.linkWithOneCorner(pic1, pic2, pos2)
+                    || gameModel.linkWithTwoCorner(pic1, pic2, pos2, pos3)) {
                 drawLine(pic1, pic2, pos2, pos3);
 
                 success = true;
                 gameModel.map[i/18][i%18] = tmp1;
                 gameModel.map[j/18][j%18] = tmp2;
 
-                gameModel.totalPic += 2; //还原被减去的图片数
+                gameModel.totalPic += 2;
             }
 
         }
@@ -260,8 +267,8 @@ void BasicModeWindow::findHint() {
 void BasicModeWindow::drawLine(QString pic1, QString pic2, QString pos2, QString pos3) {
     MapButton *p1 = ui->picWidget->findChild<MapButton*>(pic1);
     MapButton *p2 = ui->picWidget->findChild<MapButton*>(pic2);
-    //画线
-    if (gameModel.flagA) { //没有转折点
+
+    if (gameModel.flagA) {
         drawLineLayer->setPos1(p1->pos());
         drawLineLayer->setPos2(p2->pos());
         gameModel.flagA = false;
@@ -291,7 +298,7 @@ void BasicModeWindow::drawLine(QString pic1, QString pic2, QString pos2, QString
     drawLineLayer->show();
     QTime t;
     t.start();
-    while(t.elapsed()<200) //连线延迟0.2s
+    while(t.elapsed()<200)
         QCoreApplication::processEvents();
     drawLineLayer->clear();
 }
@@ -312,7 +319,8 @@ void BasicModeWindow::reset(bool flag) {
     }
     srand((int)time(nullptr));
     int randx1, randx2, randy1, randy2;
-    //将地图中的图片进行300次随机对调，从而打乱棋盘
+
+    //shuffle
     for (int k = 0; k < 300; k++) {
         randx1 = random() % 10;
         randx2 = random() % 10;
@@ -324,7 +332,7 @@ void BasicModeWindow::reset(bool flag) {
     }
     for (int i = 0; i < 12; i++) {
         for (int j = 0; j < 18; j++) {
-            //Add Around Images
+            //add surrounding Images
             if (i == 0 || i == 11 || j == 0 || j == 17) {
                 MapButton *w = new MapButton();
                 w->setStyleSheet("background:transparent");
@@ -336,12 +344,12 @@ void BasicModeWindow::reset(bool flag) {
                 continue;
             }
 
+            //i is the number of rows and j is the number of columns.
             int randomPicIndex = gameModel.rawMap[i-1][j-1];
             MapButton *pic = new MapButton();
-            //If the image is deleted, then set the randimPicIndex to be 0. Means it is deleted.
+            //If the image is deleted, then set the randimPicIndex to be 0.
             if (randomPicIndex == 0) {
                 pic->setStyleSheet("background:transparent");
-                //i means the number of rows and j is the number of columns.
                 pic->setObjectName(QString::number(i * 18 + j));
                 //Set the size of icons to fill the widge
                 pic->setIconSize(QSize(40, 40));
