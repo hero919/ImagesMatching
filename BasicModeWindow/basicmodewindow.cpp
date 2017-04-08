@@ -23,6 +23,7 @@ BasicModeWindow::BasicModeWindow(QWidget *parent) :
     helpDialog = new HelpDialog(ui->picWidget);
     //initialize progressBar
     ui->progressBar->setValue(totalTime);
+
     //picWidget is the blank area in main window
     //initialize game model
     grid = new QGridLayout(ui->picWidget);
@@ -35,7 +36,8 @@ BasicModeWindow::BasicModeWindow(QWidget *parent) :
     ui->pauseButton->setEnabled(false);
     ui->hintButton->setEnabled(false);
     ui->resetButton->setEnabled(false);
-    //Set Signal and slots for buttons
+
+    //Set up signals and slots for buttons
     connect(ui->startButton, SIGNAL(clicked(bool)), this, SLOT(startGame()));
     connect(ui->pauseButton, SIGNAL(clicked(bool)), this, SLOT(pauseGame()));
     connect(timer,SIGNAL(timeout()),this,SLOT(timerUpDate()));
@@ -130,8 +132,11 @@ void BasicModeWindow::initMap() {
         }
     }
 
-    reset(false); //shuffle rawMap
+    //shuffle rawMap
+    reset(false);
 }
+
+
 
 
 
@@ -165,6 +170,17 @@ void BasicModeWindow::select(const QString &msg) {
             p2->setStyleSheet("background:transparent");
 
             gameModel.selectedPic = "";
+
+            //change y pos
+            for (int i = 0; i < 10; i++) {
+
+                for (int j = 0; j < 16; j++) {
+                    gameModel.rawMap[i][j] = gameModel.totalPic++ % PIC_NUM + 1;
+                }
+            }
+            //repaint
+
+
 
             //Does the player win the game?
             if (gameModel.isWin()){
@@ -203,8 +219,10 @@ void BasicModeWindow::select(const QString &msg) {
 }
 
 void BasicModeWindow::timerUpDate() {
-    totalTime -= speed; //update timer
-    ui->progressBar->setValue(totalTime); //update prograss bar
+    //update timer
+    totalTime -= speed;
+    //update prograss bar
+    ui->progressBar->setValue(totalTime);
 
     if (totalTime == 0) {
         //insert a record to the rank
@@ -250,7 +268,8 @@ void BasicModeWindow::findHint() {
 
             if (gameModel.linkWithNoCorner(pic1, pic2)
                     || gameModel.linkWithOneCorner(pic1, pic2, pos2)
-                    || gameModel.linkWithTwoCorner(pic1, pic2, pos2, pos3)) {
+                    || gameModel.linkWithTwoCorner(pic1, pic2, pos2, pos3))
+            {
                 drawLine(pic1, pic2, pos2, pos3);
 
                 success = true;
@@ -309,7 +328,6 @@ void BasicModeWindow::reset(bool flag) {
         gameModel.clearRawMap();
         for (int i = 0; i < 12; i++) {
             for (int j = 0; j < 18; j++) {
-                //To avoid i - 1 or j - 1 out of bound
                 if (i == 0 || i == 11 || j == 0 || j == 17) {
                     continue;
                 }
