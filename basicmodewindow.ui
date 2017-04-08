@@ -168,7 +168,7 @@
      </font>
     </property>
     <property name="text">
-     <string>剩余时间：</string>
+     <string>Time:</string>
     </property>
    </widget>
    <widget class="QPushButton" name="BackToMain">

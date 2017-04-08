@@ -47,7 +47,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::playMusic(){
     QPushButton *musicButton = ui->MusicButton;
-    musicButton->setIcon(QIcon(":/icon/res/1.png"));
+    musicButton->setIcon(QIcon(":/icon/res/play.png"));
     musicButton->setIconSize(QSize(40,40));
     sound.play();
     if(disconnect(ui->MusicButton, SIGNAL(clicked(bool)), this, SLOT(playMusic()))){
@@ -58,7 +58,7 @@ void MainWindow::playMusic(){
 
 void MainWindow::stopMusic(){
     QPushButton *musicButton = ui->MusicButton;
-    musicButton->setIcon(QIcon(":/icon/res/2.png"));
+    musicButton->setIcon(QIcon(":/icon/res/pause.png"));
     musicButton->setIconSize(QSize(40,40));
     sound.stop();
     if(disconnect(ui->MusicButton, SIGNAL(clicked(bool)), this, SLOT(stopMusic()))){
@@ -107,7 +107,7 @@ void MainWindow::setUpWelcomeWindow() { //Create Welcome Page
     QLabel *welcomeLabel = new QLabel(cenWidget);
     welcomeLabel->setText("CS3650 Project: Images Matching Game");
     QLabel *nameLabel = new QLabel(cenWidget);
-    nameLabel->setText("\t\t by Zeqing Zhang, Kaimong Wong, Zhaoxing Hong");
+    nameLabel->setText("\t\t by Zeqing Zhang, Jiameng Wang, Zhaoxing Hong");
     QGridLayout *gridLayout = new QGridLayout(cenWidget);
     QFont ft;
     ft.setPointSize(40);
