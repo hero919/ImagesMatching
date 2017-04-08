@@ -74,6 +74,7 @@ void MainWindow::showBasicModeWindow() {
     bmw->setWindowTitle("Basic Mode");
     bmw->show();
     this->hide();
+
 }
 
 void MainWindow::showRelaxedModeWindow() {
@@ -84,14 +85,18 @@ void MainWindow::showRelaxedModeWindow() {
 }
 
 void MainWindow::showLevelModeWindow() {
+    this->hide();
     LevelModeWindow *lmw = new LevelModeWindow();
     lmw->setWindowTitle("Level Mode");
     lmw->show();
-    this->hide();
+    //firstTimeLoadPage = false;
     stopMusic();
 }
 
 void MainWindow::setUpWelcomeWindow() { //Create Welcome Page
+//    if(!firstTimeLoadPage){
+//        return;
+//    }
     QMainWindow *window = new QMainWindow();
     window->setFixedSize(800,600);
     QCoreApplication::processEvents();
