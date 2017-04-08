@@ -203,8 +203,8 @@ void BasicModeWindow::select(const QString &msg) {
 }
 
 void BasicModeWindow::timerUpDate() {
-    totalTime -= speed; //timer每更新一次，总时间减去0.5s
-    ui->progressBar->setValue(totalTime); //更新progressBar的值
+    totalTime -= speed; //update timer
+    ui->progressBar->setValue(totalTime); //update prograss bar
 
     if (totalTime == 0) {
         //insert a record to the rank
@@ -387,8 +387,8 @@ void BasicModeWindow::changeSpeed() {
     box2->setMaximum(10);
     box2->setMinimum(5);
     box2->setValue(PIC_NUM);
-    QLabel *label = new QLabel("设置总时间（单位s）,最大500, 最小10");
-    QLabel *label2 = new QLabel("设置花色数，最小5，最大10");
+    QLabel *label = new QLabel("Select a playtime from 10s - 500s");
+    QLabel *label2 = new QLabel("Select patterns from 5 - 10");
     layout->addWidget(label,0, 0);
     layout->addWidget(box, 0, 1);
     layout->addWidget(label2, 1, 0);
