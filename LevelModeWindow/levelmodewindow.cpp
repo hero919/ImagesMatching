@@ -318,16 +318,22 @@ void LevelModeWindow::select(const QString &msg){
                 //set Map
                 //If they are in the same column, then choose the highest height
                 //Else order doesn't matter.
-                if(!(colums1 == columns2)){
+                if(!(columns1 == columns2)){
                     for(int j = rows1; j > 1; j--){
-                        gameModel.map[rows1][columns1] = gameModel.map[rows1 - 1][columns1];
+                        int temp = gameModel.map[j - 1][columns1];
+                        gameModel.map[j][columns1] = temp;
                     }
-                    gameModel.map[1][columns1] = 0;
+                    if(columns1 != 1){
+                        gameModel.map[1][columns1] = 0;
+                    }
+
 
                     for(int j = rows2; j > 1; j--){
-                        gameModel.map[rows2][columns2] = gameModel.map[rows2 - 1][columns2];
+                        gameModel.map[j][columns2] = gameModel.map[j - 1][columns2];
                     }
-                    gameModel.map[1][columns2] = 0;
+                    if(columns2 != 1){
+                        gameModel.map[1][columns2] = 0;
+                    }
                 }
 
 
