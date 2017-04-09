@@ -96,7 +96,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>720</width>
+      <width>701</width>
       <height>480</height>
      </rect>
     </property>
@@ -117,7 +117,7 @@
      <string notr="true">background-color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>Setting</string>
+     <string>Settings</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_6">
@@ -157,7 +157,7 @@
      <rect>
       <x>20</x>
       <y>520</y>
-      <width>81</width>
+      <width>121</width>
       <height>16</height>
      </rect>
     </property>
@@ -168,20 +168,20 @@
      </font>
     </property>
     <property name="text">
-     <string>剩余时间：</string>
+     <string>Remaining Time：</string>
     </property>
    </widget>
    <widget class="QPushButton" name="BackToMain">
     <property name="geometry">
      <rect>
-      <x>720</x>
+      <x>700</x>
       <y>220</y>
-      <width>71</width>
+      <width>91</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>Back</string>
+     <string>Main Page</string>
     </property>
    </widget>
   </widget>

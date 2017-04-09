@@ -34,6 +34,7 @@ private:
     void decreaseCredit(int num);
     bool creditIsEnoughForReset();
     bool creditIsEnoughForHint();
+    //bool isUsingTool();
 
 public slots:
     void startGame();
@@ -46,6 +47,7 @@ public slots:
     void changeSpeed();
     void _changeSpeed();
     void useTool(); //使用道具
+    void BackToMainPage();
 
 
 };

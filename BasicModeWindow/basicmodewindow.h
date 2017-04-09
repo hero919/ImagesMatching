@@ -11,6 +11,7 @@
 #include <HelpDialog/helpdialog.h>
 #include <QSpinBox>
 #include "Dao/scoredao.h"
+#include "toolnotification.h"
 
 namespace Ui {
 class BasicModeWindow;
@@ -38,6 +39,7 @@ protected:
     QPainter* painter;
     DrawLineLayer* drawLineLayer; //用于画线的layer
     HelpDialog *helpDialog;
+    ToolNotification *toolNotification;
     QSpinBox *box; // 设置时间
     QSpinBox *box2; // 设置花色数
     QDialog *changeSpeedDialog;

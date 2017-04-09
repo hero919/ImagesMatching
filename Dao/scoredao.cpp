@@ -17,7 +17,7 @@ void ScoreDao::init() {
 void ScoreDao::outputItem(QString name, QString score) {
     QFile file("/Users/Jason/score.txt");
     if (!file.open(QIODevice::Append|QIODevice::Text)) {
-        QMessageBox::critical(NULL, "提示", "无法创建文件");
+        QMessageBox::critical(NULL, "Notification", "The file cannot be created");
         return ;
     }
     QTextStream out(&file);
