@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "Model/game.h"
 #include "BasicModeWindow/basicmodewindow.h"
 #include "RelaxedModeWindow/relaxedmodewindow.h"
 #include "LevelModeWindow/levelmodewindow.h"
@@ -19,15 +20,15 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    sound(":/music/res/Music01.wav")
+    sound(":/music/res/Pokemon01.wav")
 {
     setUpWelcomeWindow();
 
     ui->setupUi(this);
-
     scoreDao = new ScoreDao();
     scoreDao->init();
     playMusic();
+
     //Add signals and its corresponding slots
     connect(ui->button3, SIGNAL(clicked(bool)), this, SLOT(showBasicModeWindow()));
     connect(ui->button2, SIGNAL(clicked(bool)), this, SLOT(showRelaxedModeWindow()));
@@ -87,12 +88,10 @@ void MainWindow::showLevelModeWindow() {
     lmw->setWindowTitle("Level Mode");
     lmw->show();
     this->hide();
+    stopMusic();
 }
 
 void MainWindow::setUpWelcomeWindow() { //Create Welcome Page
-    if(!firstTimeStartGame){
-        return;
-    }
     QMainWindow *window = new QMainWindow();
     window->setFixedSize(800,600);
     QCoreApplication::processEvents();

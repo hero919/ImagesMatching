@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include "Model/mapbutton.h"
 #include <QTime>
+#include "MainWindow/mainwindow.h"
 
 RelaxedModeWindow::RelaxedModeWindow(QWidget *parent) :
     BasicModeWindow(parent),
@@ -10,11 +11,12 @@ RelaxedModeWindow::RelaxedModeWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    setWindowTitle("欢乐连连看");
+    setWindowTitle("IMages Matching Game");
     scoreDao = new ScoreDao();
     scoreDao->init();
     gameModel.init();
     helpDialog = new HelpDialog(ui->picWidget);
+    toolNotification = new ToolNotification(ui->picWidget);
     ui->progressBar->setValue(totleTime);//progressBar初始化
     grid = new QGridLayout(ui->picWidget); //为游戏棋盘创建网格布局
     timer = new QTimer(this);
@@ -36,6 +38,7 @@ RelaxedModeWindow::RelaxedModeWindow(QWidget *parent) :
     connect(ui->pushButton_5, SIGNAL(clicked(bool)), this, SLOT(useTool()));
     connect(ui->pushButton_7, SIGNAL(clicked(bool)), this, SLOT(changeSpeed()));
     connect(ui->pushButton_8, SIGNAL(clicked(bool)), this, SLOT(showHelp()));
+    connect(ui->BackToMain, SIGNAL(clicked(bool)), this, SLOT(BackToMainPage()));
 }
 
 RelaxedModeWindow::~RelaxedModeWindow()
@@ -154,6 +157,12 @@ void RelaxedModeWindow::findHint() {
 
 void RelaxedModeWindow::showHelp() {
     helpDialog->showHelpDialog();
+}
+
+void RelaxedModeWindow::BackToMainPage(){
+    MainWindow *mainWindow = new MainWindow();
+    mainWindow->show();
+    this->hide();
 }
 
 void RelaxedModeWindow::changeSpeed() {
@@ -367,6 +376,7 @@ void RelaxedModeWindow::increaseCredit() {
     credit += 10;
     creditIncrement += 10;
     if (creditIncrement % 100 == 0) {
+        toolNotification->showToolNotification();
         toolsNum++;
         ui->label_5->setText(QString::number(toolsNum));
         ui->pushButton_5->setEnabled(true);
@@ -391,7 +401,7 @@ bool RelaxedModeWindow::creditIsEnoughForHint() {
 }
 
 bool RelaxedModeWindow::creditIsEnoughForReset() {
-    return credit >= 50;
+   return credit >= 50;
 }
 
 void RelaxedModeWindow::useTool() {
@@ -401,5 +411,10 @@ void RelaxedModeWindow::useTool() {
     if (toolsNum == 0) {
         ui->pushButton_5->setEnabled(false);
     }
-
 }
+
+//bool RelaxedModeWindow::isUsingTool() {
+
+//}
+
+

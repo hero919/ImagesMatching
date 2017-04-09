@@ -32,14 +32,15 @@ private:
 protected:
     Game gameModel; //model层，用来进行逻辑处理
     QGridLayout *grid;
-    double totleTime = 100; //总时间
+    double totalTime = 200; //总时间
     double speed = 1; //速率系数
-    int PIC_NUM = 5; //花色数
+//    int PIC_NUM = 9; //花色数
     int LEVEL = 1;
     QTimer *timer;
     QPainter* painter;
     DrawLineLayer* drawLineLayer; //用于画线的layer
     HelpDialog *helpDialog;
+    int scores = 0;
 //    QSpinBox *box; // 设置时间
 //    QSpinBox *box2; // 设置花色数
 //    QDialog *changeSpeedDialog;
