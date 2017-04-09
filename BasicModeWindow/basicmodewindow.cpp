@@ -15,15 +15,18 @@ BasicModeWindow::BasicModeWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::BasicModeWindow)
 {
+    //initialize ui
     ui->setupUi(this);
     setWindowTitle("Images Matching Game");
     scoreDao = new ScoreDao();
     scoreDao->init();
     gameModel.init();
     helpDialog = new HelpDialog(ui->picWidget);
-    ui->progressBar->setValue(totleTime);//progressBar初始化
+    ui->progressBar->setValue(totleTime);
     //picWidget is the blank area in main window
-    grid = new QGridLayout(ui->picWidget); //为游戏棋盘创建网格布局
+
+    //initialize game board
+    grid = new QGridLayout(ui->picWidget);
 
     timer = new QTimer(this);
     painter = new QPainter(this);
@@ -33,10 +36,11 @@ BasicModeWindow::BasicModeWindow(QWidget *parent) :
     ui->pushButton_2->setEnabled(false);
     ui->pushButton_3->setEnabled(false);
     ui->pushButton_4->setEnabled(false);
+
     //Set Sinal and slots for buttons
     connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(startGame()));
     connect(ui->pushButton_2, SIGNAL(clicked(bool)), this, SLOT(pauseGame()));
-    connect(timer,SIGNAL(timeout()),this,SLOT(timerUpDate())); //将timer和timerUpDate方法关联
+    connect(timer,SIGNAL(timeout()),this,SLOT(timerUpDate()));
     connect(ui->pushButton_3, SIGNAL(clicked(bool)), this, SLOT(findHint()));
     connect(ui->pushButton_4, SIGNAL(clicked(bool)), this, SLOT(resetMap()));
     connect(ui->pushButton_5, SIGNAL(clicked(bool)), this, SLOT(changeSpeed()));
@@ -61,23 +65,23 @@ void BasicModeWindow::BackToMainPage(){
 
 
 
-void BasicModeWindow::startGame() { //开始游戏
-    initMap(); //初始化游戏棋盘
+void BasicModeWindow::startGame() {
+    //shuffle game board
+    initMap();
     totleTime = 100;
-//    ui->progressBar->setValue(totleTime);//progressBar初始化
-    timer->start(1000); //开始计时，时间间隔为1000ms
+    timer->start(1000);
     ui->pushButton_2->setEnabled(true);
     ui->pushButton_3->setEnabled(true);
     ui->pushButton_4->setEnabled(true);
     ui->pushButton_5->setEnabled(false);
     ui->pushButton->setText("Restart");
-    //如果pushButton之前绑定了startGame方法, 就先解除绑定，然后绑定reStartGame方法
+    //To restart game, disconnect startGame slot then connect
     if (disconnect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(startGame())))
         connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(reStartGame()));
 }
 
-void BasicModeWindow::reStartGame() { //重新开始游戏
-    //清除游戏棋盘
+void BasicModeWindow::reStartGame() {
+    //clear game board
     auto children = ui->picWidget->children();
     for (int i = 1; i < 217; i++) {
         if (children[i]->objectName() != "") {
@@ -90,6 +94,7 @@ void BasicModeWindow::reStartGame() { //重新开始游戏
 
 
 void BasicModeWindow::resetMap() {
+    //reset game board
     auto children = ui->picWidget->children();
     for (int i = 1; i < 217; i++) {
         if (children[i]->objectName() != "") {
@@ -123,30 +128,37 @@ void BasicModeWindow::pauseGame() {
 void BasicModeWindow::initMap() {
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 16; j++) {
-            gameModel.rawMap[i][j] = gameModel.totalPic++ % PIC_NUM + 1; //初始化未经打乱的棋盘
+            gameModel.rawMap[i][j] = gameModel.totalPic++ % PIC_NUM + 1;
         }
     }
 
-    reset(false); //shuffle rawMap
+    //shuffle rawMap
+    reset(false);
 }
 
-//鼠标点击图片时触发的事件
+
 void BasicModeWindow::select(const QString &msg) {
     QString pos2, pos3;
     MapButton *sb = ui->picWidget->findChild<MapButton*>(msg);
     if (sb != NULL) {
-        if (gameModel.selectedPic == sb->objectName()) { //连续点击同一个图片
+        //click on same image twice
+        if (gameModel.selectedPic == sb->objectName()) {
             sb->setChecked(false);
             gameModel.selectedPic = "";
 
-        } else if (gameModel.selectedPic == "") { //当前未选中任何一个图片
+        }
+        //none image get selected
+        else if (gameModel.selectedPic == "") {
             gameModel.selectedPic = sb->objectName();
-        } else if (gameModel.linkWithNoCorner(gameModel.selectedPic, sb->objectName())
+        }
+        //player select two images that can be eliminated
+        else if (gameModel.linkWithNoCorner(gameModel.selectedPic, sb->objectName())
                    || gameModel.linkWithOneCorner(gameModel.selectedPic, sb->objectName(), pos2)
-                   || gameModel.linkWithTwoCorner(gameModel.selectedPic, sb->objectName(), pos2, pos3)) { //可消去
+                   || gameModel.linkWithTwoCorner(gameModel.selectedPic, sb->objectName(), pos2, pos3)) {
 
-            drawLine(gameModel.selectedPic, sb->objectName(), pos2, pos3); //画线
-            //让两个图片弹起来并消除
+            drawLine(gameModel.selectedPic, sb->objectName(), pos2, pos3);
+
+            //uncheck images and set invisible
             MapButton *p1 = ui->picWidget->findChild<MapButton*>(gameModel.selectedPic);
             MapButton *p2 = ui->picWidget->findChild<MapButton*>(sb->objectName());
             p1->setVisible(false);
@@ -157,7 +169,7 @@ void BasicModeWindow::select(const QString &msg) {
             gameModel.selectedPic = "";
 
 
-            //在消子之后判断是否获胜
+            //decide if player wins
             if (gameModel.isWin()){
                 QMessageBox *box = new QMessageBox(this);
                 box->setInformativeText("Congratulations！");
@@ -167,9 +179,11 @@ void BasicModeWindow::select(const QString &msg) {
                 ui->pushButton_3->setEnabled(false);
                 ui->pushButton_4->setEnabled(false);
 
-                //向排行榜插入一条记录
-                QDateTime time = QDateTime::currentDateTime();//获取系统现在的时间
-                QString name = time.toString("yyyyMMddhhmm"); //设置显示格式
+                //display current time
+                QDateTime time = QDateTime::currentDateTime();
+                QString name = time.toString("yyyyMMddhhmm");
+
+                //insert a record to rank
                 int s = (160 - gameModel.totalPic) * 5;
                 if (s < 0)
                     s = 0;
@@ -181,28 +195,29 @@ void BasicModeWindow::select(const QString &msg) {
                 scoreDao->outputItem(name, score);
             }
 
-        } else { //不可消去
-            //让原来的pic1弹起来
+        }
+        //player select two images that can not be eliminated
+        else {
             MapButton *p1 = ui->picWidget->findChild<MapButton*>(gameModel.selectedPic);
             p1->setChecked(false);
             gameModel.selectedPic = sb->objectName();
-            //新的pic1按下去
             sb->setChecked(true);
         }
     }
 }
 
 void BasicModeWindow::timerUpDate() {
-    totleTime -= speed; //timer每更新一次，总时间减去0.5s
-    ui->progressBar->setValue(totleTime); //更新progressBar的值
-//    QPalette p();
-//    p.setColor(QPalette::Highlight, Qt::green);
-//    setPalette(p);
+    //update timer by decresing 0.5
+    totleTime -= speed;
+    //update prograss bar
+    ui->progressBar->setValue(totleTime);
 
     if (totleTime == 0) {
-        //向排行榜插入一条记录
-        QDateTime time = QDateTime::currentDateTime();//获取系统现在的时间
-        QString name = time.toString("yyyyMMddhhmm"); //设置显示格式
+       //display current time
+        QDateTime time = QDateTime::currentDateTime();
+        QString name = time.toString("yyyyMMddhhmm");
+
+        //insert a record to rank
         int s = (160 - gameModel.totalPic) * 5;
         if (s < 0)
             s = 0;
@@ -214,7 +229,7 @@ void BasicModeWindow::timerUpDate() {
         scoreDao->outputItem(name, score);
 
         QMessageBox *box = new QMessageBox(this);
-        box->setInformativeText("Time Up！");
+        box->setInformativeText("Time is Up！");
         box->show();
         ui->pushButton->setEnabled(true);
         ui->pushButton_2->setEnabled(false);
@@ -248,7 +263,7 @@ void BasicModeWindow::findHint() {
                 gameModel.map[i/18][i%18] = tmp1;
                 gameModel.map[j/18][j%18] = tmp2;
 
-                gameModel.totalPic += 2; //还原被减去的图片数
+                gameModel.totalPic += 2;
             }
 
         }
@@ -258,8 +273,8 @@ void BasicModeWindow::findHint() {
 void BasicModeWindow::drawLine(QString pic1, QString pic2, QString pos2, QString pos3) {
     MapButton *p1 = ui->picWidget->findChild<MapButton*>(pic1);
     MapButton *p2 = ui->picWidget->findChild<MapButton*>(pic2);
-    //画线
-    if (gameModel.flagA) { //没有转折点
+
+    if (gameModel.flagA) {
         drawLineLayer->setPos1(p1->pos());
         drawLineLayer->setPos2(p2->pos());
         gameModel.flagA = false;
@@ -289,7 +304,7 @@ void BasicModeWindow::drawLine(QString pic1, QString pic2, QString pos2, QString
     drawLineLayer->show();
     QTime t;
     t.start();
-    while(t.elapsed()<200) //连线延迟0.2s
+    while(t.elapsed()<200)
         QCoreApplication::processEvents();
     drawLineLayer->clear();
 }
@@ -310,7 +325,8 @@ void BasicModeWindow::reset(bool flag) {
     }
     srand((int)time(nullptr));
     int randx1, randx2, randy1, randy2;
-    //将地图中的图片进行300次随机对调，从而打乱棋盘
+
+    //shuffle
     for (int k = 0; k < 300; k++) {
         randx1 = random() % 10;
         randx2 = random() % 10;
@@ -322,7 +338,6 @@ void BasicModeWindow::reset(bool flag) {
     }
     for (int i = 0; i < 12; i++) {
         for (int j = 0; j < 18; j++) {
-            //Add Around Images
             if (i == 0 || i == 11 || j == 0 || j == 17) {
                 MapButton *w = new MapButton();
                 w->setStyleSheet("background:transparent");

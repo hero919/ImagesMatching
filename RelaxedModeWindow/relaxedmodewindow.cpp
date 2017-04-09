@@ -3,7 +3,6 @@
 #include <QMessageBox>
 #include "Model/mapbutton.h"
 #include <QTime>
-#include "MainWindow/mainwindow.h"
 
 RelaxedModeWindow::RelaxedModeWindow(QWidget *parent) :
     BasicModeWindow(parent),
@@ -11,13 +10,12 @@ RelaxedModeWindow::RelaxedModeWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    setWindowTitle("IMages Matching Game");
+    setWindowTitle("欢乐连连看");
     scoreDao = new ScoreDao();
     scoreDao->init();
     gameModel.init();
     helpDialog = new HelpDialog(ui->picWidget);
-    toolNotification = new ToolNotification(ui->picWidget);
-    ui->progressBar->setValue(totleTime);//progressBar初始化
+    ui->progressBar->setValue(totalTime);//progressBar初始化
     grid = new QGridLayout(ui->picWidget); //为游戏棋盘创建网格布局
     timer = new QTimer(this);
     painter = new QPainter(this);
@@ -38,7 +36,6 @@ RelaxedModeWindow::RelaxedModeWindow(QWidget *parent) :
     connect(ui->pushButton_5, SIGNAL(clicked(bool)), this, SLOT(useTool()));
     connect(ui->pushButton_7, SIGNAL(clicked(bool)), this, SLOT(changeSpeed()));
     connect(ui->pushButton_8, SIGNAL(clicked(bool)), this, SLOT(showHelp()));
-    connect(ui->BackToMain, SIGNAL(clicked(bool)), this, SLOT(BackToMainPage()));
 }
 
 RelaxedModeWindow::~RelaxedModeWindow()
@@ -48,14 +45,14 @@ RelaxedModeWindow::~RelaxedModeWindow()
 
 void RelaxedModeWindow::startGame() { //开始游戏
     initMap(); //初始化游戏棋盘
-    totleTime = 100;
-    ui->progressBar->setValue(totleTime);//progressBar初始化
+    totalTime = 100;
+    ui->progressBar->setValue(totalTime);//progressBar初始化
     timer->start(1000); //开始计时，时间间隔为1000ms
     credit = 0;
     ui->label_2->setText(QString::number(credit)); //积分清零
     ui->pushButton_2->setEnabled(true);
     ui->pushButton_7->setEnabled(false);
-    ui->pushButton->setText("Restart");
+    ui->pushButton->setText("重新开始");
     //如果pushButton之前绑定了startGame方法, 就先解除绑定，然后绑定reStartGame方法
     if (disconnect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(startGame())))
         connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(reStartGame()));
@@ -77,14 +74,14 @@ void RelaxedModeWindow::reStartGame() { //重新开始游戏
 
 void RelaxedModeWindow::pauseGame() {
     if (timer->isActive()) {
-        ui->pushButton_2->setText("Consume Game");
+        ui->pushButton_2->setText("继续游戏");
         timer->stop();
         ui->picWidget->setDisabled(true);
         ui->pushButton->setDisabled(true);
         ui->pushButton_3->setDisabled(true);
         ui->pushButton_4->setDisabled(true);
     } else {
-        ui->pushButton_2->setText("Pause Game");
+        ui->pushButton_2->setText("暂停游戏");
         timer->start();
         ui->picWidget->setDisabled(false);
         ui->pushButton->setDisabled(false);
@@ -94,11 +91,11 @@ void RelaxedModeWindow::pauseGame() {
 }
 
 void RelaxedModeWindow::timerUpDate() {
-    totleTime -= speed; //timer每更新一次，总时间减去0.5s
-    ui->progressBar->setValue(totleTime); //更新progressBar的值
-    if (totleTime == 0) {
+    totalTime -= speed; //timer每更新一次，总时间减去0.5s
+    ui->progressBar->setValue(totalTime); //更新progressBar的值
+    if (totalTime == 0) {
         QMessageBox *box = new QMessageBox(this);
-        box->setInformativeText("Time Up！");
+        box->setInformativeText("时间到！");
         box->show();
         ui->pushButton->setEnabled(true);
         ui->pushButton_2->setEnabled(false);
@@ -159,12 +156,6 @@ void RelaxedModeWindow::showHelp() {
     helpDialog->showHelpDialog();
 }
 
-void RelaxedModeWindow::BackToMainPage(){
-    MainWindow *mainWindow = new MainWindow();
-    mainWindow->show();
-    this->hide();
-}
-
 void RelaxedModeWindow::changeSpeed() {
     QHBoxLayout *layout = new QHBoxLayout();
     changeSpeedDialog = new QDialog();
@@ -182,7 +173,7 @@ void RelaxedModeWindow::changeSpeed() {
     layout->addWidget(box);
     layout->addWidget(label2);
     layout->addWidget(box2);
-    QPushButton *button = new QPushButton("Confirm");
+    QPushButton *button = new QPushButton("确定");
     connect(button, SIGNAL(clicked(bool)), this, SLOT(_changeSpeed()));
     layout->addWidget(button);
     changeSpeedDialog->setLayout(layout);
@@ -376,7 +367,6 @@ void RelaxedModeWindow::increaseCredit() {
     credit += 10;
     creditIncrement += 10;
     if (creditIncrement % 100 == 0) {
-        toolNotification->showToolNotification();
         toolsNum++;
         ui->label_5->setText(QString::number(toolsNum));
         ui->pushButton_5->setEnabled(true);
@@ -401,7 +391,7 @@ bool RelaxedModeWindow::creditIsEnoughForHint() {
 }
 
 bool RelaxedModeWindow::creditIsEnoughForReset() {
-   return credit >= 50;
+    return credit >= 50;
 }
 
 void RelaxedModeWindow::useTool() {
@@ -411,10 +401,5 @@ void RelaxedModeWindow::useTool() {
     if (toolsNum == 0) {
         ui->pushButton_5->setEnabled(false);
     }
+
 }
-
-//bool RelaxedModeWindow::isUsingTool() {
-
-//}
-
-

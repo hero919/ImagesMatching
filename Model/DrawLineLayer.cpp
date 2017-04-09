@@ -1,14 +1,13 @@
 #include "DrawLineLayer.h"
+
+
 DrawLineLayer::DrawLineLayer(QWidget *parent)
-    : QWidget(parent)
-{
+    : QWidget(parent){
 }
 
-DrawLineLayer::~DrawLineLayer()
-{
-
+DrawLineLayer::~DrawLineLayer(){
 }
-//重新实现paintEvent
+
 void DrawLineLayer::paintEvent(QPaintEvent *)
 {
     QPainter paint(this);
