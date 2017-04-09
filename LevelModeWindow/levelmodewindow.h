@@ -41,7 +41,6 @@ protected:
     DrawLineLayer* drawLineLayer; //用于画线的layer
     HelpDialog *helpDialog;
     int scores = 0;
-    QWidget *p;
 //    QSpinBox *box; // 设置时间
 //    QSpinBox *box2; // 设置花色数
 //    QDialog *changeSpeedDialog;
@@ -59,6 +58,8 @@ public slots:
     void resetMap(); //图片重排
     void findHint(); //提示
     void showHelp(); //显示帮助
+    void changeSpeed();
+    void _changeSpeed();
     void BackToMainPage();
 
 };

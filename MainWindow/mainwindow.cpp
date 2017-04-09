@@ -50,7 +50,6 @@ void MainWindow::playMusic(){
     musicButton->setIcon(QIcon(":/icon/res/1.png"));
     musicButton->setIconSize(QSize(40,40));
     sound.play();
-    sound.setLoops(50);
     if(disconnect(ui->MusicButton, SIGNAL(clicked(bool)), this, SLOT(playMusic()))){
         connect(ui->MusicButton, SIGNAL(clicked(bool)), this, SLOT(stopMusic()));
     }
@@ -75,7 +74,6 @@ void MainWindow::showBasicModeWindow() {
     bmw->setWindowTitle("Basic Mode");
     bmw->show();
     this->hide();
-
 }
 
 void MainWindow::showRelaxedModeWindow() {
@@ -86,18 +84,14 @@ void MainWindow::showRelaxedModeWindow() {
 }
 
 void MainWindow::showLevelModeWindow() {
-    this->hide();
     LevelModeWindow *lmw = new LevelModeWindow();
     lmw->setWindowTitle("Level Mode");
     lmw->show();
-    //firstTimeLoadPage = false;
+    this->hide();
     stopMusic();
 }
 
 void MainWindow::setUpWelcomeWindow() { //Create Welcome Page
-//    if(!firstTimeLoadPage){
-//        return;
-//    }
     QMainWindow *window = new QMainWindow();
     window->setFixedSize(800,600);
     QCoreApplication::processEvents();

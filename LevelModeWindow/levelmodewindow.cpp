@@ -47,7 +47,8 @@ LevelModeWindow::LevelModeWindow(QWidget *parent) :
     connect(timer,SIGNAL(timeout()),this,SLOT(timerUpDate())); //Connect timer and update function
     connect(ui->pushButton_3, SIGNAL(clicked(bool)), this, SLOT(findHint()));
     connect(ui->pushButton_4, SIGNAL(clicked(bool)), this, SLOT(resetMap()));
-    connect(ui->pushButton_8, SIGNAL(clicked(bool)), this, SLOT(showHelp()));
+    connect(ui->pushButton_5, SIGNAL(clicked(bool)), this, SLOT(changeSpeed()));
+    connect(ui->pushButton_6, SIGNAL(clicked(bool)), this, SLOT(showHelp()));
     connect(ui->BackToMain, SIGNAL(clicked(bool)), this, SLOT(BackToMainPage()));
     startGame();
 }
@@ -84,7 +85,7 @@ void LevelModeWindow::timerUpDate(){
     if(totalTime == 0){
         QMessageBox *box = new QMessageBox(this);
         box->setInformativeText("Time is UP!!!");
-        box->setStyleSheet("QLabel{height: 80px;min-height: 80px; max-height: 80px; width: 80px;min-width: 80px; max-wdith: 80px;}");
+        box->setStyleSheet("QLabel{height: 100px;min-height: 100px; max-height: 100px; width: 100px;min-width: 100px; max-wdith: 100px;}");
         box->show();
         timer->stop();
         ui->pushButton->setEnabled(false);
@@ -92,6 +93,7 @@ void LevelModeWindow::timerUpDate(){
         ui->pushButton_3->setEnabled(false);
         ui->pushButton_4->setEnabled(false);
         ui->pushButton_5->setEnabled(false);
+        ui->pushButton_6->setEnabled(false);
     }
 }
 
@@ -119,6 +121,8 @@ void LevelModeWindow::pauseGame(){
         ui->pushButton_3->setDisabled(true);
         ui->pushButton_4->setDisabled(true);
         ui->pushButton_5->setDisabled(true);
+        ui->pushButton_6->setDisabled(true);
+        //ui->pushButton_7->setDisabled(true);
         ui->pushButton_8->setDisabled(true);
         ui->picWidget->setDisabled(true);
         ui->pushButton_2->setText("Consume");
@@ -128,6 +132,8 @@ void LevelModeWindow::pauseGame(){
         ui->pushButton_3->setDisabled(false);
         ui->pushButton_4->setDisabled(false);
         ui->pushButton_5->setDisabled(false);
+        ui->pushButton_6->setDisabled(false);
+        //ui->pushButton_7->setDisabled(false);
         ui->pushButton_8->setDisabled(false);
         ui->picWidget->setDisabled(false);
         ui->pushButton_2->setText("Pause");
@@ -181,8 +187,11 @@ void LevelModeWindow::resetMap(){
 }
 
 
+void LevelModeWindow::changeSpeed(){
+
+}
+
 void LevelModeWindow::showHelp(){
-    HelpDialog *helpDialog = new HelpDialog(this);
     helpDialog->showHelpDialog();
 }
 
@@ -294,7 +303,9 @@ void LevelModeWindow::select(const QString &msg){
             p2->setStyleSheet("background:transparent");
             scores += 10;
             ui->Scores->setText(QString::number(scores));
+
             gameModel.selectedPic = "";
+
 
             if(gameModel.isWin() && LEVEL == 3){
                 QMessageBox *box = new QMessageBox(this);
@@ -313,6 +324,8 @@ void LevelModeWindow::select(const QString &msg){
                 scores += totalTime * 3;
                 totalTime = 200 - LEVEL * 20;
                 LEVEL += 1;
+
+
                 initMap();
             }
 
@@ -338,7 +351,9 @@ void LevelModeWindow::reStartGame(){
     startGame();
 }
 
+void LevelModeWindow::_changeSpeed(){
 
+}
 
 
 void LevelModeWindow::drawLine(QString pic1, QString pic2, QString pos2, QString pos3) {
