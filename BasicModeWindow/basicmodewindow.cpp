@@ -199,9 +199,6 @@ void BasicModeWindow::select(const QString &msg) {
                     }
 
 
-
-
-
                 //while two images are corner connected
 
                 //for images above selected image1
@@ -218,19 +215,12 @@ void BasicModeWindow::select(const QString &msg) {
                 //for images above selected image2
                 if(c < y2 && d == x2) {
                     MapButton *image2 = ui->picWidget->findChild<MapButton*>(q2);
+                    image1->setChecked(true);
                     image2->setStyleSheet("background:transparent");
                     image2->setParent(ui->picWidget);
                     grid->addWidget(image2,c+1,d);
 
                 }
-
-
-
-
-
-
-
-
             }
 
 
