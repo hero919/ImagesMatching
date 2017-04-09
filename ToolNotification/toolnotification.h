@@ -13,8 +13,8 @@ class ToolNotification: QDialog
 public:
     ToolNotification(QWidget *parent = 0) : QDialog(parent) {
         hd = new QDialog() ;
-        hd->setMinimumSize(200, 200);
-        hd->setMaximumSize(200, 200);
+        hd->setMinimumSize(100, 100);
+        hd->setMaximumSize(100, 100);
         QVBoxLayout *layout = new QVBoxLayout();
         QTextBrowser *tb = new QTextBrowser();
         layout->addWidget(tb);

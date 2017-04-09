@@ -14,9 +14,7 @@ LevelModeWindow::LevelModeWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::LevelModeWindow)
 {
-//    parent->hide();
     ui->setupUi(this);
-//    p = parent;
     setWindowTitle("Level Mode");
     gameModel.init();
     grid = new QGridLayout(ui->picWidget);
@@ -87,7 +85,7 @@ void LevelModeWindow::timerUpDate(){
     if(totalTime == 0){
         QMessageBox *box = new QMessageBox(this);
         box->setInformativeText("Time is UP!!!");
-        box->setStyleSheet("QLabel{height: 80px;min-height: 80px; max-height: 80px; width: 80px;min-width: 80px; max-wdith: 80px;}");
+        box->setStyleSheet("QLabel{height: 100px;min-height: 100px; max-height: 100px; width: 100px;min-width: 100px; max-wdith: 100px;}");
         box->show();
         timer->stop();
         ui->pushButton->setEnabled(false);
@@ -306,6 +304,7 @@ void LevelModeWindow::select(const QString &msg){
             scores += 10;
             ui->Scores->setText(QString::number(scores));
 
+<<<<<<< HEAD
 
             if(LEVEL == 1){
                 int first = gameModel.selectedPic.toInt();
@@ -415,7 +414,10 @@ void LevelModeWindow::select(const QString &msg){
             }
 
 
+=======
+>>>>>>> master
             gameModel.selectedPic = "";
+
 
             if(gameModel.isWin() && LEVEL == 3){
                 QMessageBox *box = new QMessageBox(this);
@@ -434,39 +436,9 @@ void LevelModeWindow::select(const QString &msg){
                 scores += totalTime * 3;
                 totalTime = 200 - LEVEL * 20;
                 LEVEL += 1;
+
+
                 initMap();
-
-//                QCoreApplication::processEvents();
-//                QWidget *cenWidget = new QWidget(window);
-//                window->setCentralWidget(cenWidget);
-//                QLabel *emptyLabel = new QLabel(cenWidget);
-//                QLabel *welcomeLabel = new QLabel(cenWidget);
-//                welcomeLabel->setText("CS3650 Project: Images Matching Game");
-//                QLabel *nameLabel = new QLabel(cenWidget);
-//                nameLabel->setText("\t\t by Zeqing Zhang, Kaimong Wong, Zhaoxing Hong");
-//                QGridLayout *gridLayout = new QGridLayout(cenWidget);
-//                QFont ft;
-//                ft.setPointSize(40);
-//                QPalette pa;
-//                pa.setColor(QPalette::WindowText,Qt::red);
-//                welcomeLabel->setFont(ft);
-//                welcomeLabel->setPalette(pa);
-//                welcomeLabel->setAlignment(Qt::AlignCenter);
-//                ft.setPointSize(24);
-//                nameLabel->setFont(ft);
-//                nameLabel->setPalette(pa);
-//                nameLabel->setAlignment(Qt::AlignCenter);
-
-//                gridLayout->addWidget(emptyLabel);
-//                gridLayout->addWidget(welcomeLabel);
-//                gridLayout->addWidget(nameLabel);
-
-//                window->show();
-//                QTime t;
-//                t.start();
-//                while(t.elapsed()<4000) //Delay 4 seconds for starting page
-//                    QCoreApplication::processEvents();
-//                window->close();
             }
 
         } else {

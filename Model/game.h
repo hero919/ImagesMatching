@@ -24,7 +24,7 @@ public:
 
 
 protected:
-//    bool linkWithNoCorner(int &x1, int &y1, int &x2, int & y2);
+//   bool linkWithNoCorner(int &x1, int &y1, int &x2, int & y2);
 
 private:
     void getPosition(int &x1, int &y1, int &x2, int & y2, QString pic1, QString pic2);

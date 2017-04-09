@@ -88,32 +88,6 @@
      <string>Reset</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_5">
-    <property name="geometry">
-     <rect>
-      <x>690</x>
-      <y>180</y>
-      <width>101</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Tools</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_6">
-    <property name="geometry">
-     <rect>
-      <x>690</x>
-      <y>220</y>
-      <width>101</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Scores</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="pushButton_8">
     <property name="geometry">
      <rect>
@@ -140,8 +114,8 @@
    <widget class="QPushButton" name="BackToMain">
     <property name="geometry">
      <rect>
-      <x>692</x>
-      <y>261</y>
+      <x>690</x>
+      <y>180</y>
       <width>101</width>
       <height>41</height>
      </rect>

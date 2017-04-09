@@ -1,22 +1,19 @@
 #include "relaxedmodewindow.h"
 #include "ui_relaxedmodewindow.h"
 #include <QMessageBox>
-#include "Model/mapbutton.h"
 #include <QTime>
 #include "MainWindow/mainwindow.h"
 
 RelaxedModeWindow::RelaxedModeWindow(QWidget *parent) :
-    BasicModeWindow(parent),
+    QMainWindow(parent),
     ui(new Ui::RelaxedModeWindow)
 {
     ui->setupUi(this);
-
     setWindowTitle("IMages Matching Game");
     scoreDao = new ScoreDao();
     scoreDao->init();
     gameModel.init();
     helpDialog = new HelpDialog(ui->picWidget);
-    toolNotification = new ToolNotification(ui->picWidget);
     ui->progressBar->setValue(totleTime);//progressBar初始化
     grid = new QGridLayout(ui->picWidget); //为游戏棋盘创建网格布局
     timer = new QTimer(this);
@@ -144,7 +141,6 @@ void RelaxedModeWindow::findHint() {
                 success = true;
                 gameModel.map[i/18][i%18] = tmp1;
                 gameModel.map[j/18][j%18] = tmp2;
-
                 gameModel.totalPic += 2; //还原被减去的图片数
             }
 
@@ -283,9 +279,8 @@ void RelaxedModeWindow::select(const QString &msg) {
         } else if (isUsingTool || gameModel.linkWithNoCorner(gameModel.selectedPic, sb->objectName())
                    || gameModel.linkWithOneCorner(gameModel.selectedPic, sb->objectName(), pos2)
                    || gameModel.linkWithTwoCorner(gameModel.selectedPic, sb->objectName(), pos2, pos3)) { //可消去
-
             if (isUsingTool) {
-                gameModel.useTool(gameModel.selectedPic, sb->objectName());
+               gameModel.useTool(gameModel.selectedPic, sb->objectName());
             }
             drawLine(gameModel.selectedPic, sb->objectName(), pos2, pos3); //画线
             //让两个图片弹起来并消除
@@ -376,7 +371,17 @@ void RelaxedModeWindow::increaseCredit() {
     credit += 10;
     creditIncrement += 10;
     if (creditIncrement % 100 == 0) {
-        toolNotification->showToolNotification();
+        QMessageBox *box = new QMessageBox(this);
+        box->setInformativeText("Get a Tool！");
+        box->setStyleSheet(QString::fromUtf8("color: red;"
+                                             "background-color: white;"));
+        box->setStandardButtons(0);
+        box->show();
+        QTime t;
+        t.start();
+        while(t.elapsed()<1000)
+            QCoreApplication::processEvents();
+        box->hide();
         toolsNum++;
         ui->label_5->setText(QString::number(toolsNum));
         ui->pushButton_5->setEnabled(true);
@@ -405,16 +410,25 @@ bool RelaxedModeWindow::creditIsEnoughForReset() {
 }
 
 void RelaxedModeWindow::useTool() {
-    toolsNum--;
-    ui->label_5->setText(QString::number(toolsNum));
-    isUsingTool = true;
     if (toolsNum == 0) {
+        QMessageBox *box = new QMessageBox(this);
+        box->setInformativeText("Sorry, you have no tools！");
+        box->setStyleSheet(QString::fromUtf8("color: red;"
+                                             "background-color: white;"));
+        box->setStandardButtons(0);
+        box->show();
+        QTime t;
+        t.start();
+        while(t.elapsed()<1000)
+            QCoreApplication::processEvents();
+        box->hide();
         ui->pushButton_5->setEnabled(false);
     }
+    else {
+        toolsNum--;
+        ui->label_5->setText(QString::number(toolsNum));
+        isUsingTool = true;
+    }
 }
-
-//bool RelaxedModeWindow::isUsingTool() {
-
-//}
 
 
