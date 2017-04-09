@@ -14,7 +14,9 @@ LevelModeWindow::LevelModeWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::LevelModeWindow)
 {
+//    parent->hide();
     ui->setupUi(this);
+//    p = parent;
     setWindowTitle("Level Mode");
     gameModel.init();
     grid = new QGridLayout(ui->picWidget);
@@ -47,8 +49,6 @@ LevelModeWindow::LevelModeWindow(QWidget *parent) :
     connect(timer,SIGNAL(timeout()),this,SLOT(timerUpDate())); //Connect timer and update function
     connect(ui->pushButton_3, SIGNAL(clicked(bool)), this, SLOT(findHint()));
     connect(ui->pushButton_4, SIGNAL(clicked(bool)), this, SLOT(resetMap()));
-    connect(ui->pushButton_5, SIGNAL(clicked(bool)), this, SLOT(changeSpeed()));
-    connect(ui->pushButton_6, SIGNAL(clicked(bool)), this, SLOT(showHelp()));
     connect(ui->BackToMain, SIGNAL(clicked(bool)), this, SLOT(BackToMainPage()));
     startGame();
 }
@@ -85,15 +85,13 @@ void LevelModeWindow::timerUpDate(){
     if(totalTime == 0){
         QMessageBox *box = new QMessageBox(this);
         box->setInformativeText("Time is UP!!!");
-        box->setStyleSheet("QLabel{height: 100px;min-height: 100px; max-height: 100px; width: 100px;min-width: 100px; max-wdith: 100px;}");
+        box->setStyleSheet("QLabel{height: 80px;min-height: 80px; max-height: 80px; width: 80px;min-width: 80px; max-wdith: 80px;}");
         box->show();
         timer->stop();
         ui->pushButton->setEnabled(false);
         ui->pushButton_2->setEnabled(false);
         ui->pushButton_3->setEnabled(false);
         ui->pushButton_4->setEnabled(false);
-        ui->pushButton_5->setEnabled(false);
-        ui->pushButton_6->setEnabled(false);
     }
 }
 
@@ -105,7 +103,6 @@ void LevelModeWindow::startGame(){
     ui->pushButton_2->setEnabled(true);
     ui->pushButton_3->setEnabled(true);
     ui->pushButton_4->setEnabled(true);
-    ui->pushButton_5->setEnabled(false);
     ui->pushButton->setText("Restart");
     //If pushButton bind with startGame,
     //unbind startGame then bin restartGame
@@ -120,8 +117,6 @@ void LevelModeWindow::pauseGame(){
         ui->pushButton->setDisabled(true);
         ui->pushButton_3->setDisabled(true);
         ui->pushButton_4->setDisabled(true);
-        ui->pushButton_5->setDisabled(true);
-        ui->pushButton_6->setDisabled(true);
         //ui->pushButton_7->setDisabled(true);
         ui->pushButton_8->setDisabled(true);
         ui->picWidget->setDisabled(true);
@@ -131,9 +126,6 @@ void LevelModeWindow::pauseGame(){
         ui->pushButton->setDisabled(false);
         ui->pushButton_3->setDisabled(false);
         ui->pushButton_4->setDisabled(false);
-        ui->pushButton_5->setDisabled(false);
-        ui->pushButton_6->setDisabled(false);
-        //ui->pushButton_7->setDisabled(false);
         ui->pushButton_8->setDisabled(false);
         ui->picWidget->setDisabled(false);
         ui->pushButton_2->setText("Pause");
@@ -304,8 +296,35 @@ void LevelModeWindow::select(const QString &msg){
             scores += 10;
             ui->Scores->setText(QString::number(scores));
 
-            gameModel.selectedPic = "";
 
+//            if(LEVEL == 1){
+//                int first = gameModel.selectedPic.toInt();
+//                int second = sb->objectName().toInt();
+//                //Handle first
+//                int rows = first / 18;
+//                int columns = first % 18;
+//                //set rawMap
+//                int index = 9;
+//                for(int i = 10; i > 0; i--){
+//                    if((ui->picWidget->findChild<MapButton*>((i + 1) * 18 + columns))->isVisible()){
+//                        gameModel.rawMap[index--][rows - 1] = gameModel.rawMap[i - 1][rows - 1];
+//                    }
+//                }
+
+//                for(int j = index; j > 0; j--){
+//                    gameModel.rawMap[index--][rows - 1] = 0;
+//                }
+
+
+//                for(int i = 10; i > 0; i--){      
+//                    if (i == 0 || i == 11 || j == 0 || j == 17) {
+
+//                    }
+//                }
+//            }
+
+
+            gameModel.selectedPic = "";
 
             if(gameModel.isWin() && LEVEL == 3){
                 QMessageBox *box = new QMessageBox(this);
@@ -324,9 +343,39 @@ void LevelModeWindow::select(const QString &msg){
                 scores += totalTime * 3;
                 totalTime = 200 - LEVEL * 20;
                 LEVEL += 1;
-
-
                 initMap();
+
+//                QCoreApplication::processEvents();
+//                QWidget *cenWidget = new QWidget(window);
+//                window->setCentralWidget(cenWidget);
+//                QLabel *emptyLabel = new QLabel(cenWidget);
+//                QLabel *welcomeLabel = new QLabel(cenWidget);
+//                welcomeLabel->setText("CS3650 Project: Images Matching Game");
+//                QLabel *nameLabel = new QLabel(cenWidget);
+//                nameLabel->setText("\t\t by Zeqing Zhang, Kaimong Wong, Zhaoxing Hong");
+//                QGridLayout *gridLayout = new QGridLayout(cenWidget);
+//                QFont ft;
+//                ft.setPointSize(40);
+//                QPalette pa;
+//                pa.setColor(QPalette::WindowText,Qt::red);
+//                welcomeLabel->setFont(ft);
+//                welcomeLabel->setPalette(pa);
+//                welcomeLabel->setAlignment(Qt::AlignCenter);
+//                ft.setPointSize(24);
+//                nameLabel->setFont(ft);
+//                nameLabel->setPalette(pa);
+//                nameLabel->setAlignment(Qt::AlignCenter);
+
+//                gridLayout->addWidget(emptyLabel);
+//                gridLayout->addWidget(welcomeLabel);
+//                gridLayout->addWidget(nameLabel);
+
+//                window->show();
+//                QTime t;
+//                t.start();
+//                while(t.elapsed()<4000) //Delay 4 seconds for starting page
+//                    QCoreApplication::processEvents();
+//                window->close();
             }
 
         } else {

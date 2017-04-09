@@ -30,19 +30,7 @@ HEADERS  += MainWindow/mainwindow.h \
     Model/game.h \
     Dao/scoredao.h \
     HelpDialog/helpdialog.h \
-<<<<<<< HEAD
-<<<<<<< HEAD
-    Model/DrawLineLayer.h \
-    toolnotification.h \
-    Test/toolnotification copy.h \
-    Test/toolnotification copy.h \
-    Test/toolnotification copy.h
-=======
     Model/DrawLineLayer.h
->>>>>>> RelaxModeZhaoxin
-=======
-    Model/DrawLineLayer.h
->>>>>>> 3c4be450684d76b3ef63321cff622e9b086c2f4a
 
 FORMS    += mainwindow.ui \
     basicmodewindow.ui \
