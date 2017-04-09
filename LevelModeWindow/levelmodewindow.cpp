@@ -307,31 +307,101 @@ void LevelModeWindow::select(const QString &msg){
             ui->Scores->setText(QString::number(scores));
 
 
-//            if(LEVEL == 1){
-//                int first = gameModel.selectedPic.toInt();
-//                int second = sb->objectName().toInt();
-//                //Handle first
-//                int rows = first / 18;
-//                int columns = first % 18;
-//                //set rawMap
-//                int index = 9;
-//                for(int i = 10; i > 0; i--){
-//                    if((ui->picWidget->findChild<MapButton*>((i + 1) * 18 + columns))->isVisible()){
-//                        gameModel.rawMap[index--][rows - 1] = gameModel.rawMap[i - 1][rows - 1];
-//                    }
-//                }
+            if(LEVEL == 1){
+                int first = gameModel.selectedPic.toInt();
+                int second = sb->objectName().toInt();
+                //Handle first
+                int rows1 = first / 18;
+                int columns1 = first % 18;
+                int rows2 = second / 18;
+                int columns2 = second % 18;
+                //set Map
+                //If they are in the same column, then choose the highest height
+                //Else order doesn't matter.
+                if(rows1 < rows2){
+                    for(int j = rows1; j > 1; j--){
+                        gameModel.map[rows1][columns1] = gameModel.map[rows1 - 1][columns1];
+                    }
+                    gameModel.map[1][columns1] = 0;
 
-//                for(int j = index; j > 0; j--){
-//                    gameModel.rawMap[index--][rows - 1] = 0;
-//                }
+                    for(int j = rows2; j > 1; j--){
+                        gameModel.map[rows2][columns2] = gameModel.map[rows2 - 1][columns2];
+                    }
+                    gameModel.map[1][columns2] = 0;
+                }else{
+                    for(int j = rows2; j > 1; j--){
+                        gameModel.map[rows2][columns2] = gameModel.map[rows2 - 1][columns2];
+                    }
+                    gameModel.map[1][columns2] = 0;
+
+                    for(int j = rows1; j > 1; j--){
+                        gameModel.map[rows1][columns1] = gameModel.map[rows1 - 1][columns1];
+                    }
+                    gameModel.map[1][columns1] = 0;
+                }
+
+                //RawMap Set Up
+                for (int i = 0; i < 12; i++) {
+                    for (int j = 0; j < 18; j++) {
+                        //To avoid i - 1 or j - 1 out of bound
+                        if (i == 0 || i == 11 || j == 0 || j == 17) {
+                            continue;
+                        }
+                        gameModel.rawMap[i-1][j-1] = gameModel.map[i][j];
+                    }
+                }
+
+                //Draw Graph
+                auto children = ui->picWidget->children();
+                for (int i = 1; i < 217; i++) {
+                    if (children[i]->objectName() != "") {
+                        grid->removeWidget((QWidget*)children[i]);
+                        children[i]->deleteLater();
+                    }
+                }
 
 
-//                for(int i = 10; i > 0; i--){
-//                    if (i == 0 || i == 11 || j == 0 || j == 17) {
+                for (int i = 0; i < 12; i++) {
+                    for (int j = 0; j < 18; j++) {
+                        //Add Around Images
+                        if (i == 0 || i == 11 || j == 0 || j == 17) {
+                            MapButton *w = new MapButton();
+                            w->setStyleSheet("background:transparent");
+                            w->setObjectName(QString::number(i * 18 + j));
+                            w->setMinimumSize(40, 40);
+                            w->setMaximumSize(40, 40);
+                            w->setParent(ui->picWidget);
+                            grid->addWidget(w, i, j);
+                            continue;
+                        }
 
-//                    }
-//                }
-//            }
+                        int randomPicIndex = gameModel.rawMap[i-1][j-1];
+                        MapButton *pic = new MapButton();
+                        //If the image is deleted, then set the randimPicIndex to be 0. Means it is deleted.
+                        if (randomPicIndex == 0) {
+                            pic->setStyleSheet("background:transparent");
+                            //i means the number of rows and j is the number of columns.
+                            pic->setObjectName(QString::number(i * 18 + j));
+                            //Set the size of icons to fill the widge
+                            pic->setIconSize(QSize(40, 40));
+                            pic->setMinimumSize(40, 40);
+                            pic->setMaximumSize(40, 40);
+                            pic->setVisible(false);
+                            gameModel.map[i][j] = 0;
+                        } else {
+                            pic->setIcon(QIcon(":/icon/res/" + QString::number(randomPicIndex) + ".png"));
+                            pic->setObjectName(QString::number(i * 18 + j));
+                            pic->setIconSize(QSize(40, 40));
+                            pic->setMinimumSize(40, 40);
+                            pic->setMaximumSize(40, 40);
+                            pic->setCheckable(true);
+                            connect(pic, &MapButton::keyClicked, this, &LevelModeWindow::select);
+                            gameModel.map[i][j] = randomPicIndex;
+                        }
+                        grid->addWidget(pic, i, j);
+                    }
+                }
+            }
 
 
             gameModel.selectedPic = "";
