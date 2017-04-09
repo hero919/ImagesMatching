@@ -36,7 +36,6 @@ private:
     QTableView *rankTableView;
     ScoreDao *scoreDao;
     QSound sound;
-    bool firstTimeLoadPage = true;
 
 
 };

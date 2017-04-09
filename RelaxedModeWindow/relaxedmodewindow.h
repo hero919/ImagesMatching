@@ -2,14 +2,22 @@
 #define RELAXEDMODEWINDOW_H
 
 #include <QMainWindow>
-#include "BasicModeWindow/basicmodewindow.h"
+#include <QGridLayout>
+#include <QString>
+#include "Model/game.h"
+#include <QTimer>
+#include <QPainter>
+#include "Model/DrawLineLayer.h"
+#include <HelpDialog/helpdialog.h>
+#include <QSpinBox>
 #include "Dao/scoredao.h"
+#include "Model/mapbutton.h"
 
 namespace Ui {
 class RelaxedModeWindow;
 }
 
-class RelaxedModeWindow : public BasicModeWindow
+class RelaxedModeWindow : public QMainWindow
 {
     Q_OBJECT
 
@@ -22,19 +30,30 @@ public:
     ~RelaxedModeWindow();
 
 private:
+    Game gameModel; //model层，用来进行逻辑处理
+    QGridLayout *grid;
+    double totleTime = 100; //总时间
+    double speed = 0.5; //速率系数
+    int PIC_NUM = 8; //花色数
+    QTimer *timer;
+    QPainter* painter;
+    DrawLineLayer* drawLineLayer; //用于画线的layer
+    HelpDialog *helpDialog;
+    QSpinBox *box; // 设置时间
+    QSpinBox *box2; // 设置花色数
+    QDialog *changeSpeedDialog;
+    ScoreDao *scoreDao;
+
     Ui::RelaxedModeWindow *ui;
     int credit = 0;
     int creditIncrement = 0;
     int toolsNum = 0;
     bool isUsingTool = false;
-    QSpinBox *box2; // 设置花色数
-    ScoreDao *scoreDao; //数据层
 
     void increaseCredit();
     void decreaseCredit(int num);
     bool creditIsEnoughForReset();
     bool creditIsEnoughForHint();
-    //bool isUsingTool();
 
 public slots:
     void startGame();
@@ -48,8 +67,6 @@ public slots:
     void _changeSpeed();
     void useTool(); //使用道具
     void BackToMainPage();
-
-
 };
 
 #endif // RELAXEDMODEWINDOW_H

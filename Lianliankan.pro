@@ -20,8 +20,7 @@ SOURCES += main.cpp\
     Model/game.cpp \
     Dao/scoredao.cpp \
     HelpDialog/helpdialog.cpp \
-    Model/DrawLineLayer.cpp \
-    toolnotification.cpp
+    Model/DrawLineLayer.cpp
 
 HEADERS  += MainWindow/mainwindow.h \
     BasicModeWindow/basicmodewindow.h \
@@ -31,11 +30,7 @@ HEADERS  += MainWindow/mainwindow.h \
     Model/game.h \
     Dao/scoredao.h \
     HelpDialog/helpdialog.h \
-    Model/DrawLineLayer.h \
-    toolnotification.h \
-    Test/toolnotification copy.h \
-    Test/toolnotification copy.h \
-    Test/toolnotification copy.h
+    Model/DrawLineLayer.h
 
 FORMS    += mainwindow.ui \
     basicmodewindow.ui \
@@ -47,5 +42,4 @@ RESOURCES += \
 
 DISTFILES += \
     FindatoolForm.ui.qml \
-    Findatool.qml \
-    res/backgrand.jpg
+    Findatool.qml
