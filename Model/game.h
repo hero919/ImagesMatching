@@ -28,9 +28,13 @@ public:
     //init board
     void init();
 
+    //convert image position
+    void getPosition(int &x1, int &y1, int &x2, int & y2, QString pic1, QString pic2);
+    void getOnePosition(int &x1,int&y1,QString pic1);
+
 
 private:
-    void getPosition(int &x1, int &y1, int &x2, int & y2, QString pic1, QString pic2);
+
     bool link(int x1, int y1, int x2, int y2);
 
 };

@@ -18,6 +18,11 @@ void Game::getPosition(int &x1, int &y1, int &x2, int & y2, QString pic1, QStrin
     y2 = pic2.toInt() % 18;
 }
 
+void Game::getOnePosition(int &x1,int&y1,QString pic1) {
+    x1 = pic1.toInt() / 18;
+    y1 = pic1.toInt() % 18;
+}
+
 //Link without corner
 bool Game::link(int x1, int y1, int x2, int y2) {
     int k = 0;
@@ -133,7 +138,7 @@ bool Game::linkWithTwoCorner(QString pic1, QString pic2, QString& pos2, QString&
     }
 
     bool planA = false, planB = false, planC = false, planD = false;
-    //向上
+    //move up
     for (int i = x1 - 1; i >= 0; i--) {
         if (map[i][y1] != 0)
             break;
@@ -154,7 +159,7 @@ bool Game::linkWithTwoCorner(QString pic1, QString pic2, QString& pos2, QString&
         map[i][y1] = 0;
     }
 
-    //向左
+    //move left
     for (int i = y1 - 1; i >= 0; i--) {
         if (map[x1][i] != 0)
             break;
@@ -176,7 +181,7 @@ bool Game::linkWithTwoCorner(QString pic1, QString pic2, QString& pos2, QString&
         map[x1][i] = 0;
     }
 
-    //向右
+    //move right
     for (int i = y1 + 1; i < 18; i++) {
         if (map[x1][i] != 0)
             break;
@@ -198,7 +203,7 @@ bool Game::linkWithTwoCorner(QString pic1, QString pic2, QString& pos2, QString&
         map[x1][i] = 0;
     }
 
-    //向下
+    //move down
     for (int i = x1 + 1; i < 12; i++) {
         if (map[i][y1] != 0)
             break;

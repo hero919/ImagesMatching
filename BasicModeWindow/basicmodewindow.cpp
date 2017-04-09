@@ -148,7 +148,6 @@ void BasicModeWindow::select(const QString &msg) {
         if (gameModel.selectedPic == sb->objectName()) {
             sb->setChecked(false);
             gameModel.selectedPic = "";
-
         }
         //no image get selected
         else if (gameModel.selectedPic == "") {
@@ -159,6 +158,10 @@ void BasicModeWindow::select(const QString &msg) {
                  || gameModel.linkWithOneCorner(gameModel.selectedPic, sb->objectName(), pos2)
                  || gameModel.linkWithTwoCorner(gameModel.selectedPic, sb->objectName(), pos2, pos3))
         {
+            //get the position of two images
+            int y1,x1,y2,x2;
+            gameModel.getPosition(y1,x1,y2,x2, gameModel.selectedPic,sb->objectName());
+
             //draw line to connet two images
             drawLine(gameModel.selectedPic, sb->objectName(), pos2, pos3);
             //eliminate images
@@ -171,15 +174,64 @@ void BasicModeWindow::select(const QString &msg) {
 
             gameModel.selectedPic = "";
 
-            //change y pos
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 216;i++) {
+                int a,b;
+                QString q1 = QString::number(i);
+                gameModel.getOnePosition(a,b,q1);
+                int c,d;
+                QString q2 = QString::number(i);
+                gameModel.getOnePosition(c,d,q2);
 
-                for (int j = 0; j < 16; j++) {
-                    gameModel.rawMap[i][j] = gameModel.totalPic++ % PIC_NUM + 1;
+
+                //while two images are in the same column
+                if(x1 == x2) {
+//                    int v = y2 - y1;
+//                    if(v == 1) {
+//                        int e,f;
+//                        QString q3 = QString::number(i);
+//                        gameModel.getOnePosition(e,f,q3);
+//                        if( e < i) {
+//                            MapButton *image3 = ui->picWidget->findChild<MapButton*>(q3);
+//                            image3->setStyleSheet("background:transparent");
+//                            image3->setParent(ui->picWidget);
+//                            grid->addWidget(image3,y2+1,x1);
+//                        }
+                    }
+
+
+
+
+
+                //while two images are corner connected
+
+                //for images above selected image1
+                if(a < y1 && b == x1) {
+                    MapButton *image1 = ui->picWidget->findChild<MapButton*>(q1);
+                    image1->setChecked(true);
+                    image1->setStyleSheet("background:transparent");
+                    image1->setParent(ui->picWidget);
+                    grid->addWidget(image1,a+1,b);
+
+
                 }
-            }
-            //repaint
 
+                //for images above selected image2
+                if(c < y2 && d == x2) {
+                    MapButton *image2 = ui->picWidget->findChild<MapButton*>(q2);
+                    image2->setStyleSheet("background:transparent");
+                    image2->setParent(ui->picWidget);
+                    grid->addWidget(image2,c+1,d);
+
+                }
+
+
+
+
+
+
+
+
+            }
 
 
             //Does the player win the game?
