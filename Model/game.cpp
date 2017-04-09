@@ -26,12 +26,12 @@ bool Game::link(int x1, int y1, int x2, int y2) {
         return false;
     }
 
-    //Two Images with different contents
+    //Two different images
     if (map[x1][y1] != map[x2][y2]) {
         return false;
     }
 
-    //Map to determing wether two images are the same image
+    //Map to determing wether two images are the same
     if (map[x1][y1] == 0 || map[x2][y2] == 0) {
         return false;
     }
