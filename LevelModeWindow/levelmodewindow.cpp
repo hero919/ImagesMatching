@@ -49,7 +49,6 @@ LevelModeWindow::LevelModeWindow(QWidget *parent) :
     connect(timer,SIGNAL(timeout()),this,SLOT(timerUpDate())); //Connect timer and update function
     connect(ui->pushButton_3, SIGNAL(clicked(bool)), this, SLOT(findHint()));
     connect(ui->pushButton_4, SIGNAL(clicked(bool)), this, SLOT(resetMap()));
-    connect(ui->pushButton_5, SIGNAL(clicked(bool)), this, SLOT(changeSpeed()));
     connect(ui->pushButton_8, SIGNAL(clicked(bool)), this, SLOT(showHelp()));
     connect(ui->BackToMain, SIGNAL(clicked(bool)), this, SLOT(BackToMainPage()));
     startGame();
@@ -183,10 +182,6 @@ void LevelModeWindow::resetMap(){
     reset(true);
 }
 
-
-void LevelModeWindow::changeSpeed(){
-
-}
 
 void LevelModeWindow::showHelp(){
     HelpDialog *helpDialog = new HelpDialog(this);
@@ -377,9 +372,7 @@ void LevelModeWindow::reStartGame(){
     startGame();
 }
 
-void LevelModeWindow::_changeSpeed(){
 
-}
 
 
 void LevelModeWindow::drawLine(QString pic1, QString pic2, QString pos2, QString pos3) {

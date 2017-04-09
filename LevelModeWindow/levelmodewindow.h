@@ -59,8 +59,6 @@ public slots:
     void resetMap(); //图片重排
     void findHint(); //提示
     void showHelp(); //显示帮助
-    void changeSpeed();
-    void _changeSpeed();
     void BackToMainPage();
 
 };
