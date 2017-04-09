@@ -32,7 +32,10 @@ HEADERS  += MainWindow/mainwindow.h \
     Dao/scoredao.h \
     HelpDialog/helpdialog.h \
     Model/DrawLineLayer.h \
-    toolnotification.h
+    toolnotification.h \
+    Test/toolnotification copy.h \
+    Test/toolnotification copy.h \
+    Test/toolnotification copy.h
 
 FORMS    += mainwindow.ui \
     basicmodewindow.ui \
@@ -44,4 +47,5 @@ RESOURCES += \
 
 DISTFILES += \
     FindatoolForm.ui.qml \
-    Findatool.qml
+    Findatool.qml \
+    res/backgrand.jpg
