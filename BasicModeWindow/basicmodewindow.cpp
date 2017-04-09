@@ -15,17 +15,25 @@ BasicModeWindow::BasicModeWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::BasicModeWindow)
 {
+    //initialize ui
     ui->setupUi(this);
     setWindowTitle("Images Matching Game");
     scoreDao = new ScoreDao();
     scoreDao->init();
     gameModel.init();
     helpDialog = new HelpDialog(ui->picWidget);
+<<<<<<< HEAD
     //initialize progressBar
     ui->progressBar->setValue(totalTime);
 
     //picWidget is the blank area in main window
     //initialize game model
+=======
+    ui->progressBar->setValue(totleTime);
+    //picWidget is the blank area in main window
+
+    //initialize game board
+>>>>>>> master
     grid = new QGridLayout(ui->picWidget);
 
     timer = new QTimer(this);
@@ -33,6 +41,7 @@ BasicModeWindow::BasicModeWindow(QWidget *parent) :
     drawLineLayer = new DrawLineLayer(this);
     drawLineLayer->hide();
     drawLineLayer->setGeometry(QRect(0, 0, 720, 480));
+<<<<<<< HEAD
     ui->pauseButton->setEnabled(false);
     ui->hintButton->setEnabled(false);
     ui->resetButton->setEnabled(false);
@@ -45,6 +54,20 @@ BasicModeWindow::BasicModeWindow(QWidget *parent) :
     connect(ui->resetButton, SIGNAL(clicked(bool)), this, SLOT(resetMap()));
     connect(ui->settingButton, SIGNAL(clicked(bool)), this, SLOT(changeSpeed()));
     connect(ui->helpButton, SIGNAL(clicked(bool)), this, SLOT(showHelp()));
+=======
+    ui->pushButton_2->setEnabled(false);
+    ui->pushButton_3->setEnabled(false);
+    ui->pushButton_4->setEnabled(false);
+
+    //Set Sinal and slots for buttons
+    connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(startGame()));
+    connect(ui->pushButton_2, SIGNAL(clicked(bool)), this, SLOT(pauseGame()));
+    connect(timer,SIGNAL(timeout()),this,SLOT(timerUpDate()));
+    connect(ui->pushButton_3, SIGNAL(clicked(bool)), this, SLOT(findHint()));
+    connect(ui->pushButton_4, SIGNAL(clicked(bool)), this, SLOT(resetMap()));
+    connect(ui->pushButton_5, SIGNAL(clicked(bool)), this, SLOT(changeSpeed()));
+    connect(ui->pushButton_6, SIGNAL(clicked(bool)), this, SLOT(showHelp()));
+>>>>>>> master
     connect(ui->BackToMain, SIGNAL(clicked(bool)), this, SLOT(BackToMainPage()));
 }
 
@@ -66,6 +89,7 @@ void BasicModeWindow::BackToMainPage(){
 
 
 void BasicModeWindow::startGame() {
+<<<<<<< HEAD
     //initialize game board
     initMap();
     totalTime = 100;
@@ -82,6 +106,24 @@ void BasicModeWindow::startGame() {
 
 void BasicModeWindow::reStartGame() {
     //shuffle
+=======
+    //shuffle game board
+    initMap();
+    totleTime = 100;
+    timer->start(1000);
+    ui->pushButton_2->setEnabled(true);
+    ui->pushButton_3->setEnabled(true);
+    ui->pushButton_4->setEnabled(true);
+    ui->pushButton_5->setEnabled(false);
+    ui->pushButton->setText("Restart");
+    //To restart game, disconnect startGame slot then connect
+    if (disconnect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(startGame())))
+        connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(reStartGame()));
+}
+
+void BasicModeWindow::reStartGame() {
+    //clear game board
+>>>>>>> master
     auto children = ui->picWidget->children();
     for (int i = 1; i < 217; i++) {
         if (children[i]->objectName() != "") {
@@ -94,6 +136,7 @@ void BasicModeWindow::reStartGame() {
 
 
 void BasicModeWindow::resetMap() {
+    //reset game board
     auto children = ui->picWidget->children();
     for (int i = 1; i < 217; i++) {
         if (children[i]->objectName() != "") {
@@ -127,7 +170,10 @@ void BasicModeWindow::pauseGame() {
 void BasicModeWindow::initMap() {
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 16; j++) {
+<<<<<<< HEAD
             //board initialization
+=======
+>>>>>>> master
             gameModel.rawMap[i][j] = gameModel.totalPic++ % PIC_NUM + 1;
         }
     }
@@ -137,13 +183,17 @@ void BasicModeWindow::initMap() {
 }
 
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> master
 void BasicModeWindow::select(const QString &msg) {
     QString pos2, pos3;
     MapButton *sb = ui->picWidget->findChild<MapButton*>(msg);
     if (sb != NULL) {
+<<<<<<< HEAD
         //click on just one image
         if (gameModel.selectedPic == sb->objectName()) {
             sb->setChecked(false);
@@ -165,6 +215,26 @@ void BasicModeWindow::select(const QString &msg) {
             //draw line to connet two images
             drawLine(gameModel.selectedPic, sb->objectName(), pos2, pos3);
             //eliminate images
+=======
+        //click on same image twice
+        if (gameModel.selectedPic == sb->objectName()) {
+            sb->setChecked(false);
+            gameModel.selectedPic = "";
+
+        }
+        //none image get selected
+        else if (gameModel.selectedPic == "") {
+            gameModel.selectedPic = sb->objectName();
+        }
+        //player select two images that can be eliminated
+        else if (gameModel.linkWithNoCorner(gameModel.selectedPic, sb->objectName())
+                   || gameModel.linkWithOneCorner(gameModel.selectedPic, sb->objectName(), pos2)
+                   || gameModel.linkWithTwoCorner(gameModel.selectedPic, sb->objectName(), pos2, pos3)) {
+
+            drawLine(gameModel.selectedPic, sb->objectName(), pos2, pos3);
+
+            //uncheck images and set invisible
+>>>>>>> master
             MapButton *p1 = ui->picWidget->findChild<MapButton*>(gameModel.selectedPic);
             MapButton *p2 = ui->picWidget->findChild<MapButton*>(sb->objectName());
             p1->setVisible(false);
@@ -209,6 +279,7 @@ void BasicModeWindow::select(const QString &msg) {
                     image1->setParent(ui->picWidget);
                     grid->addWidget(image1,a+1,b);
 
+<<<<<<< HEAD
 
                 }
 
@@ -225,11 +296,15 @@ void BasicModeWindow::select(const QString &msg) {
 
 
             //Does the player win the game?
+=======
+            //decide if player wins
+>>>>>>> master
             if (gameModel.isWin()){
                 QMessageBox *box = new QMessageBox(this);
                 box->setInformativeText("Congratulations！");
                 box->show();
                 timer->stop();
+<<<<<<< HEAD
                 ui->pauseButton->setEnabled(false);
                 ui->hintButton->setEnabled(false);
                 ui->resetButton->setEnabled(false);
@@ -238,6 +313,17 @@ void BasicModeWindow::select(const QString &msg) {
                 //get current ime
                 QDateTime time = QDateTime::currentDateTime();
                 QString name = time.toString("yyyyMMddhhmm");
+=======
+                ui->pushButton_2->setEnabled(false);
+                ui->pushButton_3->setEnabled(false);
+                ui->pushButton_4->setEnabled(false);
+
+                //display current time
+                QDateTime time = QDateTime::currentDateTime();
+                QString name = time.toString("yyyyMMddhhmm");
+
+                //insert a record to rank
+>>>>>>> master
                 int s = (160 - gameModel.totalPic) * 5;
                 if (s < 0)
                     s = 0;
@@ -250,7 +336,11 @@ void BasicModeWindow::select(const QString &msg) {
             }
 
         }
+<<<<<<< HEAD
         //select two images that cannot be eliminated
+=======
+        //player select two images that can not be eliminated
+>>>>>>> master
         else {
             MapButton *p1 = ui->picWidget->findChild<MapButton*>(gameModel.selectedPic);
             p1->setChecked(false);
@@ -261,6 +351,7 @@ void BasicModeWindow::select(const QString &msg) {
 }
 
 void BasicModeWindow::timerUpDate() {
+<<<<<<< HEAD
     //update timer
     totalTime -= speed;
     //update prograss bar
@@ -271,6 +362,19 @@ void BasicModeWindow::timerUpDate() {
         //get current ime
         QDateTime time = QDateTime::currentDateTime();
         QString name = time.toString("yyyyMMddhhmm");
+=======
+    //update timer by decresing 0.5
+    totleTime -= speed;
+    //update prograss bar
+    ui->progressBar->setValue(totleTime);
+
+    if (totleTime == 0) {
+       //display current time
+        QDateTime time = QDateTime::currentDateTime();
+        QString name = time.toString("yyyyMMddhhmm");
+
+        //insert a record to rank
+>>>>>>> master
         int s = (160 - gameModel.totalPic) * 5;
         if (s < 0)
             s = 0;
@@ -282,7 +386,11 @@ void BasicModeWindow::timerUpDate() {
         scoreDao->outputItem(name, score);
 
         QMessageBox *box = new QMessageBox(this);
+<<<<<<< HEAD
         box->setInformativeText("Time is up！");
+=======
+        box->setInformativeText("Time is Up！");
+>>>>>>> master
         box->show();
         ui->startButton->setEnabled(true);
         ui->pauseButton->setEnabled(false);
@@ -392,7 +500,10 @@ void BasicModeWindow::reset(bool flag) {
     }
     for (int i = 0; i < 12; i++) {
         for (int j = 0; j < 18; j++) {
+<<<<<<< HEAD
             //add surrounding Images
+=======
+>>>>>>> master
             if (i == 0 || i == 11 || j == 0 || j == 17) {
                 MapButton *w = new MapButton();
                 w->setStyleSheet("background:transparent");
@@ -453,7 +564,11 @@ void BasicModeWindow::changeSpeed() {
     layout->addWidget(box, 0, 1);
     layout->addWidget(label2, 1, 0);
     layout->addWidget(box2, 1, 1);
+<<<<<<< HEAD
     QPushButton *button = new QPushButton("OK");
+=======
+    QPushButton *button = new QPushButton("Confirm");
+>>>>>>> master
     connect(button, SIGNAL(clicked(bool)), this, SLOT(_changeSpeed()));
     layout->addWidget(button, 2, 0);
     changeSpeedDialog->setLayout(layout);

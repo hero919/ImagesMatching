@@ -4,6 +4,7 @@
 
 using namespace std;
 
+//Test
 bool Game::isWin() {
     return totalPic == 0;
 }

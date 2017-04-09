@@ -3,16 +3,28 @@
 
 #include <QString>
 
+<<<<<<< HEAD
+=======
+/**
+ * construct basic game model
+ */
+>>>>>>> master
 class Game {
 public:
     //blank board
     int map[12][18];
     //select by player
     QString selectedPic;
+<<<<<<< HEAD
     //total pics on the board
     int totalPic = 0;
     bool flagA = false, flagB = false, flagC = false;
     //images
+=======
+
+    int totalPic = 0;
+    bool flagA = false, flagB = false, flagC = false;
+>>>>>>> master
     int rawMap[10][16];
 
     bool linkWithNoCorner(QString pic1, QString pic2);
@@ -32,6 +44,11 @@ public:
     void getPosition(int &x1, int &y1, int &x2, int & y2, QString pic1, QString pic2);
     void getOnePosition(int &x1,int&y1,QString pic1);
 
+<<<<<<< HEAD
+=======
+protected:
+    bool linkWithNoCorner(int &x1, int &y1, int &x2, int & y2);
+>>>>>>> master
 
 private:
 

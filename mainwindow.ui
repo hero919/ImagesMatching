@@ -52,7 +52,7 @@
      <string notr="true">background-image: url();</string>
     </property>
     <property name="text">
-     <string>Relex Mode</string>
+     <string>Relaxed Mode</string>
     </property>
    </widget>
    <widget class="QPushButton" name="button3">
@@ -60,7 +60,7 @@
      <rect>
       <x>30</x>
       <y>220</y>
-      <width>113</width>
+      <width>111</width>
       <height>51</height>
      </rect>
     </property>

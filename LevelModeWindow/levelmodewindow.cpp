@@ -87,7 +87,7 @@ void LevelModeWindow::timerUpDate(){
     if(totalTime == 0){
         QMessageBox *box = new QMessageBox(this);
         box->setInformativeText("Time is UP!!!");
-        box->setStyleSheet("QLabel{height: 100px;min-height: 100px; max-height: 100px; width: 100px;min-width: 100px; max-wdith: 100px;}");
+        box->setStyleSheet("QLabel{height: 80px;min-height: 80px; max-height: 80px; width: 80px;min-width: 80px; max-wdith: 80px;}");
         box->show();
         timer->stop();
         ui->pushButton->setEnabled(false);

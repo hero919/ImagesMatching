@@ -20,9 +20,9 @@
    <widget class="QWidget" name="picWidget" native="true">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>720</width>
+      <x>10</x>
+      <y>20</y>
+      <width>711</width>
       <height>480</height>
      </rect>
     </property>
@@ -46,7 +46,7 @@
      <string notr="true">background-color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>开始游戏</string>
+     <string>Start</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_2">
@@ -62,7 +62,7 @@
      <string notr="true">background-color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>暂停游戏</string>
+     <string>Pause</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_3">
@@ -78,7 +78,7 @@
      <string notr="true">background-color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>提示</string>
+     <string>Hint</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_4">
@@ -94,15 +94,15 @@
      <string notr="true">background-color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>重排</string>
+     <string>Reset</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_5">
     <property name="geometry">
      <rect>
-      <x>720</x>
-      <y>210</y>
-      <width>71</width>
+      <x>710</x>
+      <y>370</y>
+      <width>91</width>
       <height>41</height>
      </rect>
     </property>
@@ -110,7 +110,7 @@
      <string notr="true">background-color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>使用道具</string>
+     <string>Use Tool</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_7">
@@ -126,7 +126,7 @@
      <string notr="true">background-color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>设置</string>
+     <string>Settings</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_8">
@@ -142,7 +142,7 @@
      <string notr="true">background-color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>帮助</string>
+     <string>Help</string>
     </property>
    </widget>
    <widget class="QLabel" name="label">
@@ -158,7 +158,7 @@
      <string notr="true">font: 13pt &quot;.SF NS Text&quot;;</string>
     </property>
     <property name="text">
-     <string>积分：</string>
+     <string>Scores：</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
@@ -182,12 +182,12 @@
      <rect>
       <x>30</x>
       <y>500</y>
-      <width>59</width>
+      <width>121</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>剩余时间：</string>
+     <string>Remaining Time：</string>
     </property>
    </widget>
    <widget class="QProgressBar" name="progressBar">
@@ -213,7 +213,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>道具数量：</string>
+     <string>Tools：</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_5">
@@ -230,6 +230,22 @@
     </property>
     <property name="text">
      <string>0</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="BackToMain">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>210</y>
+      <width>91</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="acceptDrops">
+     <bool>false</bool>
+    </property>
+    <property name="text">
+     <string>Main Page</string>
     </property>
    </widget>
   </widget>
