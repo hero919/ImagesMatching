@@ -50,7 +50,7 @@ LevelModeWindow::LevelModeWindow(QWidget *parent) :
     connect(ui->pushButton_3, SIGNAL(clicked(bool)), this, SLOT(findHint()));
     connect(ui->pushButton_4, SIGNAL(clicked(bool)), this, SLOT(resetMap()));
     connect(ui->pushButton_5, SIGNAL(clicked(bool)), this, SLOT(changeSpeed()));
-    connect(ui->pushButton_6, SIGNAL(clicked(bool)), this, SLOT(showHelp()));
+    connect(ui->pushButton_8, SIGNAL(clicked(bool)), this, SLOT(showHelp()));
     connect(ui->BackToMain, SIGNAL(clicked(bool)), this, SLOT(BackToMainPage()));
     startGame();
 }
@@ -95,7 +95,6 @@ void LevelModeWindow::timerUpDate(){
         ui->pushButton_3->setEnabled(false);
         ui->pushButton_4->setEnabled(false);
         ui->pushButton_5->setEnabled(false);
-        ui->pushButton_6->setEnabled(false);
     }
 }
 
@@ -123,8 +122,6 @@ void LevelModeWindow::pauseGame(){
         ui->pushButton_3->setDisabled(true);
         ui->pushButton_4->setDisabled(true);
         ui->pushButton_5->setDisabled(true);
-        ui->pushButton_6->setDisabled(true);
-        //ui->pushButton_7->setDisabled(true);
         ui->pushButton_8->setDisabled(true);
         ui->picWidget->setDisabled(true);
         ui->pushButton_2->setText("Consume");
@@ -134,8 +131,6 @@ void LevelModeWindow::pauseGame(){
         ui->pushButton_3->setDisabled(false);
         ui->pushButton_4->setDisabled(false);
         ui->pushButton_5->setDisabled(false);
-        ui->pushButton_6->setDisabled(false);
-        //ui->pushButton_7->setDisabled(false);
         ui->pushButton_8->setDisabled(false);
         ui->picWidget->setDisabled(false);
         ui->pushButton_2->setText("Pause");
@@ -194,6 +189,7 @@ void LevelModeWindow::changeSpeed(){
 }
 
 void LevelModeWindow::showHelp(){
+    HelpDialog *helpDialog = new HelpDialog(this);
     helpDialog->showHelpDialog();
 }
 
@@ -305,35 +301,6 @@ void LevelModeWindow::select(const QString &msg){
             p2->setStyleSheet("background:transparent");
             scores += 10;
             ui->Scores->setText(QString::number(scores));
-
-
-//            if(LEVEL == 1){
-//                int first = gameModel.selectedPic.toInt();
-//                int second = sb->objectName().toInt();
-//                //Handle first
-//                int rows = first / 18;
-//                int columns = first % 18;
-//                //set rawMap
-//                int index = 9;
-//                for(int i = 10; i > 0; i--){
-//                    if((ui->picWidget->findChild<MapButton*>((i + 1) * 18 + columns))->isVisible()){
-//                        gameModel.rawMap[index--][rows - 1] = gameModel.rawMap[i - 1][rows - 1];
-//                    }
-//                }
-
-//                for(int j = index; j > 0; j--){
-//                    gameModel.rawMap[index--][rows - 1] = 0;
-//                }
-
-
-//                for(int i = 10; i > 0; i--){
-//                    if (i == 0 || i == 11 || j == 0 || j == 17) {
-
-//                    }
-//                }
-//            }
-
-
             gameModel.selectedPic = "";
 
             if(gameModel.isWin() && LEVEL == 3){
