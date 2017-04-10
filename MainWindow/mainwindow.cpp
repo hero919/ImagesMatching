@@ -47,8 +47,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::playMusic(){
     QPushButton *musicButton = ui->MusicButton;
-    musicButton->setIcon(QIcon(":/icon/res/1.png"));
-    musicButton->setIconSize(QSize(40,40));
+    musicButton->setIcon(QIcon(":/icon/res/pause.png"));
+    musicButton->setIconSize(QSize(30,30));
     sound.play();
     if(disconnect(ui->MusicButton, SIGNAL(clicked(bool)), this, SLOT(playMusic()))){
         connect(ui->MusicButton, SIGNAL(clicked(bool)), this, SLOT(stopMusic()));
@@ -58,8 +58,8 @@ void MainWindow::playMusic(){
 
 void MainWindow::stopMusic(){
     QPushButton *musicButton = ui->MusicButton;
-    musicButton->setIcon(QIcon(":/icon/res/2.png"));
-    musicButton->setIconSize(QSize(40,40));
+    musicButton->setIcon(QIcon(":/icon/res/play.png"));
+    musicButton->setIconSize(QSize(30,30));
     sound.stop();
     if(disconnect(ui->MusicButton, SIGNAL(clicked(bool)), this, SLOT(stopMusic()))){
         connect(ui->MusicButton, SIGNAL(clicked(bool)), this, SLOT(playMusic()));
