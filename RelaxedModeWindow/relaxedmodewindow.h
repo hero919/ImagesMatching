@@ -10,7 +10,6 @@
 #include "Model/DrawLineLayer.h"
 #include <HelpDialog/helpdialog.h>
 #include <QSpinBox>
-#include "Dao/scoredao.h"
 #include "Model/mapbutton.h"
 #include <QSet>
 #include <QMainWindow>

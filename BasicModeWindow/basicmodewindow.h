@@ -10,7 +10,6 @@
 #include "Model/DrawLineLayer.h"
 #include <HelpDialog/helpdialog.h>
 #include <QSpinBox>
-#include "Dao/scoredao.h"
 
 namespace Ui {
 class BasicModeWindow;

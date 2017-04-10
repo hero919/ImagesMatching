@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/images">
-        <file>res/background1.jpg</file>
         <file>res/Pokemon.jpg</file>
     </qresource>
     <qresource prefix="/icon">
@@ -35,9 +34,7 @@
         <file>res/play.png</file>
     </qresource>
     <qresource prefix="/music">
-        <file>res/Pokemon01.mp3</file>
         <file>res/Pokemon01.wav</file>
-        <file>../Downloads/Pokemon02.mp3</file>
-        <file>../Downloads/Pokemon02.wav</file>
+        <file>res/Pokemon02.wav</file>
     </qresource>
 </RCC>

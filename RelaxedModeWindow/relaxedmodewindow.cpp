@@ -7,11 +7,11 @@
 RelaxedModeWindow::RelaxedModeWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::RelaxedModeWindow),
-    sound(":/music/res/Music01.wav")
+    sound(":/music/res/Pokemon02.wav")
 {
     ui->setupUi(this);
     setWindowTitle("IMages Matching Game");
-
+    sound.play();
     gameModel.init();
     helpDialog = new HelpDialog(ui->picWidget);
     ui->progressBar->setValue(totleTime);
@@ -60,7 +60,6 @@ void RelaxedModeWindow::startGame() {
 
     credit = 0;
     ui->label_2->setText(QString::number(credit));
-
     ui->pushButton_2->setEnabled(true);
     ui->pushButton->setText("Restart");
     //如果pushButton之前绑定了startGame方法, 就先解除绑定，然后绑定reStartGame方法

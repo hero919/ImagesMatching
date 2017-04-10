@@ -6,7 +6,6 @@
 #include <QDialog>
 #include <QTableView>
 #include <QSound>
-#include "Dao/scoredao.h"
 
 namespace Ui {
 class MainWindow;
@@ -48,26 +47,27 @@ public slots:
      * Display a basic mode game
      */
     void showBasicModeWindow();
+
     /**
      * Display a relax mode game
      */
     void showRelaxedModeWindow();
+
     /**
      * Display a level mode game
      */
     void showLevelModeWindow();
+
     /**
      * Display Help Dialog
      */
     void showHelp();
-    /**
-     * Display Rank
-     */
-    void showRankingList();
+
     /**
      * Play backgroud music
      */
     void playMusic();
+
     /**
      * Pause background music
      */
@@ -78,15 +78,11 @@ private:
      * UI
      */
     Ui::MainWindow *ui;
-    /**
-     * Rank Table
-     */
-    QTableView *rankTableView;
+
     /**
      * Deciding if player gets navigated to main menu
      */
     bool isBack_;
-
 };
 
 #endif // MAINWINDOW_H

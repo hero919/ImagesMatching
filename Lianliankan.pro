@@ -18,7 +18,6 @@ SOURCES += main.cpp\
     RelaxedModeWindow/relaxedmodewindow.cpp \
     LevelModeWindow/levelmodewindow.cpp \
     Model/game.cpp \
-    Dao/scoredao.cpp \
     HelpDialog/helpdialog.cpp \
     Model/DrawLineLayer.cpp
 
