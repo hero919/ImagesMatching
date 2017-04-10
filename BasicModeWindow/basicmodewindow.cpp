@@ -17,8 +17,6 @@ BasicModeWindow::BasicModeWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle("Images Matching Game");
-//    scoreDao = new ScoreDao();
-//    scoreDao->init();
     gameModel.init();
     helpDialog = new HelpDialog(ui->picWidget);
     ui->progressBar->setValue(totleTime);//Initialize progressBar
