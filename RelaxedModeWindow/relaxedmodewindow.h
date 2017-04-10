@@ -1,32 +1,36 @@
 #ifndef RELAXEDMODEWINDOW_H
 #define RELAXEDMODEWINDOW_H
 
-#include "MainWindow/mainwindow.h"
 #include <QGridLayout>
 #include <QString>
-#include "Model/game.h"
-#include <QTimer>
-#include <QPainter>
-#include "Model/DrawLineLayer.h"
-#include <HelpDialog/helpdialog.h>
-#include <QSpinBox>
-#include "Model/mapbutton.h"
-#include <QSet>
 #include <QMainWindow>
 #include <QSound>
+#include <QTimer>
+#include <QPainter>
+#include <HelpDialog/helpdialog.h>
+#include <QSpinBox>
+
+#include "Model/game.h"
+#include "Model/DrawLineLayer.h"
+#include "MainWindow/mainwindow.h"
+#include "Model/mapbutton.h"
+
 
 namespace Ui {
 class RelaxedModeWindow;
 }
 
 /**
- * construct a relax mode
+ * The relaxed mode
  */
 class RelaxedModeWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
+    /**
+     *
+     */
     explicit RelaxedModeWindow(QWidget *parent = 0);
     void reset(bool flag);
     void initMap();
@@ -54,9 +58,6 @@ private:
     QDialog *changeSpeedDialog;
     MainWindow *mainWindow;
     QSound sound;
-    QSet<QString> tracker;
-
-
 
     void increaseCredit();
     void decreaseCredit(int num);

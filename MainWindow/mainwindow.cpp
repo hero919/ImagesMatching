@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent, bool isBack) :
     connect(ui->button3, SIGNAL(clicked(bool)), this, SLOT(showBasicModeWindow()));
     connect(ui->button2, SIGNAL(clicked(bool)), this, SLOT(showRelaxedModeWindow()));
     connect(ui->button1, SIGNAL(clicked(bool)), this, SLOT(showLevelModeWindow()));
-    connect(ui->pushButton_5, SIGNAL(clicked(bool)), this, SLOT(showHelp()));
+    connect(ui->HelpButton, SIGNAL(clicked(bool)), this, SLOT(showHelp()));
     connect(ui->MusicButton, SIGNAL(clicked(bool)), this, SLOT(stopMusic()));
 }
 
