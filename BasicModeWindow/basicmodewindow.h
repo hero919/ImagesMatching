@@ -101,9 +101,17 @@ public slots:
      * shuffle images
      */
     void resetMap();
-
+    /**
+     * find images that can be eliminated
+     */
     void findHint();
+    /**
+     * display help dialog
+     */
     void showHelp();
+    /**
+     * navigate player to main page
+     */
     void BackToMainPage();
 
 };
