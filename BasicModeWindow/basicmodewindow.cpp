@@ -69,12 +69,14 @@ void BasicModeWindow::startGame() {
     ui->pushButton_3->setEnabled(true);
     ui->pushButton_4->setEnabled(true);
     ui->pushButton->setText("Restart");
+    //Set the different use for one button using the same strategy as "Play music"
     if (disconnect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(startGame())))
         connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(reStartGame()));
 }
 
 void BasicModeWindow::reStartGame() {
     auto children = ui->picWidget->children();
+    //Delete all the images and restart
     for (int i = 1; i < 217; i++) {
         if (children[i]->objectName() != "") {
             grid->removeWidget((QWidget*)children[i]);
@@ -100,6 +102,7 @@ void BasicModeWindow::resetMap() {
 }
 
 void BasicModeWindow::pauseGame() {
+    //Disable some buttons when pause the game
     if (timer->isActive()) {
         ui->pushButton_2->setText("Continue Game");
         timer->stop();
@@ -280,7 +283,7 @@ void BasicModeWindow::reset(bool flag) {
         gameModel.clearRawMap();
         for (int i = 0; i < 12; i++) {
             for (int j = 0; j < 18; j++) {
-                //To avoid i - 1 or j - 1 out of bound
+                //The around images should be always 0
                 if (i == 0 || i == 11 || j == 0 || j == 17) {
                     continue;
                 }
