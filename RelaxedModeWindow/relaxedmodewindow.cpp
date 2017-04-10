@@ -11,14 +11,7 @@ RelaxedModeWindow::RelaxedModeWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle("IMages Matching Game");
-<<<<<<< HEAD
-    sound.play();
-    scoreDao = new ScoreDao();
-    scoreDao->init();
-=======
-//    scoreDao = new ScoreDao();
-//    scoreDao->init();
->>>>>>> master
+
     gameModel.init();
     helpDialog = new HelpDialog(ui->picWidget);
     ui->progressBar->setValue(totleTime);

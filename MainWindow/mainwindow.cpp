@@ -22,18 +22,10 @@ MainWindow::MainWindow(QWidget *parent, bool isBack) :
     ui(new Ui::MainWindow),
     isBack_(isBack)
 {
-<<<<<<< HEAD
-    showMainWindow();
-    scoreDao = new ScoreDao();
-    scoreDao->init();
-=======
     setUpWelcomeWindow();
 
     ui->setupUi(this);
-    //scoreDao = new ScoreDao();
-    //scoreDao->init();
     playMusic();
->>>>>>> master
 
     //Add signals and its corresponding slots
     connect(ui->button3, SIGNAL(clicked(bool)), this, SLOT(showBasicModeWindow()));
