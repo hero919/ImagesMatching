@@ -21,9 +21,10 @@ BasicModeWindow::BasicModeWindow(QWidget *parent) :
 //    scoreDao->init();
     gameModel.init();
     helpDialog = new HelpDialog(ui->picWidget);
-    ui->progressBar->setValue(totleTime);//progressBar初始化
+    ui->progressBar->setValue(totleTime);//Initialize progressBar
     //picWidget is the blank area in main window
-    grid = new QGridLayout(ui->picWidget); //为游戏棋盘创建网格布局
+    //Initialize the grid
+    grid = new QGridLayout(ui->picWidget);
 
     timer = new QTimer(this);
     painter = new QPainter(this);
