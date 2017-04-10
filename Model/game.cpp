@@ -27,7 +27,7 @@ bool Game::link(int x1, int y1, int x2, int y2) {
         return false;
     }
 
-    //Two Images with different contents
+    //Two images are not the same
     if (map[x1][y1] != map[x2][y2]) {
         return false;
     }
@@ -37,6 +37,7 @@ bool Game::link(int x1, int y1, int x2, int y2) {
         return false;
     }
 
+    //if in the same row
     if (x1 == x2) {
         for (k = y1 + 1; k < y2; k++){
             if (map[x1][k] != 0){
@@ -49,6 +50,8 @@ bool Game::link(int x1, int y1, int x2, int y2) {
             }
         }
     }
+
+    //if in the same column
     if (y1 == y2) {
         for (k = x1 + 1; k < x2; k++){
             if (map[k][y1] != 0){
@@ -67,8 +70,8 @@ bool Game::link(int x1, int y1, int x2, int y2) {
 
 
 bool Game::linkWithNoCorner(QString pic1, QString pic2) {
-    int x1, x2, y1, y2;
-    //Put value to different variables.
+    int x1, x2, y1, y2
+            ;
     getPosition(x1, y1, x2, y2, pic1, pic2);
 
     bool result = link(x1, y1, x2, y2);
@@ -80,6 +83,7 @@ bool Game::linkWithNoCorner(QString pic1, QString pic2) {
     flagA = true;
     return result;
 }
+
 
 bool Game::linkWithOneCorner(QString pic1, QString pic2, QString& pos2) {
     int x1, x2, y1, y2;
@@ -123,6 +127,7 @@ bool Game::linkWithOneCorner(QString pic1, QString pic2, QString& pos2) {
     else
         return false;
 }
+
 
 bool Game::linkWithTwoCorner(QString pic1, QString pic2, QString& pos2, QString& pos3) {
     int x1, x2, y1, y2;

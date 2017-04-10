@@ -8,6 +8,7 @@ DrawLineLayer::DrawLineLayer(QWidget *parent)
 DrawLineLayer::~DrawLineLayer(){
 }
 
+
 void DrawLineLayer::paintEvent(QPaintEvent *)
 {
     QPainter paint(this);
