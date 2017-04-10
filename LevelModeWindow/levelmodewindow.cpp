@@ -261,6 +261,7 @@ void LevelModeWindow::reset(bool flag){
                 pic->setMaximumSize(40, 40);
                 gameModel.map[i][j] = 0;
             } else {
+                pic->setStyleSheet("background:white");
                 pic->setIcon(QIcon(":/icon/res/" + QString::number(randomPicIndex) + ".png"));
                 pic->setObjectName(QString::number(i * 18 + j));
                 pic->setIconSize(QSize(40, 40));

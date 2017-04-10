@@ -13,15 +13,18 @@
 
 BasicModeWindow::BasicModeWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::BasicModeWindow)
+    ui(new Ui::BasicModeWindow),
+    sound(":/music/res/Pokemon02.wav")
 {
     ui->setupUi(this);
     setWindowTitle("Images Matching Game");
+    sound.play();
     gameModel.init();
     helpDialog = new HelpDialog(ui->picWidget);
     //picWidget is now blank
     grid = new QGridLayout(ui->picWidget);
 
+    //set basic game board
     timer = new QTimer(this);
     painter = new QPainter(this);
     drawLineLayer = new DrawLineLayer(this);
@@ -30,6 +33,7 @@ BasicModeWindow::BasicModeWindow(QWidget *parent) :
     ui->pauseButton->setEnabled(false);
     ui->hintButton->setEnabled(false);
     ui->resetButton->setEnabled(false);
+
     //Set Sinal and slots for buttons
     connect(ui->startButton, SIGNAL(clicked(bool)), this, SLOT(startGame()));
     connect(ui->pauseButton, SIGNAL(clicked(bool)), this, SLOT(pauseGame()));
@@ -42,16 +46,17 @@ BasicModeWindow::BasicModeWindow(QWidget *parent) :
 BasicModeWindow::~BasicModeWindow()
 {
     delete ui;
-//    delete timer;
     delete grid;
     delete painter;
 }
 
 
 void BasicModeWindow::BackToMainPage(){
-      MainWindow *mainWindow = new MainWindow();
-      mainWindow->show();
-      this->hide();
+    //    sound.stop();
+    timer->stop();
+    MainWindow *mw = new MainWindow(0, 1);
+    mw->show();
+    this->hide();
 }
 
 
@@ -196,8 +201,8 @@ void BasicModeWindow::findHint() {
 
             //If it can be linked
             if (gameModel.linkWithNoCorner(pic1, pic2)
-                               || gameModel.linkWithOneCorner(pic1, pic2, pos2)
-                               || gameModel.linkWithTwoCorner(pic1, pic2, pos2, pos3)) {
+                    || gameModel.linkWithOneCorner(pic1, pic2, pos2)
+                    || gameModel.linkWithTwoCorner(pic1, pic2, pos2, pos3)) {
                 drawLine(pic1, pic2, pos2, pos3);
 
                 success = true;
@@ -251,12 +256,11 @@ void BasicModeWindow::drawLine(QString pic1, QString pic2, QString pos2, QString
 }
 
 void BasicModeWindow::reset(bool flag) {
-
     if (flag) {
         gameModel.clearRawMap();
         for (int i = 0; i < 12; i++) {
             for (int j = 0; j < 18; j++) {
-                //The around images should be always 0
+                //To avoid i - 1 or j - 1 out of bound
                 if (i == 0 || i == 11 || j == 0 || j == 17) {
                     continue;
                 }
@@ -264,9 +268,10 @@ void BasicModeWindow::reset(bool flag) {
             }
         }
     }
+
     srand((int)time(nullptr));
     int randx1, randx2, randy1, randy2;
-    //Shuffle useing switch 300 times randomly
+    //Shuffle the rawMap
     for (int k = 0; k < 300; k++) {
         randx1 = random() % 10;
         randx2 = random() % 10;
@@ -303,6 +308,7 @@ void BasicModeWindow::reset(bool flag) {
                 pic->setMaximumSize(40, 40);
                 gameModel.map[i][j] = 0;
             } else {
+                pic->setStyleSheet("background:white");
                 pic->setIcon(QIcon(":/icon/res/" + QString::number(randomPicIndex) + ".png"));
                 pic->setObjectName(QString::number(i * 18 + j));
                 pic->setIconSize(QSize(40, 40));
@@ -313,7 +319,6 @@ void BasicModeWindow::reset(bool flag) {
                 gameModel.map[i][j] = randomPicIndex;
             }
             grid->addWidget(pic, i, j);
-
         }
     }
 }
