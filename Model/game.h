@@ -77,7 +77,7 @@ private:
      * @param y1
      * @param x2
      * @param y2
-     * @return true if no corner between two images
+     * @return true if no corner between two imagess
      */
     bool link(int x1, int y1, int x2, int y2);
 

@@ -1,14 +1,11 @@
 #include "DrawLineLayer.h"
+
 DrawLineLayer::DrawLineLayer(QWidget *parent)
-    : QWidget(parent)
-{
-}
+    : QWidget(parent){}
 
-DrawLineLayer::~DrawLineLayer()
-{
+DrawLineLayer::~DrawLineLayer(){}
 
-}
-//重新实现paintEvent
+
 void DrawLineLayer::paintEvent(QPaintEvent *)
 {
     QPainter paint(this);
@@ -17,6 +14,8 @@ void DrawLineLayer::paintEvent(QPaintEvent *)
     pen.setStyle(Qt::DashLine);
     pen.setColor(Qt::red);
     paint.setPen(pen);
+
+    //if both image 1 and image 2 not null
     if (!pos1.isNull() && !pos2.isNull()) {
         pos1.rx() += 20;
         pos1.ry() += 20;
@@ -24,11 +23,13 @@ void DrawLineLayer::paintEvent(QPaintEvent *)
         pos2.ry() += 20;
         paint.drawLine(pos1, pos2);
     }
+    //if both image 2 and image 3 not null
     if (!pos2.isNull() && !pos3.isNull()) {
         pos3.rx() += 20;
         pos3.ry() += 20;
         paint.drawLine(pos2, pos3);
     }
+    //if both image 3 and image 4 not null
     if (!pos3.isNull() && !pos4.isNull()) {
         pos4.rx() += 20;
         pos4.ry() += 20;

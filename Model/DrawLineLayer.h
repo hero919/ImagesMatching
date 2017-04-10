@@ -36,7 +36,7 @@ public:
 
 protected:
     /**
-     * @brief paintEvent
+     * rewrite paintEvent
      */
     void paintEvent(QPaintEvent *);
 
