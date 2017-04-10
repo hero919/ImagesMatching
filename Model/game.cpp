@@ -40,17 +40,6 @@ bool Game::link(int x1, int y1, int x2, int y2) {
     }
 
     if (x1 == x2) {
-//        for (k = y1 + 1; k < y2; k++){
-//            if (map[x1][k] != 0){
-//                return false;
-//            }
-//        }
-//        for (k = y2 + 1; k < y1; k++){
-//            if (map[x1][k] != 0){
-//                return false;
-//            }
-//        }
-
         for(int y = qMin(y1 + 1, y2 + 1); y < qMax(y1, y2); y++){
              if(map[x1][y] != 0){
                  return false;
@@ -58,17 +47,6 @@ bool Game::link(int x1, int y1, int x2, int y2) {
         }
     }
     if (y1 == y2) {
-//        for (k = x1 + 1; k < x2; k++){
-//            if (map[k][y1] != 0){
-//                return false;
-//            }
-//        }
-//        for (k = x2 + 1; k < x1; k++){
-//            if (map[k][y1] != 0){
-//                return false;
-//            }
-//        }
-
         for(int x = qMin(x1 + 1, x2 + 1); x < qMax(x1, x2); x++){
              if(map[x][y1] != 0){
                  return false;
