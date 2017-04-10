@@ -16,18 +16,15 @@
 #include <fstream>
 #include <QSound>
 
-
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(QWidget *parent, bool isBack) :
     QMainWindow(parent),
+    sound(":/music/res/Pokemon01.wav"),
     ui(new Ui::MainWindow),
-    sound(":/music/res/Pokemon01.wav")
+    isBack_(isBack)
 {
-    setUpWelcomeWindow();
-
-    ui->setupUi(this);
+    showMainWindow();
     scoreDao = new ScoreDao();
     scoreDao->init();
-    playMusic();
 
     //Add signals and its corresponding slots
     connect(ui->button3, SIGNAL(clicked(bool)), this, SLOT(showBasicModeWindow()));
@@ -38,6 +35,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->MusicButton, SIGNAL(clicked(bool)), this, SLOT(stopMusic()));
 
 }
+
+
 
 MainWindow::~MainWindow()
 {
@@ -66,21 +65,20 @@ void MainWindow::stopMusic(){
     }
 }
 
-
-
-
 void MainWindow::showBasicModeWindow() {
     BasicModeWindow *bmw = new BasicModeWindow();
     bmw->setWindowTitle("Basic Mode");
-    bmw->show();
-    this->hide();
+       bmw->show();
+       this->hide();
+       this->stopMusic();
 }
 
 void MainWindow::showRelaxedModeWindow() {
     RelaxedModeWindow *rmw = new RelaxedModeWindow();
-    rmw->setWindowTitle("Relax Mode");
+    rmw->setWindowTitle("Relaxed Mode");
     rmw->show();
     this->hide();
+    this->stopMusic();
 }
 
 void MainWindow::showLevelModeWindow() {
@@ -88,7 +86,7 @@ void MainWindow::showLevelModeWindow() {
     lmw->setWindowTitle("Level Mode");
     lmw->show();
     this->hide();
-    stopMusic();
+    this->stopMusic();
 }
 
 void MainWindow::setUpWelcomeWindow() { //Create Welcome Page
@@ -166,3 +164,15 @@ void MainWindow::showRankingList() {
 //    rankTableView->show();
     dialog->show();
 }
+
+void MainWindow::showMainWindow() {
+    if(isBack_) {
+        ui->setupUi(this);
+        playMusic();
+    } else {
+        setUpWelcomeWindow();
+        ui->setupUi(this);
+        playMusic();
+    }
+}
+

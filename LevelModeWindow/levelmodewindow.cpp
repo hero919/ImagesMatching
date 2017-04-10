@@ -9,6 +9,7 @@
 #include <QMessageBox>
 #include <QTime>
 #include <QDoubleSpinBox>
+#include <QMainWindow>
 
 LevelModeWindow::LevelModeWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -188,7 +189,9 @@ void LevelModeWindow::showHelp(){
 }
 
 void LevelModeWindow::BackToMainPage(){
+    timer->stop();
     MainWindow *mainWindow = new MainWindow();
+    mainWindow->stopMusic();
     mainWindow->show();
     this->hide();
 }

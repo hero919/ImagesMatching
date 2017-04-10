@@ -6,10 +6,12 @@
 
 RelaxedModeWindow::RelaxedModeWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::RelaxedModeWindow)
+    ui(new Ui::RelaxedModeWindow),
+    sound(":/music/res/Music01.wav")
 {
     ui->setupUi(this);
     setWindowTitle("IMages Matching Game");
+    sound.play();
     scoreDao = new ScoreDao();
     scoreDao->init();
     gameModel.init();
@@ -32,9 +34,8 @@ RelaxedModeWindow::RelaxedModeWindow(QWidget *parent) :
     connect(ui->pushButton_3, SIGNAL(clicked(bool)), this, SLOT(findHint()));
     connect(ui->pushButton_4, SIGNAL(clicked(bool)), this, SLOT(resetMap()));
     connect(ui->pushButton_5, SIGNAL(clicked(bool)), this, SLOT(useTool()));
-    connect(ui->pushButton_7, SIGNAL(clicked(bool)), this, SLOT(changeSpeed()));
     connect(ui->pushButton_8, SIGNAL(clicked(bool)), this, SLOT(showHelp()));
-    connect(ui->BackToMain, SIGNAL(clicked(bool)), this, SLOT(BackToMainPage()));
+    connect(ui->BackToMain, SIGNAL(clicked(bool)), this, SLOT(backToMainPage()));
 }
 
 RelaxedModeWindow::~RelaxedModeWindow()
@@ -48,12 +49,21 @@ void RelaxedModeWindow::startGame() {
 
     initMap();
     totleTime = 100;
-    ui->progressBar->setValue(totleTime);//progressBar初始化
-    timer->start(1000); //开始计时，时间间隔为1000ms
+
+    // Initial the progress bar
+
+    ui->progressBar->setValue(totleTime);
+
+    // The timer starts and the duration is 1000ms
+
+    timer->start(1000);
+
+    // Clear the score
+
     credit = 0;
-    ui->label_2->setText(QString::number(credit)); //积分清零
+    ui->label_2->setText(QString::number(credit));
+
     ui->pushButton_2->setEnabled(true);
-    ui->pushButton_7->setEnabled(false);
     ui->pushButton->setText("Restart");
     //如果pushButton之前绑定了startGame方法, 就先解除绑定，然后绑定reStartGame方法
     if (disconnect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(startGame())))
@@ -74,14 +84,14 @@ void RelaxedModeWindow::reStartGame() { //重新开始游戏
 
 void RelaxedModeWindow::pauseGame() {
     if (timer->isActive()) {
-        ui->pushButton_2->setText("Consume Game");
+        ui->pushButton_2->setText("Resume");
         timer->stop();
         ui->picWidget->setDisabled(true);
         ui->pushButton->setDisabled(true);
         ui->pushButton_3->setDisabled(true);
         ui->pushButton_4->setDisabled(true);
     } else {
-        ui->pushButton_2->setText("Pause Game");
+        ui->pushButton_2->setText("Pause");
         timer->start();
         ui->picWidget->setDisabled(false);
         ui->pushButton->setDisabled(false);
@@ -154,13 +164,15 @@ void RelaxedModeWindow::showHelp() {
     helpDialog->showHelpDialog();
 }
 
-void RelaxedModeWindow::BackToMainPage(){
-    MainWindow *mainWindow = new MainWindow();
-    mainWindow->show();
+void RelaxedModeWindow::backToMainPage(){
+    sound.stop();
+    timer->stop();
+    MainWindow *mw = new MainWindow(0, 1);
+    mw->show();
     this->hide();
 }
 
-void RelaxedModeWindow::changeSpeed() {
+/*void RelaxedModeWindow::changeSpeed() {
     QHBoxLayout *layout = new QHBoxLayout();
     changeSpeedDialog = new QDialog();
     box = new QSpinBox();
@@ -183,13 +195,13 @@ void RelaxedModeWindow::changeSpeed() {
     changeSpeedDialog->setLayout(layout);
     changeSpeedDialog->show();
 
-}
+}*/
 
-void RelaxedModeWindow::_changeSpeed() {
+/*void RelaxedModeWindow::_changeSpeed() {
     speed = 100.0 / box->value();
     PIC_NUM = box2->value();
     changeSpeedDialog->hide();
-}
+}*/
 
 void RelaxedModeWindow::reset(bool flag) {
     if (flag) {
@@ -216,15 +228,15 @@ void RelaxedModeWindow::reset(bool flag) {
         gameModel.rawMap[randx2][randy2] = tmp;
     }
 
-    int rand = random() % 8;
-    int size = 0;
-    int regulation = 5;
+   // int rand = random() % 8;
+    //int size = 0;
+   // int regulation = 5;
 
     for (int i = 0; i < 12; i++) {
         for (int j = 0; j < 18; j++) {
             if (i == 0 || i == 11 || j == 0 || j == 17) {
                 MapButton *w = new MapButton();
-                w->setStyleSheet("background:transparent");
+                w->setStyleSheet("background: transparent");
                 w->setObjectName(QString::number(i * 18 + j));
                 w->setMinimumSize(40, 40);
                 w->setMaximumSize(40, 40);
@@ -236,7 +248,7 @@ void RelaxedModeWindow::reset(bool flag) {
             MapButton *pic = new MapButton();
 
             int randomPicIndex = gameModel.rawMap[i-1][j-1];
-            if(randomPicIndex == rand && size < 2 && regulation > 0){
+            /*if(randomPicIndex == rand && size < 2 && regulation > 0){
 
                 regulation--;
                 if(regulation == 3){
@@ -267,16 +279,17 @@ void RelaxedModeWindow::reset(bool flag) {
                     connect(pic, &MapButton::keyClicked, this, &RelaxedModeWindow::select);
                     continue;
                 }
-            }
+            }*/
 
             if (randomPicIndex == 0) {
-                pic->setStyleSheet("background:transparent");
+                pic->setStyleSheet("background: transparent");
                 pic->setObjectName(QString::number(i * 18 + j));
                 pic->setIconSize(QSize(40, 40));
                 pic->setMinimumSize(40, 40);
                 pic->setMaximumSize(40, 40);
                 gameModel.map[i][j] = 0;
             } else {
+                pic->setStyleSheet("background: white");
                 pic->setIcon(QIcon(":/icon/res/" + QString::number(randomPicIndex) + ".png"));                
                 pic->setObjectName(QString::number(i * 18 + j));
                 pic->setIconSize(QSize(40, 40));
@@ -294,7 +307,7 @@ void RelaxedModeWindow::reset(bool flag) {
 void RelaxedModeWindow::initMap() {
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 16; j++) {
-            gameModel.rawMap[i][j] = gameModel.totalPic ++ % PIC_NUM + 1; //初始化未经打乱的棋盘
+            gameModel.rawMap[i][j] = gameModel.totalPic++ % PIC_NUM + 1; //初始化未经打乱的棋盘
         }
     }
 
@@ -317,17 +330,18 @@ void RelaxedModeWindow::select(const QString &msg) {
                    || gameModel.linkWithTwoCorner(gameModel.selectedPic, sb->objectName(), pos2, pos3)) { //可消去
             if (isUsingTool) {
                gameModel.useTool(gameModel.selectedPic, sb->objectName());
+               ui->pushButton_5->setEnabled(true);
             }
             drawLine(gameModel.selectedPic, sb->objectName(), pos2, pos3); //画线
 
-            if((tracker.find(gameModel.selectedPic) != tracker.end()) &&
+            /*if((tracker.find(gameModel.selectedPic) != tracker.end()) &&
                     (tracker.find(sb->objectName()) != tracker.end())){
                 for(int i = 0; i < 5 ; i++){
                    increaseCredit();
                 }
                 tracker.remove(gameModel.selectedPic);
                 tracker.remove(sb->objectName());
-            }
+            }*/
             //让两个图片弹起来并消除
             MapButton *p1 = ui->picWidget->findChild<MapButton*>(gameModel.selectedPic);
             MapButton *p2 = ui->picWidget->findChild<MapButton*>(sb->objectName());
@@ -354,7 +368,7 @@ void RelaxedModeWindow::select(const QString &msg) {
             //在消子之后判断是否获胜
             if (gameModel.isWin()){
                 QMessageBox *box = new QMessageBox(this);
-                box->setInformativeText("Congratulations！");
+                box->setInformativeText("Congratulations！You are the winner!");
                 box->show();
                 timer->stop();
                 ui->pushButton_2->setEnabled(false);
@@ -415,7 +429,7 @@ void RelaxedModeWindow::drawLine(QString pic1, QString pic2, QString pos2, QStri
 void RelaxedModeWindow::increaseCredit() {
     credit += 10;
     creditIncrement += 10;
-    if (creditIncrement % 100 == 0) {
+    if (creditIncrement % 200 == 0 && gameModel.totalPic != 0) {
         QMessageBox *box = new QMessageBox(this);
         box->setInformativeText("Get a Tool！");
         box->setStyleSheet(QString::fromUtf8("color: red;"
@@ -473,6 +487,7 @@ void RelaxedModeWindow::useTool() {
         toolsNum--;
         ui->label_5->setText(QString::number(toolsNum));
         isUsingTool = true;
+        ui->pushButton_5->setEnabled(false);
     }
 }
 

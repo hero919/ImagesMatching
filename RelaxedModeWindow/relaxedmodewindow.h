@@ -1,7 +1,7 @@
 #ifndef RELAXEDMODEWINDOW_H
 #define RELAXEDMODEWINDOW_H
 
-#include <QMainWindow>
+#include "MainWindow/mainwindow.h"
 #include <QGridLayout>
 #include <QString>
 #include "Model/game.h"
@@ -13,6 +13,8 @@
 #include "Dao/scoredao.h"
 #include "Model/mapbutton.h"
 #include <QSet>
+#include <QMainWindow>
+#include <QSound>
 
 namespace Ui {
 class RelaxedModeWindow;
@@ -49,7 +51,9 @@ private:
     QSpinBox *box2; // 设置花色数
     QDialog *changeSpeedDialog;
     ScoreDao *scoreDao;
-    QSet<QString> tracker;
+    MainWindow *mainWindow;
+    QSound sound;
+   // QSet<QString> tracker;
 
 
     void increaseCredit();
@@ -65,10 +69,10 @@ public slots:
     void resetMap(); //图片重排
     void findHint(); //提示
     void showHelp(); //显示帮助
-    void changeSpeed();
-    void _changeSpeed();
+    //void changeSpeed();
+    //void _changeSpeed();
     void useTool(); //使用道具
-    void BackToMainPage();
+    void backToMainPage();
 };
 
 #endif // RELAXEDMODEWINDOW_H

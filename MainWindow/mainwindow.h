@@ -17,9 +17,12 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = 0, bool isBack = 0);
     void setUpWelcomeWindow();
+    void showMainWindow();
+ //   void backToMainWindow();
     ~MainWindow();
+    QSound sound;
 
 public slots:
     //Different Modes
@@ -35,9 +38,7 @@ private:
     Ui::MainWindow *ui;
     QTableView *rankTableView;
     ScoreDao *scoreDao;
-    QSound sound;
-
-
+    bool isBack_;
 };
 
 #endif // MAINWINDOW_H
