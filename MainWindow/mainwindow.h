@@ -12,31 +12,79 @@ namespace Ui {
 class MainWindow;
 }
 
+/**
+ * construct a main window
+ */
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
+    /**
+     * @brief MainWindow
+     * @param parent
+     * @param isBack
+     */
     explicit MainWindow(QWidget *parent = 0, bool isBack = 0);
+    /**
+     * set up welcome page
+     */
     void setUpWelcomeWindow();
+    /**
+     * display welcome window
+     */
     void showMainWindow();
- //   void backToMainWindow();
+    /**
+     * destructor
+     */
     ~MainWindow();
+    /**
+     * music player
+     */
     QSound sound;
 
 public slots:
-    //Different Modes
+    /**
+     * Display a basic mode game
+     */
     void showBasicModeWindow();
+    /**
+     * Display a relax mode game
+     */
     void showRelaxedModeWindow();
+    /**
+     * Display a level mode game
+     */
     void showLevelModeWindow();
+    /**
+     * Display Help Dialog
+     */
     void showHelp();
+    /**
+     * Display Rank
+     */
     void showRankingList();
+    /**
+     * Play backgroud music
+     */
     void playMusic();
+    /**
+     * Pause background music
+     */
     void stopMusic();
 
 private:
+    /**
+     * UI
+     */
     Ui::MainWindow *ui;
+    /**
+     * Rank Table
+     */
     QTableView *rankTableView;
+    /**
+     * Deciding if player get navigated to main menu
+     */
     bool isBack_;
 
 };

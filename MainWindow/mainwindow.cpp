@@ -101,7 +101,7 @@ void MainWindow::setUpWelcomeWindow() { //Create Welcome Page
     QLabel *welcomeLabel = new QLabel(cenWidget);
     welcomeLabel->setText("CS3650 Project: Images Matching Game");
     QLabel *nameLabel = new QLabel(cenWidget);
-    nameLabel->setText("\t\t by Zeqing Zhang, Kaimong Wong, Zhaoxing Hong");
+    nameLabel->setText("\t\t by Zeqing Zhang, Jiameng Wang, Zhaoxing Hong");
     QGridLayout *gridLayout = new QGridLayout(cenWidget);
     QFont ft;
     ft.setPointSize(40);
