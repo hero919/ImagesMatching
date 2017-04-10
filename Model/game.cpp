@@ -172,15 +172,24 @@ bool Game::linkWithTwoCorner(QString pic1, QString pic2, QString& pos2, QString&
 
 
     bool planA = false, planB = false, planC = false, planD = false;
-    //向上
+    //--------
+    //|      |
+    //|      |
+    //C      |
+    //       |
+    //       C
     for (int i = x1 - 1; i >= 0; i--) {
-        //Doing top matching, need to make sure all the top is empty
+        //Doing top match and check one by one
         if (map[i][y1] != 0){
             break;
         }
+
         map[i][y1] = map[x1][y1];
         QString p1 = QString::number(i*18 + y1);
         QString p2 = QString::number(x2*18 + y2);
+
+        //Applied Linekd with one corner to check the upper case
+
         if (linkWithOneCorner(p1, p2, pos2)) {
             flagB = false;
             planA = true;
@@ -195,13 +204,21 @@ bool Game::linkWithTwoCorner(QString pic1, QString pic2, QString& pos2, QString&
         map[i][y1] = 0;
     }
 
-    //向左
+    // ---------- C
+    // |
+    // |
+    // |
+    // |
+    // -------C
     for (int i = y1 - 1; i >= 0; i--) {
         if (map[x1][i] != 0)
             break;
+
         map[x1][i] = map[x1][y1];
         QString p1 = QString::number(x1*18 + i);
         QString p2 = QString::number(x2*18 + y2);
+
+        //Applied linkWithOneCorner helper function
         if (linkWithOneCorner(p1, p2, pos2)) {
             flagB = false;
             planA = true;
@@ -217,7 +234,10 @@ bool Game::linkWithTwoCorner(QString pic1, QString pic2, QString& pos2, QString&
         map[x1][i] = 0;
     }
 
-    //向右
+    // C --------
+    //          |
+    //          |
+    //   C-------
     for (int i = y1 + 1; i < 18; i++) {
         if (map[x1][i] != 0)
             break;
@@ -239,7 +259,12 @@ bool Game::linkWithTwoCorner(QString pic1, QString pic2, QString& pos2, QString&
         map[x1][i] = 0;
     }
 
-    //向下
+    // C
+    // |
+    // |             C
+    // |             |
+    // |             |
+    // |-------------|
     for (int i = x1 + 1; i < 12; i++) {
         if (map[i][y1] != 0)
             break;
@@ -270,6 +295,7 @@ bool Game::linkWithTwoCorner(QString pic1, QString pic2, QString& pos2, QString&
     }
 
 }
+
 
 void Game::useTool(QString pic1, QString pic2) {
     int x1, x2, y1, y2;
