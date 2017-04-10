@@ -83,7 +83,7 @@ private:
      */
     QTableView *rankTableView;
     /**
-     * Deciding if player get navigated to main menu
+     * Deciding if player gets navigated to main menu
      */
     bool isBack_;
 

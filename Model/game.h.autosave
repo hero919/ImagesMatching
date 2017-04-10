@@ -8,6 +8,7 @@
  */
 class Game {
 public:
+    //init 
     int map[12][18];
     QString selectedPic;
     int totalPic = 0;
