@@ -12,7 +12,10 @@ public:
     int map[12][18];
     //track selected image
     QString selectedPic;
+<<<<<<< HEAD
     //track images on the board
+=======
+>>>>>>> origin/master
     int totalPic = 0;
     //track corners
     bool flagA = false, flagB = false, flagC = false;

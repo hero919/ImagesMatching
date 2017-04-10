@@ -49,8 +49,6 @@ LevelModeWindow::LevelModeWindow(QWidget *parent) :
     connect(timer,SIGNAL(timeout()),this,SLOT(timerUpDate())); //Connect timer and update function
     connect(ui->pushButton_3, SIGNAL(clicked(bool)), this, SLOT(findHint()));
     connect(ui->pushButton_4, SIGNAL(clicked(bool)), this, SLOT(resetMap()));
-    connect(ui->pushButton_5, SIGNAL(clicked(bool)), this, SLOT(changeSpeed()));
-    connect(ui->pushButton_6, SIGNAL(clicked(bool)), this, SLOT(showHelp()));
     connect(ui->BackToMain, SIGNAL(clicked(bool)), this, SLOT(BackToMainPage()));
     startGame();
 }
@@ -94,8 +92,6 @@ void LevelModeWindow::timerUpDate(){
         ui->pushButton_2->setEnabled(false);
         ui->pushButton_3->setEnabled(false);
         ui->pushButton_4->setEnabled(false);
-        ui->pushButton_5->setEnabled(false);
-        ui->pushButton_6->setEnabled(false);
     }
 }
 
@@ -107,7 +103,6 @@ void LevelModeWindow::startGame(){
     ui->pushButton_2->setEnabled(true);
     ui->pushButton_3->setEnabled(true);
     ui->pushButton_4->setEnabled(true);
-    ui->pushButton_5->setEnabled(false);
     ui->pushButton->setText("Restart");
     //If pushButton bind with startGame,
     //unbind startGame then bin restartGame
@@ -122,8 +117,6 @@ void LevelModeWindow::pauseGame(){
         ui->pushButton->setDisabled(true);
         ui->pushButton_3->setDisabled(true);
         ui->pushButton_4->setDisabled(true);
-        ui->pushButton_5->setDisabled(true);
-        ui->pushButton_6->setDisabled(true);
         //ui->pushButton_7->setDisabled(true);
         ui->pushButton_8->setDisabled(true);
         ui->picWidget->setDisabled(true);
@@ -133,9 +126,6 @@ void LevelModeWindow::pauseGame(){
         ui->pushButton->setDisabled(false);
         ui->pushButton_3->setDisabled(false);
         ui->pushButton_4->setDisabled(false);
-        ui->pushButton_5->setDisabled(false);
-        ui->pushButton_6->setDisabled(false);
-        //ui->pushButton_7->setDisabled(false);
         ui->pushButton_8->setDisabled(false);
         ui->picWidget->setDisabled(false);
         ui->pushButton_2->setText("Pause");
@@ -325,13 +315,12 @@ void LevelModeWindow::select(const QString &msg){
 //                    gameModel.rawMap[index--][rows - 1] = 0;
 //                }
 
-//                for(int i = 10; i > 0; i--){
+
+//                for(int i = 10; i > 0; i--){      
 //                    if (i == 0 || i == 11 || j == 0 || j == 17) {
 
 //                    }
 //                }
-
-
 //            }
 
 

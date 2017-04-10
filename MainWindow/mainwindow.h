@@ -34,9 +34,8 @@ public slots:
 private:
     Ui::MainWindow *ui;
     QTableView *rankTableView;
-    ScoreDao *scoreDao;
+    //ScoreDao *scoreDao;
     QSound sound;
-    bool firstTimeLoadPage = true;
 
 
 };

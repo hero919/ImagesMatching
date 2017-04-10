@@ -1,14 +1,14 @@
 #include "relaxedmodewindow.h"
 #include "ui_relaxedmodewindow.h"
 #include <QMessageBox>
-#include "Model/mapbutton.h"
 #include <QTime>
 
 RelaxedModeWindow::RelaxedModeWindow(QWidget *parent) :
-    BasicModeWindow(parent),
+    QMainWindow(parent),
     ui(new Ui::RelaxedModeWindow)
 {
     ui->setupUi(this);
+<<<<<<< HEAD
 
     setWindowTitle("欢乐连连看");
     scoreDao = new ScoreDao();
@@ -17,6 +17,15 @@ RelaxedModeWindow::RelaxedModeWindow(QWidget *parent) :
     helpDialog = new HelpDialog(ui->picWidget);
     ui->progressBar->setValue(totalTime);//progressBar初始化
     grid = new QGridLayout(ui->picWidget); //为游戏棋盘创建网格布局
+=======
+    setWindowTitle("IMages Matching Game");
+//    scoreDao = new ScoreDao();
+//    scoreDao->init();
+    gameModel.init();
+    helpDialog = new HelpDialog(ui->picWidget);
+    ui->progressBar->setValue(totleTime);
+    grid = new QGridLayout(ui->picWidget);
+>>>>>>> origin/master
     timer = new QTimer(this);
     painter = new QPainter(this);
     drawLineLayer = new DrawLineLayer(this);
@@ -26,11 +35,10 @@ RelaxedModeWindow::RelaxedModeWindow(QWidget *parent) :
     ui->pushButton_3->setEnabled(false);
     ui->pushButton_4->setEnabled(false);
     ui->pushButton_5->setEnabled(false);
-    //为开始游戏和暂停游戏按钮设置信号槽
 
     connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(startGame()));
     connect(ui->pushButton_2, SIGNAL(clicked(bool)), this, SLOT(pauseGame()));
-    connect(timer,SIGNAL(timeout()),this,SLOT(timerUpDate())); //将timer和timerUpDate方法关联
+    connect(timer,SIGNAL(timeout()),this,SLOT(timerUpDate()));
     connect(ui->pushButton_3, SIGNAL(clicked(bool)), this, SLOT(findHint()));
     connect(ui->pushButton_4, SIGNAL(clicked(bool)), this, SLOT(resetMap()));
     connect(ui->pushButton_5, SIGNAL(clicked(bool)), this, SLOT(useTool()));
@@ -43,10 +51,20 @@ RelaxedModeWindow::~RelaxedModeWindow()
     delete ui;
 }
 
+<<<<<<< HEAD
 void RelaxedModeWindow::startGame() { //开始游戏
     initMap(); //初始化游戏棋盘
     totalTime = 100;
     ui->progressBar->setValue(totalTime);//progressBar初始化
+=======
+void RelaxedModeWindow::startGame() {
+
+    // Initial a map
+
+    initMap();
+    totleTime = 100;
+    ui->progressBar->setValue(totleTime);//progressBar初始化
+>>>>>>> origin/master
     timer->start(1000); //开始计时，时间间隔为1000ms
     credit = 0;
     ui->label_2->setText(QString::number(credit)); //积分清零
@@ -68,8 +86,6 @@ void RelaxedModeWindow::reStartGame() { //重新开始游戏
         }
     }
     startGame();
-
-
 }
 
 void RelaxedModeWindow::pauseGame() {
@@ -141,10 +157,8 @@ void RelaxedModeWindow::findHint() {
                 success = true;
                 gameModel.map[i/18][i%18] = tmp1;
                 gameModel.map[j/18][j%18] = tmp2;
-
                 gameModel.totalPic += 2; //还原被减去的图片数
             }
-
         }
     }
 
@@ -188,7 +202,6 @@ void RelaxedModeWindow::_changeSpeed() {
 }
 
 void RelaxedModeWindow::reset(bool flag) {
-
     if (flag) {
         gameModel.clearRawMap();
         for (int i = 0; i < 12; i++) {
@@ -212,6 +225,11 @@ void RelaxedModeWindow::reset(bool flag) {
         gameModel.rawMap[randx1][randy1] = gameModel.rawMap[randx2][randy2];
         gameModel.rawMap[randx2][randy2] = tmp;
     }
+
+    int rand = random() % 8;
+    int size = 0;
+    int regulation = 5;
+
     for (int i = 0; i < 12; i++) {
         for (int j = 0; j < 18; j++) {
             if (i == 0 || i == 11 || j == 0 || j == 17) {
@@ -225,8 +243,42 @@ void RelaxedModeWindow::reset(bool flag) {
                 continue;
             }
 
-            int randomPicIndex = gameModel.rawMap[i-1][j-1];
             MapButton *pic = new MapButton();
+
+            int randomPicIndex = gameModel.rawMap[i-1][j-1];
+            if(randomPicIndex == rand && size < 2 && regulation > 0){
+
+                regulation--;
+                if(regulation == 3){
+                    pic->setStyleSheet("border:5px solid #ff0000;");
+                    pic->setIcon(QIcon(":/icon/res/" + QString::number(randomPicIndex) + ".png"));
+                    pic->setObjectName(QString::number(i * 18 + j));
+                    tracker.insert(QString::number(i * 18 + j));
+                    pic->setIconSize(QSize(40, 40));
+                    pic->setMinimumSize(40, 40);
+                    pic->setMaximumSize(40, 40);
+                    pic->setCheckable(true);
+                    connect(pic, &MapButton::keyClicked, this, &RelaxedModeWindow::select);
+                    size++;
+                    continue;
+                }
+                if(regulation <= 0) {
+                    pic->setStyleSheet("border:5px solid #ff0000;");
+                    pic->setIcon(QIcon(":/icon/res/" + QString::number(randomPicIndex) + ".png"));
+                    pic->setObjectName(QString::number(i * 18 + j));
+                    tracker.insert(QString::number(i * 18 + j));
+                    pic->setIconSize(QSize(40, 40));
+                    pic->setMinimumSize(40, 40);
+                    pic->setMaximumSize(40, 40);
+                    pic->setCheckable(true);
+                    pic->setStyleSheet("border-style: solid;"
+                                       "color: red;");
+                    size++;
+                    connect(pic, &MapButton::keyClicked, this, &RelaxedModeWindow::select);
+                    continue;
+                }
+            }
+
             if (randomPicIndex == 0) {
                 pic->setStyleSheet("background:transparent");
                 pic->setObjectName(QString::number(i * 18 + j));
@@ -235,7 +287,7 @@ void RelaxedModeWindow::reset(bool flag) {
                 pic->setMaximumSize(40, 40);
                 gameModel.map[i][j] = 0;
             } else {
-                pic->setIcon(QIcon(":/icon/res/" + QString::number(randomPicIndex) + ".png"));
+                pic->setIcon(QIcon(":/icon/res/" + QString::number(randomPicIndex) + ".png"));                
                 pic->setObjectName(QString::number(i * 18 + j));
                 pic->setIconSize(QSize(40, 40));
                 pic->setMinimumSize(40, 40);
@@ -245,7 +297,6 @@ void RelaxedModeWindow::reset(bool flag) {
                 gameModel.map[i][j] = randomPicIndex;
             }
             grid->addWidget(pic, i, j);
-
         }
     }
 }
@@ -253,7 +304,7 @@ void RelaxedModeWindow::reset(bool flag) {
 void RelaxedModeWindow::initMap() {
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 16; j++) {
-            gameModel.rawMap[i][j] = gameModel.totalPic++ % PIC_NUM + 1; //初始化未经打乱的棋盘
+            gameModel.rawMap[i][j] = gameModel.totalPic ++ % PIC_NUM + 1; //初始化未经打乱的棋盘
         }
     }
 
@@ -274,11 +325,19 @@ void RelaxedModeWindow::select(const QString &msg) {
         } else if (isUsingTool || gameModel.linkWithNoCorner(gameModel.selectedPic, sb->objectName())
                    || gameModel.linkWithOneCorner(gameModel.selectedPic, sb->objectName(), pos2)
                    || gameModel.linkWithTwoCorner(gameModel.selectedPic, sb->objectName(), pos2, pos3)) { //可消去
-
             if (isUsingTool) {
-                gameModel.useTool(gameModel.selectedPic, sb->objectName());
+               gameModel.useTool(gameModel.selectedPic, sb->objectName());
             }
             drawLine(gameModel.selectedPic, sb->objectName(), pos2, pos3); //画线
+
+            if((tracker.find(gameModel.selectedPic) != tracker.end()) &&
+                    (tracker.find(sb->objectName()) != tracker.end())){
+                for(int i = 0; i < 5 ; i++){
+                   increaseCredit();
+                }
+                tracker.remove(gameModel.selectedPic);
+                tracker.remove(sb->objectName());
+            }
             //让两个图片弹起来并消除
             MapButton *p1 = ui->picWidget->findChild<MapButton*>(gameModel.selectedPic);
             MapButton *p2 = ui->picWidget->findChild<MapButton*>(sb->objectName());
@@ -367,6 +426,20 @@ void RelaxedModeWindow::increaseCredit() {
     credit += 10;
     creditIncrement += 10;
     if (creditIncrement % 100 == 0) {
+<<<<<<< HEAD
+=======
+        QMessageBox *box = new QMessageBox(this);
+        box->setInformativeText("Get a Tool！");
+        box->setStyleSheet(QString::fromUtf8("color: red;"
+                                             "background-color: white;"));
+        box->setStandardButtons(0);
+        box->show();
+        QTime t;
+        t.start();
+        while(t.elapsed()<1000)
+            QCoreApplication::processEvents();
+        box->hide();
+>>>>>>> origin/master
         toolsNum++;
         ui->label_5->setText(QString::number(toolsNum));
         ui->pushButton_5->setEnabled(true);
@@ -395,11 +468,29 @@ bool RelaxedModeWindow::creditIsEnoughForReset() {
 }
 
 void RelaxedModeWindow::useTool() {
-    toolsNum--;
-    ui->label_5->setText(QString::number(toolsNum));
-    isUsingTool = true;
     if (toolsNum == 0) {
+        QMessageBox *box = new QMessageBox(this);
+        box->setInformativeText("Sorry, you have no tools！");
+        box->setStyleSheet(QString::fromUtf8("color: red;"
+                                             "background-color: white;"));
+        box->setStandardButtons(0);
+        box->show();
+        QTime t;
+        t.start();
+        while(t.elapsed()<1000)
+            QCoreApplication::processEvents();
+        box->hide();
         ui->pushButton_5->setEnabled(false);
     }
+<<<<<<< HEAD
+=======
+    else {
+        toolsNum--;
+        ui->label_5->setText(QString::number(toolsNum));
+        isUsingTool = true;
+    }
+}
+
+>>>>>>> origin/master
 
 }

@@ -51,6 +51,7 @@ private:
     Ui::BasicModeWindow *ui;
 
 protected:
+<<<<<<< HEAD
     //create basic game board
     Game gameModel;
     QGridLayout *grid;
@@ -67,8 +68,20 @@ protected:
     QSpinBox *box;
     // Pattern box
     QSpinBox *box2;
+=======
+    Game gameModel; //Game Model used for initialize the whole map and necessary parameters
+    QGridLayout *grid;
+    double totleTime = 100; //Total time used for timer
+    double speed = 0.5; //Time descreasing each time
+    int PIC_NUM = 8; //number of different images, it can only be the divisors of 160
+    QTimer *timer;
+    QPainter* painter;
+    //For drawing the line, it has to be seperate because it has been used for many places
+    DrawLineLayer* drawLineLayer;
+    HelpDialog *helpDialog;
+>>>>>>> origin/master
     QDialog *changeSpeedDialog;
-    ScoreDao *scoreDao;
+    //ScoreDao *scoreDao;
 
     /**
      * initialize the game
@@ -79,11 +92,15 @@ protected:
      * @param flag
      */
     void reset(bool flag);
+<<<<<<< HEAD
     /**
      * mouse event
      * @param msg
      */
     void select(const QString &msg);
+=======
+    void select(const QString &msg); //Connect mouse action
+>>>>>>> origin/master
 
 public slots:
     /**
@@ -98,6 +115,7 @@ public slots:
      * pause the game
      */
     void pauseGame();
+<<<<<<< HEAD
     /**
      * update timer
      */
@@ -122,6 +140,12 @@ public slots:
     /**
      * navigate player to main page
      */
+=======
+    void timerUpDate();
+    void resetMap();
+    void findHint();
+    void showHelp();
+>>>>>>> origin/master
     void BackToMainPage();
 
 };
