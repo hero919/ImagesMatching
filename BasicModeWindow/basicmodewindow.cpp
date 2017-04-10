@@ -19,9 +19,7 @@ BasicModeWindow::BasicModeWindow(QWidget *parent) :
     setWindowTitle("Images Matching Game");
     gameModel.init();
     helpDialog = new HelpDialog(ui->picWidget);
-    ui->progressBar->setValue(totleTime);//Initialize progressBar
-    //picWidget is the blank area in main window
-    //Initialize the grid
+    //picWidget is now blank
     grid = new QGridLayout(ui->picWidget);
 
     timer = new QTimer(this);
@@ -29,23 +27,22 @@ BasicModeWindow::BasicModeWindow(QWidget *parent) :
     drawLineLayer = new DrawLineLayer(this);
     drawLineLayer->hide();
     drawLineLayer->setGeometry(QRect(0, 0, 720, 480));
-    ui->pushButton_2->setEnabled(false);
-    ui->pushButton_3->setEnabled(false);
-    ui->pushButton_4->setEnabled(false);
+    ui->pauseButton->setEnabled(false);
+    ui->hintButton->setEnabled(false);
+    ui->resetButton->setEnabled(false);
     //Set Sinal and slots for buttons
-    connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(startGame()));
-    connect(ui->pushButton_2, SIGNAL(clicked(bool)), this, SLOT(pauseGame()));
-    connect(timer,SIGNAL(timeout()),this,SLOT(timerUpDate()));
-    connect(ui->pushButton_3, SIGNAL(clicked(bool)), this, SLOT(findHint()));
-    connect(ui->pushButton_4, SIGNAL(clicked(bool)), this, SLOT(resetMap()));
-    connect(ui->pushButton_6, SIGNAL(clicked(bool)), this, SLOT(showHelp()));
+    connect(ui->startButton, SIGNAL(clicked(bool)), this, SLOT(startGame()));
+    connect(ui->pauseButton, SIGNAL(clicked(bool)), this, SLOT(pauseGame()));
+    connect(ui->hintButton, SIGNAL(clicked(bool)), this, SLOT(findHint()));
+    connect(ui->resetButton, SIGNAL(clicked(bool)), this, SLOT(resetMap()));
+    connect(ui->helpButton, SIGNAL(clicked(bool)), this, SLOT(showHelp()));
     connect(ui->BackToMain, SIGNAL(clicked(bool)), this, SLOT(BackToMainPage()));
 }
 
 BasicModeWindow::~BasicModeWindow()
 {
     delete ui;
-    delete timer;
+//    delete timer;
     delete grid;
     delete painter;
 }
@@ -61,16 +58,14 @@ void BasicModeWindow::BackToMainPage(){
 
 void BasicModeWindow::startGame() {
     initMap();
-    totleTime = 100;
-//    ui->progressBar->setValue(totleTime);//progressBar
-    timer->start(1000);
-    ui->pushButton_2->setEnabled(true);
-    ui->pushButton_3->setEnabled(true);
-    ui->pushButton_4->setEnabled(true);
-    ui->pushButton->setText("Restart");
+    totleTime = 1000000000;
+    ui->pauseButton->setEnabled(true);
+    ui->hintButton->setEnabled(true);
+    ui->resetButton->setEnabled(true);
+    ui->startButton->setText("Restart");
     //Set the different use for one button using the same strategy as "Play music"
-    if (disconnect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(startGame())))
-        connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(reStartGame()));
+    if (disconnect(ui->startButton, SIGNAL(clicked(bool)), this, SLOT(startGame())))
+        connect(ui->startButton, SIGNAL(clicked(bool)), this, SLOT(reStartGame()));
 }
 
 void BasicModeWindow::reStartGame() {
@@ -103,20 +98,21 @@ void BasicModeWindow::resetMap() {
 void BasicModeWindow::pauseGame() {
     //Disable some buttons when pause the game
     if (timer->isActive()) {
-        ui->pushButton_2->setText("Continue Game");
+        ui->pauseButton->setText("Continue");
         timer->stop();
         ui->picWidget->setDisabled(true);
-        ui->pushButton->setDisabled(true);
-        ui->pushButton_3->setDisabled(true);
-        ui->pushButton_4->setDisabled(true);
+        ui->startButton->setDisabled(true);
+        ui->hintButton->setDisabled(true);
+        ui->resetButton->setDisabled(true);
     } else {
-        ui->pushButton_2->setText("Pause Game");
+        ui->pauseButton->setText("Pause");
         timer->start();
         ui->picWidget->setDisabled(false);
-        ui->pushButton->setDisabled(false);
-        ui->pushButton_3->setDisabled(false);
-        ui->pushButton_4->setDisabled(false);
+        ui->startButton->setDisabled(false);
+        ui->hintButton->setDisabled(false);
+        ui->resetButton->setDisabled(false);
     }
+
 }
 
 void BasicModeWindow::initMap() {
@@ -164,10 +160,9 @@ void BasicModeWindow::select(const QString &msg) {
                 QMessageBox *box = new QMessageBox(this);
                 box->setInformativeText("Congratulations！");
                 box->show();
-                timer->stop();
-                ui->pushButton_2->setEnabled(false);
-                ui->pushButton_3->setEnabled(false);
-                ui->pushButton_4->setEnabled(false);
+                ui->pauseButton->setEnabled(false);
+                ui->hintButton->setEnabled(false);
+                ui->resetButton->setEnabled(false);
 
             }
 
@@ -179,27 +174,6 @@ void BasicModeWindow::select(const QString &msg) {
             //Set new image
             sb->setChecked(true);
         }
-    }
-}
-
-void BasicModeWindow::timerUpDate() {
-    //Every 1000 msc, time will change
-    totleTime -= speed;
-    //Update the progress bar
-    ui->progressBar->setValue(totleTime);
-//    QPalette p();
-//    p.setColor(QPalette::Highlight, Qt::green);
-//    setPalette(p);
-
-    if (totleTime == 0){
-        //Can insert scores here
-        QMessageBox *box = new QMessageBox(this);
-        box->setInformativeText("Time Up！");
-        box->show();
-        ui->pushButton->setEnabled(true);
-        ui->pushButton_2->setEnabled(false);
-        ui->pushButton_3->setEnabled(false);
-        ui->pushButton_4->setEnabled(false);
     }
 }
 

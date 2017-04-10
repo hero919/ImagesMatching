@@ -22,10 +22,10 @@ MainWindow::MainWindow(QWidget *parent, bool isBack) :
     ui(new Ui::MainWindow),
     isBack_(isBack)
 {
-    setUpWelcomeWindow();
+    showMainWindow();
 
-    ui->setupUi(this);
-    playMusic();
+    //ui->setupUi(this);
+   // playMusic();
 
     //Add signals and its corresponding slots
     connect(ui->button3, SIGNAL(clicked(bool)), this, SLOT(showBasicModeWindow()));

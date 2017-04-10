@@ -54,16 +54,13 @@ protected:
     //Game Model used for initialize the whole map and necessary parameters
     Game gameModel;
     QGridLayout *grid;
-    double totleTime = 100; //Total time used for timer
-    double speed = 0.5; //Time descreasing each time
+    double totleTime = 10000000000000; //Total time used for timer
     int PIC_NUM = 8; //number of different images, it can only be the divisors of 160
     QTimer *timer;
     QPainter* painter;
     //For drawing the line, it has to be seperate because it has been used for many places
     DrawLineLayer* drawLineLayer;
     HelpDialog *helpDialog;
-    QDialog *changeSpeedDialog;
-    //ScoreDao *scoreDao;
 
     /**
      * initialize the game board
@@ -93,10 +90,6 @@ public slots:
      * pause the game
      */
     void pauseGame();
-    /**
-     * update timer
-     */
-    void timerUpDate();
     /**
      * shuffle images
      */

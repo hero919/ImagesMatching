@@ -17,7 +17,7 @@
    <string notr="true">background-color: rgb(99, 200, 255);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="startButton">
     <property name="geometry">
      <rect>
       <x>710</x>
@@ -38,7 +38,7 @@
      <string>Start</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="pauseButton">
     <property name="geometry">
      <rect>
       <x>710</x>
@@ -59,7 +59,7 @@
      <string>Pause</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="hintButton">
     <property name="geometry">
      <rect>
       <x>710</x>
@@ -75,7 +75,7 @@
      <string>Hint</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QPushButton" name="resetButton">
     <property name="geometry">
      <rect>
       <x>710</x>
@@ -104,7 +104,7 @@
      <string notr="true">background-image: url();</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_6">
+   <widget class="QPushButton" name="helpButton">
     <property name="geometry">
      <rect>
       <x>710</x>
@@ -118,41 +118,6 @@
     </property>
     <property name="text">
      <string>Help</string>
-    </property>
-   </widget>
-   <widget class="QProgressBar" name="progressBar">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>530</y>
-      <width>640</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-    <property name="value">
-     <number>24</number>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>520</y>
-      <width>121</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>YaHei Consolas Hybrid</family>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Remaining Time：</string>
     </property>
    </widget>
    <widget class="QPushButton" name="BackToMain">
