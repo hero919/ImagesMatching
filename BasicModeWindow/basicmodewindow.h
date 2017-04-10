@@ -10,6 +10,7 @@
 #include "Model/DrawLineLayer.h"
 #include <HelpDialog/helpdialog.h>
 #include <QSpinBox>
+#include <QSound>
 
 namespace Ui {
 class BasicModeWindow;
@@ -59,7 +60,10 @@ protected:
     QPainter* painter;
     //For drawing the line, it has to be seperate because it has been used for many places
     DrawLineLayer* drawLineLayer;
+    //Display help dialog
     HelpDialog *helpDialog;
+    //Display BGM
+    QSound sound;
 
     /**
      * initialize the game board
