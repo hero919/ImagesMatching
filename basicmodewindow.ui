@@ -20,9 +20,9 @@
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>720</x>
+      <x>710</x>
       <y>20</y>
-      <width>75</width>
+      <width>81</width>
       <height>41</height>
      </rect>
     </property>
@@ -41,9 +41,9 @@
    <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
      <rect>
-      <x>720</x>
+      <x>710</x>
       <y>70</y>
-      <width>75</width>
+      <width>81</width>
       <height>41</height>
      </rect>
     </property>
@@ -62,9 +62,9 @@
    <widget class="QPushButton" name="pushButton_3">
     <property name="geometry">
      <rect>
-      <x>720</x>
+      <x>710</x>
       <y>120</y>
-      <width>71</width>
+      <width>81</width>
       <height>41</height>
      </rect>
     </property>
@@ -78,9 +78,9 @@
    <widget class="QPushButton" name="pushButton_4">
     <property name="geometry">
      <rect>
-      <x>720</x>
+      <x>710</x>
       <y>170</y>
-      <width>71</width>
+      <width>81</width>
       <height>41</height>
      </rect>
     </property>
@@ -102,22 +102,6 @@
     </property>
     <property name="styleSheet">
      <string notr="true">background-image: url();</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_5">
-    <property name="geometry">
-     <rect>
-      <x>710</x>
-      <y>480</y>
-      <width>81</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);</string>
-    </property>
-    <property name="text">
-     <string>Settings</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_6">
@@ -174,14 +158,14 @@
    <widget class="QPushButton" name="BackToMain">
     <property name="geometry">
      <rect>
-      <x>700</x>
+      <x>710</x>
       <y>220</y>
-      <width>91</width>
+      <width>81</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>Main Page</string>
+     <string>Back</string>
     </property>
    </widget>
   </widget>

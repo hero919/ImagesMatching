@@ -22,9 +22,18 @@ MainWindow::MainWindow(QWidget *parent, bool isBack) :
     ui(new Ui::MainWindow),
     isBack_(isBack)
 {
+<<<<<<< HEAD
     showMainWindow();
     scoreDao = new ScoreDao();
     scoreDao->init();
+=======
+    setUpWelcomeWindow();
+
+    ui->setupUi(this);
+    //scoreDao = new ScoreDao();
+    //scoreDao->init();
+    playMusic();
+>>>>>>> master
 
     //Add signals and its corresponding slots
     connect(ui->button3, SIGNAL(clicked(bool)), this, SLOT(showBasicModeWindow()));
@@ -46,8 +55,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::playMusic(){
     QPushButton *musicButton = ui->MusicButton;
-    musicButton->setIcon(QIcon(":/icon/res/1.png"));
-    musicButton->setIconSize(QSize(40,40));
+    musicButton->setIcon(QIcon(":/icon/res/pause.png"));
+    musicButton->setIconSize(QSize(30,30));
     sound.play();
     if(disconnect(ui->MusicButton, SIGNAL(clicked(bool)), this, SLOT(playMusic()))){
         connect(ui->MusicButton, SIGNAL(clicked(bool)), this, SLOT(stopMusic()));
@@ -57,8 +66,8 @@ void MainWindow::playMusic(){
 
 void MainWindow::stopMusic(){
     QPushButton *musicButton = ui->MusicButton;
-    musicButton->setIcon(QIcon(":/icon/res/2.png"));
-    musicButton->setIconSize(QSize(40,40));
+    musicButton->setIcon(QIcon(":/icon/res/play.png"));
+    musicButton->setIconSize(QSize(30,30));
     sound.stop();
     if(disconnect(ui->MusicButton, SIGNAL(clicked(bool)), this, SLOT(stopMusic()))){
         connect(ui->MusicButton, SIGNAL(clicked(bool)), this, SLOT(playMusic()));
@@ -132,37 +141,37 @@ void MainWindow::showHelp() {
 }
 
 void MainWindow::showRankingList() {
-    QDialog *dialog = new QDialog();
-    QGridLayout *layout = new QGridLayout();
-    dialog->setLayout(layout);
-    QStandardItemModel *rankModel = new QStandardItemModel(); //TableViewModel
-    rankTableView = new QTableView();
-    rankTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    rankTableView->setGeometry(550, 300, 155, 200);
-    rankModel->setHorizontalHeaderItem(0, new QStandardItem("User Name"));
-    rankModel->setHorizontalHeaderItem(1, new QStandardItem("Scores"));
+//    QDialog *dialog = new QDialog();
+//    QGridLayout *layout = new QGridLayout();
+//    dialog->setLayout(layout);
+//    QStandardItemModel *rankModel = new QStandardItemModel(); //TableViewModel
+//    rankTableView = new QTableView();
+//    rankTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+//    rankTableView->setGeometry(550, 300, 155, 200);
+//    rankModel->setHorizontalHeaderItem(0, new QStandardItem("User Name"));
+//    rankModel->setHorizontalHeaderItem(1, new QStandardItem("Scores"));
 
-    //Read Ranking Hostory from the files
-    char buffer[100];
-    while (scoreDao->in->getline(buffer, sizeof(buffer))) {
-        QString data(buffer);
-        scoreDao->insertItem(data.left(12), data.right(3));
-    }
+//    //Read Ranking Hostory from the files
+//    char buffer[100];
+//    while (scoreDao->in->getline(buffer, sizeof(buffer))) {
+//        QString data(buffer);
+//        scoreDao->insertItem(data.left(12), data.right(3));
+//    }
 
-    //Add data to the model
-    int row = 0;
-    for (std::vector<QString>* each : *(scoreDao->items)) {
-        rankModel->setItem(row, 0, new QStandardItem(each->at(0)));
-        rankModel->setItem(row, 1, new QStandardItem(each->at(1)));
-        row++;
-    }
-    rankModel->sort(1, Qt::DescendingOrder);
+//    //Add data to the model
+//    int row = 0;
+//    for (std::vector<QString>* each : *(scoreDao->items)) {
+//        rankModel->setItem(row, 0, new QStandardItem(each->at(0)));
+//        rankModel->setItem(row, 1, new QStandardItem(each->at(1)));
+//        row++;
+//    }
+//    rankModel->sort(1, Qt::DescendingOrder);
 
-    rankTableView->setModel(rankModel);
-    rankTableView->resizeColumnsToContents();
-    layout->addWidget(rankTableView);
-//    rankTableView->show();
-    dialog->show();
+//    rankTableView->setModel(rankModel);
+//    rankTableView->resizeColumnsToContents();
+//    layout->addWidget(rankTableView);
+////    rankTableView->show();
+//    dialog->show();
 }
 
 void MainWindow::showMainWindow() {

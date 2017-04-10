@@ -1,6 +1,8 @@
 #include "game.h"
 #include <iostream>
 #include "BasicModeWindow/basicmodewindow.h"
+#include <QList>
+#include <QDebug>
 
 using namespace std;
 
@@ -21,7 +23,7 @@ void Game::getPosition(int &x1, int &y1, int &x2, int & y2, QString pic1, QStrin
 
 //Link without corner
 bool Game::link(int x1, int y1, int x2, int y2) {
-    int k = 0;
+//    int k = 0;
     //If one of x, y is not in the same line
     if (x1 != x2 && y1 != y2) {
         return false;
@@ -38,27 +40,17 @@ bool Game::link(int x1, int y1, int x2, int y2) {
     }
 
     if (x1 == x2) {
-        for (k = y1 + 1; k < y2; k++){
-            if (map[x1][k] != 0){
-                return false;
-            }
-        }
-        for (k = y2 + 1; k < y1; k++){
-            if (map[x1][k] != 0){
-                return false;
-            }
+        for(int y = qMin(y1 + 1, y2 + 1); y < qMax(y1, y2); y++){
+             if(map[x1][y] != 0){
+                 return false;
+             }
         }
     }
     if (y1 == y2) {
-        for (k = x1 + 1; k < x2; k++){
-            if (map[k][y1] != 0){
-                return false;
-            }
-        }
-        for (k = x2 + 1; k < x1; k++){
-            if (map[k][y1] != 0){
-                return false;
-            }
+        for(int x = qMin(x1 + 1, x2 + 1); x < qMax(x1, x2); x++){
+             if(map[x][y1] != 0){
+                 return false;
+             }
         }
     }
     return true;
@@ -81,19 +73,31 @@ bool Game::linkWithNoCorner(QString pic1, QString pic2) {
     return result;
 }
 
+//There are two possible cases in one corner
+//Top corner and bot corner
 bool Game::linkWithOneCorner(QString pic1, QString pic2, QString& pos2) {
     int x1, x2, y1, y2;
     getPosition(x1, y1, x2, y2, pic1, pic2);
 
+    //If it has corner, it can't be in the same line
     if (x1 == x2 || y1 == y2) {
         return false;
     }
+    //If they are not the same image
     if (map[x1][y1] != map[x2][y2]) {
         return false;
     }
 
+
     bool planA = false, planB = false;
+    //top corner
+    //Plan A
+    //  A ----
+    //       |
+    //       |
+    //       A
     if (map[x1][y2] == 0) {
+        //To use link function, use the corner image for tracking whether two images can be lineked
         map[x1][y2] = map[x1][y1];
         if (link(x1, y2, x1, y1) && link(x1, y2, x2, y2)) {
             planA = true;
@@ -104,6 +108,12 @@ bool Game::linkWithOneCorner(QString pic1, QString pic2, QString& pos2) {
         map[x1][y2] = 0;
     }
 
+    //Bottom corner
+    //Plan B
+    //B
+    //|
+    //|
+    //------- B
     if (map[x2][y1] == 0) {
         map[x2][y1] = map[x1][y1];
         if (link(x2, y1, x1, y1) && link(x2, y1, x2, y2)) {
@@ -120,27 +130,44 @@ bool Game::linkWithOneCorner(QString pic1, QString pic2, QString& pos2) {
         flagB = true;
         return true;
     }
-    else
+    else{
+        //Images not matchingss
         return false;
+    }
 }
 
+
+//Link two images with two corners
 bool Game::linkWithTwoCorner(QString pic1, QString pic2, QString& pos2, QString& pos3) {
+    //Set values for integer
     int x1, x2, y1, y2;
     getPosition(x1, y1, x2, y2, pic1, pic2);
 
-
+    //Basic condition check
     if (map[x1][y1] != map[x2][y2]) {
         return false;
     }
 
+
     bool planA = false, planB = false, planC = false, planD = false;
-    //向上
+    //--------
+    //|      |
+    //|      |
+    //C      |
+    //       |
+    //       C
     for (int i = x1 - 1; i >= 0; i--) {
-        if (map[i][y1] != 0)
+        //Doing top match and check one by one
+        if (map[i][y1] != 0){
             break;
+        }
+
         map[i][y1] = map[x1][y1];
         QString p1 = QString::number(i*18 + y1);
         QString p2 = QString::number(x2*18 + y2);
+
+        //Applied Linekd with one corner to check the upper case
+
         if (linkWithOneCorner(p1, p2, pos2)) {
             flagB = false;
             planA = true;
@@ -155,13 +182,21 @@ bool Game::linkWithTwoCorner(QString pic1, QString pic2, QString& pos2, QString&
         map[i][y1] = 0;
     }
 
-    //向左
+    // ---------- C
+    // |
+    // |
+    // |
+    // |
+    // -------C
     for (int i = y1 - 1; i >= 0; i--) {
         if (map[x1][i] != 0)
             break;
+
         map[x1][i] = map[x1][y1];
         QString p1 = QString::number(x1*18 + i);
         QString p2 = QString::number(x2*18 + y2);
+
+        //Applied linkWithOneCorner helper function
         if (linkWithOneCorner(p1, p2, pos2)) {
             flagB = false;
             planA = true;
@@ -177,7 +212,10 @@ bool Game::linkWithTwoCorner(QString pic1, QString pic2, QString& pos2, QString&
         map[x1][i] = 0;
     }
 
-    //向右
+    // C --------
+    //          |
+    //          |
+    //   C-------
     for (int i = y1 + 1; i < 18; i++) {
         if (map[x1][i] != 0)
             break;
@@ -199,7 +237,12 @@ bool Game::linkWithTwoCorner(QString pic1, QString pic2, QString& pos2, QString&
         map[x1][i] = 0;
     }
 
-    //向下
+    // C
+    // |
+    // |             C
+    // |             |
+    // |             |
+    // |-------------|
     for (int i = x1 + 1; i < 12; i++) {
         if (map[i][y1] != 0)
             break;
@@ -230,6 +273,7 @@ bool Game::linkWithTwoCorner(QString pic1, QString pic2, QString& pos2, QString&
     }
 
 }
+
 
 void Game::useTool(QString pic1, QString pic2) {
     int x1, x2, y1, y2;

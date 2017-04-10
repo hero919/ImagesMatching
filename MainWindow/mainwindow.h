@@ -37,8 +37,15 @@ public slots:
 private:
     Ui::MainWindow *ui;
     QTableView *rankTableView;
+<<<<<<< HEAD
     ScoreDao *scoreDao;
     bool isBack_;
+=======
+    //ScoreDao *scoreDao;
+    QSound sound;
+
+
+>>>>>>> master
 };
 
 #endif // MAINWINDOW_H

@@ -50,10 +50,15 @@ private:
     QSpinBox *box; // 设置时间
     QSpinBox *box2; // 设置花色数
     QDialog *changeSpeedDialog;
+<<<<<<< HEAD
     ScoreDao *scoreDao;
     MainWindow *mainWindow;
     QSound sound;
    // QSet<QString> tracker;
+=======
+    //ScoreDao *scoreDao;
+    QSet<QString> tracker;
+>>>>>>> master
 
 
     void increaseCredit();
