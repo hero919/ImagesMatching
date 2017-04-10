@@ -12,6 +12,7 @@
 #include <QSpinBox>
 #include "Dao/scoredao.h"
 #include "Model/mapbutton.h"
+#include <QSet>
 
 namespace Ui {
 class RelaxedModeWindow;
@@ -30,6 +31,11 @@ public:
     ~RelaxedModeWindow();
 
 private:
+    Ui::RelaxedModeWindow *ui;
+    int credit = 0;
+    int creditIncrement = 0;
+    int toolsNum = 0;
+    bool isUsingTool = false;
     Game gameModel; //model层，用来进行逻辑处理
     QGridLayout *grid;
     double totleTime = 100; //总时间
@@ -43,12 +49,8 @@ private:
     QSpinBox *box2; // 设置花色数
     QDialog *changeSpeedDialog;
     ScoreDao *scoreDao;
+    QSet<QString> tracker;
 
-    Ui::RelaxedModeWindow *ui;
-    int credit = 0;
-    int creditIncrement = 0;
-    int toolsNum = 0;
-    bool isUsingTool = false;
 
     void increaseCredit();
     void decreaseCredit(int num);

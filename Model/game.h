@@ -9,7 +9,6 @@ class Game {
 public:
     int map[12][18];
     QString selectedPic;
-//    QString pic2;
     int totalPic = 0;
     bool flagA = false, flagB = false, flagC = false; //转折点数量
     int rawMap[10][16];//未经打乱的游戏棋盘
@@ -21,10 +20,6 @@ public:
     bool isWin();
     void clearRawMap();
     void init();
-
-
-protected:
-//   bool linkWithNoCorner(int &x1, int &y1, int &x2, int & y2);
 
 private:
     void getPosition(int &x1, int &y1, int &x2, int & y2, QString pic1, QString pic2);
