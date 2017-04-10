@@ -35,9 +35,9 @@
         <file>res/play.png</file>
     </qresource>
     <qresource prefix="/music">
-        <file>res/Music01.mp3</file>
-        <file>res/Music01.wav</file>
         <file>res/Pokemon01.mp3</file>
         <file>res/Pokemon01.wav</file>
+        <file>../Downloads/Pokemon02.mp3</file>
+        <file>../Downloads/Pokemon02.wav</file>
     </qresource>
 </RCC>
