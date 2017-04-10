@@ -7,18 +7,22 @@
 #include <QVBoxLayout>
 #include <QDesktopWidget>
 
+/**
+ * construct a Help dialog
+ */
 class HelpDialog: QDialog
 {
     Q_OBJECT
 public:
     HelpDialog(QWidget *parent = 0) : QDialog(parent) {
         hd = new QDialog() ;
-        //Set the size of the images
+        //Set up dialog board
         hd->setMinimumSize(500, 500);
         hd->setMaximumSize(500, 500);
         QVBoxLayout *layout = new QVBoxLayout();
         QTextBrowser *tb = new QTextBrowser();
         layout->addWidget(tb);
+        //Help Tex
         QString text = "";
         text = text + R"(<strong><span style="font-size:16px;">Instruction</span></strong><br />
                 The basic functions of this images machting game include game start, game pause, hint, game resetting and timing. <br />
@@ -36,9 +40,11 @@ public:
         hd->setLayout(layout);
     }
 
+    //slots to display help dialog
     void showHelpDialog();
 
 private:
+    //dialog window
     QDialog *hd;
 
 };

@@ -16,50 +16,109 @@ namespace Ui {
 class LevelModeWindow;
 }
 
+/**
+ *construc a level mode
+ */
 class LevelModeWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
+    /**
+     * @brief LevelModeWindow
+     * @param parent
+     */
     explicit LevelModeWindow(QWidget *parent = 0);
+    /**
+     * draw line between selected images
+     * @param pic1
+     * @param pic2
+     * @param pos2
+     * @param pos3
+     */
     void drawLine(QString pic1, QString pic2, QString pos2, QString pos3);
+    /**
+     * destructor
+     */
     ~LevelModeWindow();
 
 private:
+    /**
+     * UI
+     */
     Ui::LevelModeWindow *ui;
 
 
 protected:
-    Game gameModel; //model层，用来进行逻辑处理
+    //basic game logic
+    Game gameModel;
+   //basic game board
     QGridLayout *grid;
-    double totalTime = 200; //总时间
-    double speed = 1; //速率系数
-//    int PIC_NUM = 9; //花色数
+    //time settings
+    double totalTime = 200;
+    double speed = 1;
+    //Init level
     int LEVEL = 1;
+    //Timer
     QTimer *timer;
+    //Painter
     QPainter* painter;
-    DrawLineLayer* drawLineLayer; //用于画线的layer
+    //Draw Line Layer
+    DrawLineLayer* drawLineLayer;
+    //Help dialog
     HelpDialog *helpDialog;
+    //score
     int scores = 0;
-//    QSpinBox *box; // 设置时间
-//    QSpinBox *box2; // 设置花色数
-//    QDialog *changeSpeedDialog;
-    //ScoreDao *scoreDao;
-
+    /**
+     * init game board
+     */
     void initMap();
+    /**
+     * shuffle images
+     * @param flag
+     */
     void reset(bool flag);
-    void select(const QString &msg); //鼠标点击图片时触发的事件
+    /**
+     * image selection logic
+     * @param msg
+     */
+    void select(const QString &msg);
 
 public slots:
+    /**
+     * start the game
+     */
     void startGame();
+    /**
+     * resart the game
+     */
     void reStartGame();
+    /**
+     * pause the game
+     */
     void pauseGame();
-    void timerUpDate(); //计时器更新
-    void resetMap(); //图片重排
-    void findHint(); //提示
-    void showHelp(); //显示帮助
+    /**
+     * update timer
+     */
+    void timerUpDate();
+    /**
+     * shuffle images
+     */
+    void resetMap();
+    /**
+     * find images that can be eliminated for player
+     */
+    void findHint();
+    /**
+     * display help dialog
+     */
+    void showHelp();
+
     void changeSpeed();
     void _changeSpeed();
+    /**
+     * navigate user back to main page
+     */
     void BackToMainPage();
 
 };
