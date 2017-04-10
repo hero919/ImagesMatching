@@ -29,34 +29,31 @@ private:
     Ui::BasicModeWindow *ui;
 
 protected:
-    Game gameModel; //model层，用来进行逻辑处理
+    Game gameModel; //Game Model used for initialize the whole map and necessary parameters
     QGridLayout *grid;
-    double totleTime = 100; //总时间
-    double speed = 0.5; //速率系数
-    int PIC_NUM = 8; //花色数
+    double totleTime = 100; //Total time used for timer
+    double speed = 0.5; //Time descreasing each time
+    int PIC_NUM = 8; //number of different images, it can only be the divisors of 160
     QTimer *timer;
     QPainter* painter;
-    DrawLineLayer* drawLineLayer; //用于画线的layer
+    //For drawing the line, it has to be seperate because it has been used for many places
+    DrawLineLayer* drawLineLayer;
     HelpDialog *helpDialog;
-    QSpinBox *box; // 设置时间
-    QSpinBox *box2; // 设置花色数
     QDialog *changeSpeedDialog;
     //ScoreDao *scoreDao;
 
     void initMap();
     void reset(bool flag);
-    void select(const QString &msg); //鼠标点击图片时触发的事件
+    void select(const QString &msg); //Connect mouse action
 
 public slots:
     void startGame();
     void reStartGame();
     void pauseGame();
-    void timerUpDate(); //计时器更新
-    void resetMap(); //图片重排
-    void findHint(); //提示
-    void showHelp(); //显示帮助
-    void changeSpeed();
-    void _changeSpeed();
+    void timerUpDate();
+    void resetMap();
+    void findHint();
+    void showHelp();
     void BackToMainPage();
 
 };

@@ -13,6 +13,7 @@ class HelpDialog: QDialog
 public:
     HelpDialog(QWidget *parent = 0) : QDialog(parent) {
         hd = new QDialog() ;
+        //Set the size of the images
         hd->setMinimumSize(500, 500);
         hd->setMaximumSize(500, 500);
         QVBoxLayout *layout = new QVBoxLayout();

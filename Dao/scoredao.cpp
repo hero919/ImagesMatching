@@ -10,16 +10,12 @@
 //}
 
 //void ScoreDao::init() {
-//    in = new std::ifstream("/Users/Jason/score.txt");
+//    in = new std::ifstream("");
 //    items = new std::vector<std::vector<QString>*>();
 //}
 
 //void ScoreDao::outputItem(QString name, QString score) {
-//    QFile file("/Users/Jason/score.txt");
-//    if (!file.open(QIODevice::Append|QIODevice::Text)) {
-//        QMessageBox::critical(NULL, "Notification", "The file cannot be created");
-//        return ;
-//    }
+//    QFile file("");
 //    QTextStream out(&file);
 //    QString data = "\n" + name + score;
 //    out << data;
