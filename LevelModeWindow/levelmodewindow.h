@@ -44,7 +44,7 @@ protected:
 //    QSpinBox *box; // 设置时间
 //    QSpinBox *box2; // 设置花色数
 //    QDialog *changeSpeedDialog;
-    ScoreDao *scoreDao;
+    //ScoreDao *scoreDao;
 
     void initMap();
     void reset(bool flag);

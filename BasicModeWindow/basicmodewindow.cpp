@@ -17,8 +17,8 @@ BasicModeWindow::BasicModeWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle("Images Matching Game");
-    scoreDao = new ScoreDao();
-    scoreDao->init();
+//    scoreDao = new ScoreDao();
+//    scoreDao->init();
     gameModel.init();
     helpDialog = new HelpDialog(ui->picWidget);
     ui->progressBar->setValue(totleTime);//progressBar初始化
@@ -167,18 +167,18 @@ void BasicModeWindow::select(const QString &msg) {
                 ui->pushButton_3->setEnabled(false);
                 ui->pushButton_4->setEnabled(false);
 
-                //向排行榜插入一条记录
-                QDateTime time = QDateTime::currentDateTime();//获取系统现在的时间
-                QString name = time.toString("yyyyMMddhhmm"); //设置显示格式
-                int s = (160 - gameModel.totalPic) * 5;
-                if (s < 0)
-                    s = 0;
-                QString score = QString::number(s);
-                if (score.length() == 2)
-                    score = "0" + score;
-                else if (score.length() == 1)
-                    score = "00" + score;
-                scoreDao->outputItem(name, score);
+//                //向排行榜插入一条记录
+//                QDateTime time = QDateTime::currentDateTime();//获取系统现在的时间
+//                QString name = time.toString("yyyyMMddhhmm"); //设置显示格式
+//                int s = (160 - gameModel.totalPic) * 5;
+//                if (s < 0)
+//                    s = 0;
+//                QString score = QString::number(s);
+//                if (score.length() == 2)
+//                    score = "0" + score;
+//                else if (score.length() == 1)
+//                    score = "00" + score;
+//                scoreDao->outputItem(name, score);
             }
 
         } else { //不可消去
@@ -211,7 +211,7 @@ void BasicModeWindow::timerUpDate() {
             score = "0" + score;
         else if (score.length() == 1)
             score = "00" + score;
-        scoreDao->outputItem(name, score);
+        //scoreDao->outputItem(name, score);
 
         QMessageBox *box = new QMessageBox(this);
         box->setInformativeText("Time Up！");

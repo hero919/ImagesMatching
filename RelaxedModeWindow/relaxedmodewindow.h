@@ -48,7 +48,7 @@ private:
     QSpinBox *box; // 设置时间
     QSpinBox *box2; // 设置花色数
     QDialog *changeSpeedDialog;
-    ScoreDao *scoreDao;
+    //ScoreDao *scoreDao;
     QSet<QString> tracker;
 
 

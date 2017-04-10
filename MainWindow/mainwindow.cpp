@@ -25,8 +25,8 @@ MainWindow::MainWindow(QWidget *parent) :
     setUpWelcomeWindow();
 
     ui->setupUi(this);
-    scoreDao = new ScoreDao();
-    scoreDao->init();
+    //scoreDao = new ScoreDao();
+    //scoreDao->init();
     playMusic();
 
     //Add signals and its corresponding slots
@@ -134,35 +134,35 @@ void MainWindow::showHelp() {
 }
 
 void MainWindow::showRankingList() {
-    QDialog *dialog = new QDialog();
-    QGridLayout *layout = new QGridLayout();
-    dialog->setLayout(layout);
-    QStandardItemModel *rankModel = new QStandardItemModel(); //TableViewModel
-    rankTableView = new QTableView();
-    rankTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    rankTableView->setGeometry(550, 300, 155, 200);
-    rankModel->setHorizontalHeaderItem(0, new QStandardItem("User Name"));
-    rankModel->setHorizontalHeaderItem(1, new QStandardItem("Scores"));
+//    QDialog *dialog = new QDialog();
+//    QGridLayout *layout = new QGridLayout();
+//    dialog->setLayout(layout);
+//    QStandardItemModel *rankModel = new QStandardItemModel(); //TableViewModel
+//    rankTableView = new QTableView();
+//    rankTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+//    rankTableView->setGeometry(550, 300, 155, 200);
+//    rankModel->setHorizontalHeaderItem(0, new QStandardItem("User Name"));
+//    rankModel->setHorizontalHeaderItem(1, new QStandardItem("Scores"));
 
-    //Read Ranking Hostory from the files
-    char buffer[100];
-    while (scoreDao->in->getline(buffer, sizeof(buffer))) {
-        QString data(buffer);
-        scoreDao->insertItem(data.left(12), data.right(3));
-    }
+//    //Read Ranking Hostory from the files
+//    char buffer[100];
+//    while (scoreDao->in->getline(buffer, sizeof(buffer))) {
+//        QString data(buffer);
+//        scoreDao->insertItem(data.left(12), data.right(3));
+//    }
 
-    //Add data to the model
-    int row = 0;
-    for (std::vector<QString>* each : *(scoreDao->items)) {
-        rankModel->setItem(row, 0, new QStandardItem(each->at(0)));
-        rankModel->setItem(row, 1, new QStandardItem(each->at(1)));
-        row++;
-    }
-    rankModel->sort(1, Qt::DescendingOrder);
+//    //Add data to the model
+//    int row = 0;
+//    for (std::vector<QString>* each : *(scoreDao->items)) {
+//        rankModel->setItem(row, 0, new QStandardItem(each->at(0)));
+//        rankModel->setItem(row, 1, new QStandardItem(each->at(1)));
+//        row++;
+//    }
+//    rankModel->sort(1, Qt::DescendingOrder);
 
-    rankTableView->setModel(rankModel);
-    rankTableView->resizeColumnsToContents();
-    layout->addWidget(rankTableView);
-//    rankTableView->show();
-    dialog->show();
+//    rankTableView->setModel(rankModel);
+//    rankTableView->resizeColumnsToContents();
+//    layout->addWidget(rankTableView);
+////    rankTableView->show();
+//    dialog->show();
 }
