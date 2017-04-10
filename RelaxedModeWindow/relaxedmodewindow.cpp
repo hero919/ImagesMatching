@@ -14,8 +14,8 @@ RelaxedModeWindow::RelaxedModeWindow(QWidget *parent) :
     scoreDao->init();
     gameModel.init();
     helpDialog = new HelpDialog(ui->picWidget);
-    ui->progressBar->setValue(totleTime);//progressBar初始化
-    grid = new QGridLayout(ui->picWidget); //为游戏棋盘创建网格布局
+    ui->progressBar->setValue(totleTime);
+    grid = new QGridLayout(ui->picWidget);
     timer = new QTimer(this);
     painter = new QPainter(this);
     drawLineLayer = new DrawLineLayer(this);
@@ -26,11 +26,9 @@ RelaxedModeWindow::RelaxedModeWindow(QWidget *parent) :
     ui->pushButton_4->setEnabled(false);
     ui->pushButton_5->setEnabled(false);
 
-    //为开始游戏和暂停游戏按钮设置信号槽
-
     connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(startGame()));
     connect(ui->pushButton_2, SIGNAL(clicked(bool)), this, SLOT(pauseGame()));
-    connect(timer,SIGNAL(timeout()),this,SLOT(timerUpDate())); //将timer和timerUpDate方法关联
+    connect(timer,SIGNAL(timeout()),this,SLOT(timerUpDate()));
     connect(ui->pushButton_3, SIGNAL(clicked(bool)), this, SLOT(findHint()));
     connect(ui->pushButton_4, SIGNAL(clicked(bool)), this, SLOT(resetMap()));
     connect(ui->pushButton_5, SIGNAL(clicked(bool)), this, SLOT(useTool()));
@@ -44,8 +42,11 @@ RelaxedModeWindow::~RelaxedModeWindow()
     delete ui;
 }
 
-void RelaxedModeWindow::startGame() { //开始游戏
-    initMap(); //初始化游戏棋盘
+void RelaxedModeWindow::startGame() {
+
+    // Initial a map
+
+    initMap();
     totleTime = 100;
     ui->progressBar->setValue(totleTime);//progressBar初始化
     timer->start(1000); //开始计时，时间间隔为1000ms
@@ -239,6 +240,7 @@ void RelaxedModeWindow::reset(bool flag) {
 
                 regulation--;
                 if(regulation == 3){
+                    pic->setStyleSheet("border:5px solid #ff0000;");
                     pic->setIcon(QIcon(":/icon/res/" + QString::number(randomPicIndex) + ".png"));
                     pic->setObjectName(QString::number(i * 18 + j));
                     tracker.insert(QString::number(i * 18 + j));
@@ -246,13 +248,12 @@ void RelaxedModeWindow::reset(bool flag) {
                     pic->setMinimumSize(40, 40);
                     pic->setMaximumSize(40, 40);
                     pic->setCheckable(true);
-                    pic->setStyleSheet("border-style: solid;"
-                                       "color: red;");
                     connect(pic, &MapButton::keyClicked, this, &RelaxedModeWindow::select);
                     size++;
                     continue;
                 }
                 if(regulation <= 0) {
+                    pic->setStyleSheet("border:5px solid #ff0000;");
                     pic->setIcon(QIcon(":/icon/res/" + QString::number(randomPicIndex) + ".png"));
                     pic->setObjectName(QString::number(i * 18 + j));
                     tracker.insert(QString::number(i * 18 + j));
