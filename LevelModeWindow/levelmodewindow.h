@@ -10,6 +10,7 @@
 #include "Model/DrawLineLayer.h"
 #include <HelpDialog/helpdialog.h>
 #include <QSpinBox>
+#include <QSound>
 
 namespace Ui {
 class LevelModeWindow;
@@ -68,6 +69,7 @@ protected:
     HelpDialog *helpDialog;
     //score
     int scores = 0;
+    QSound sound;
     /**
      * init game board
      */

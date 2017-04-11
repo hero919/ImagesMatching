@@ -1,6 +1,9 @@
 <RCC>
     <qresource prefix="/images">
         <file>res/Pokemon.jpg</file>
+        <file>res/bkg2.jpg</file>
+        <file>res/bkg1.jpg</file>
+        <file>res/bkg3.jpg</file>
     </qresource>
     <qresource prefix="/icon">
         <file>res/1.png</file>
@@ -28,8 +31,6 @@
         <file>res/23.png</file>
         <file>res/24.png</file>
         <file>res/25.png</file>
-        <file>res/exit.png</file>
-        <file>res/icon.png</file>
         <file>res/pause.png</file>
         <file>res/play.png</file>
     </qresource>

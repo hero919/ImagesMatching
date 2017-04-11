@@ -13,7 +13,8 @@
 
 LevelModeWindow::LevelModeWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::LevelModeWindow)
+    ui(new Ui::LevelModeWindow),
+    sound(":/music/res/Pokemon02.wav")
 {
 //    parent->hide();
     ui->setupUi(this);
@@ -95,9 +96,6 @@ void LevelModeWindow::timerUpDate(){
         ui->pushButton_4->setEnabled(false);
     }
 }
-
-
-
 
 void LevelModeWindow::startGame(){
     initMap(); //Init Map
@@ -190,8 +188,8 @@ void LevelModeWindow::showHelp(){
 
 void LevelModeWindow::BackToMainPage(){
     timer->stop();
-    MainWindow *mainWindow = new MainWindow();
-    mainWindow->stopMusic();
+    sound.stop();
+    MainWindow *mainWindow = new MainWindow(0,1);
     mainWindow->show();
     this->hide();
 }

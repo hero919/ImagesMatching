@@ -52,7 +52,7 @@ BasicModeWindow::~BasicModeWindow()
 
 
 void BasicModeWindow::BackToMainPage(){
-    //    sound.stop();
+    sound.stop();
     timer->stop();
     MainWindow *mw = new MainWindow(0, 1);
     mw->show();

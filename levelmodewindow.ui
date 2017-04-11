@@ -20,7 +20,7 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(99, 200, 255);</string>
+   <string notr="true">background-image: url(:/images/res/bkg2.jpg);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="picWidget" native="true">
@@ -92,7 +92,7 @@
     <property name="geometry">
      <rect>
       <x>710</x>
-      <y>470</y>
+      <y>540</y>
       <width>81</width>
       <height>41</height>
      </rect>
@@ -104,7 +104,7 @@
    <widget class="QLCDNumber" name="NumberClock">
     <property name="geometry">
      <rect>
-      <x>460</x>
+      <x>410</x>
       <y>520</y>
       <width>271</width>
       <height>71</height>
@@ -153,9 +153,9 @@
    <widget class="QLabel" name="ShowLevels">
     <property name="geometry">
      <rect>
-      <x>699</x>
-      <y>315</y>
-      <width>81</width>
+      <x>690</x>
+      <y>230</y>
+      <width>101</width>
       <height>131</height>
      </rect>
     </property>
