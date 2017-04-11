@@ -128,6 +128,7 @@ void LevelModeWindow::startGame(){
 
 
 void LevelModeWindow::pauseGame(){
+    //If the timer is active
     if(timer->isActive()){
         timer->stop();
         ui->pushButton->setDisabled(true);
@@ -150,6 +151,7 @@ void LevelModeWindow::pauseGame(){
 
 
 void LevelModeWindow::findHint(){
+    //Applied three strategy for checking the hint
     QString pos2, pos3;
     QString pic1, pic2;
     int tmp1, tmp2;
@@ -183,6 +185,7 @@ void LevelModeWindow::findHint(){
 
 
 void LevelModeWindow::resetMap(){
+    //The images needs to be deleted for creating new map.
     auto children = ui->picWidget->children();
     for (int i = 1; i < children.size(); i++) {
         if (children[i]->objectName() != "") {
@@ -196,6 +199,7 @@ void LevelModeWindow::resetMap(){
 
 
 void LevelModeWindow::showHelp(){
+    //Applied the same helpDialog
     helpDialog->showHelpDialog();
 }
 
@@ -223,6 +227,7 @@ void LevelModeWindow::reset(bool flag){
         }
     }
 
+    //Set style
     QFont font;
     font.setBold(true);
     font.setPointSize(24);
@@ -290,13 +295,15 @@ void LevelModeWindow::reset(bool flag){
 void LevelModeWindow::select(const QString &msg){
     QString pos2, pos3;
     MapButton *sb = ui->picWidget->findChild<MapButton*>(msg);
+    //Null checking
     if (sb != NULL) {
         if (gameModel.selectedPic == sb->objectName()) {
             sb->setChecked(false);
             gameModel.selectedPic = "";
-
+        //If no select picture
         } else if (gameModel.selectedPic == "") {
             gameModel.selectedPic = sb->objectName();
+        //If anyone of them is true means two images can be deleted
         } else if (gameModel.linkWithNoCorner(gameModel.selectedPic, sb->objectName())
                    || gameModel.linkWithOneCorner(gameModel.selectedPic, sb->objectName(), pos2)
                    || gameModel.linkWithTwoCorner(gameModel.selectedPic, sb->objectName(), pos2, pos3)) {
@@ -313,7 +320,7 @@ void LevelModeWindow::select(const QString &msg){
 
 
             gameModel.selectedPic = "";
-
+            //If it wins and the level is 3, then the game is finished
             if(gameModel.isWin() && LEVEL == 3){
                 QMessageBox *box = new QMessageBox(this);
                 box->setInformativeText("Congratulations！You are the winner!");
@@ -324,6 +331,7 @@ void LevelModeWindow::select(const QString &msg){
                 return;
             }
 
+            //If the level is 1 or 2, upgrade the game to next level
             if (gameModel.isWin()){
                 QMessageBox *box = new QMessageBox(this);
                 box->setInformativeText("Congratulations！You have entered next level!");
