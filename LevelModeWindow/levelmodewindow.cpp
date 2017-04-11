@@ -18,6 +18,7 @@ LevelModeWindow::LevelModeWindow(QWidget *parent) :
 {
 //    parent->hide();
     ui->setupUi(this);
+    sound.play();
 //    p = parent;
     setWindowTitle("Level Mode");
     gameModel.init();
