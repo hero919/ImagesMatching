@@ -24,7 +24,8 @@ MainWindow::MainWindow(QWidget *parent, bool isBack) :
 {
     showMainWindow();
 
-    //Add signals and its corresponding slots
+    // Add signals and its corresponding slots
+
     connect(ui->button3, SIGNAL(clicked(bool)), this, SLOT(showBasicModeWindow()));
     connect(ui->button2, SIGNAL(clicked(bool)), this, SLOT(showRelaxedModeWindow()));
     connect(ui->button1, SIGNAL(clicked(bool)), this, SLOT(showLevelModeWindow()));
@@ -81,7 +82,7 @@ void MainWindow::showLevelModeWindow() {
     this->stopMusic();
 }
 
-void MainWindow::setUpWelcomeWindow() { //Create Welcome Page
+void MainWindow::setUpWelcomeWindow() {
     QMainWindow *window = new QMainWindow();
     window->setFixedSize(800,600);
     QCoreApplication::processEvents();
@@ -113,7 +114,10 @@ void MainWindow::setUpWelcomeWindow() { //Create Welcome Page
     window->show();
     QTime t;
     t.start();
-    while(t.elapsed()<4000) //Delay 4 seconds for starting page
+
+    //Delay 4 seconds for starting page
+
+    while(t.elapsed()<4000)
         QCoreApplication::processEvents();
     window->close();
 }

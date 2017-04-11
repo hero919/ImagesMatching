@@ -21,10 +21,13 @@ BasicModeWindow::BasicModeWindow(QWidget *parent) :
     sound.play();
     gameModel.init();
     helpDialog = new HelpDialog(ui->picWidget);
-    //picWidget is now blank
+
+    // PicWidget is now blank
+
     grid = new QGridLayout(ui->picWidget);
 
-    //set basic game board
+    // Set basic game board
+
     timer = new QTimer(this);
     painter = new QPainter(this);
     drawLineLayer = new DrawLineLayer(this);
@@ -34,7 +37,8 @@ BasicModeWindow::BasicModeWindow(QWidget *parent) :
     ui->hintButton->setEnabled(false);
     ui->resetButton->setEnabled(false);
 
-    //Set Sinal and slots for buttons
+    // Set Sinal and slots for buttons
+
     connect(ui->startButton, SIGNAL(clicked(bool)), this, SLOT(startGame()));
     connect(ui->pauseButton, SIGNAL(clicked(bool)), this, SLOT(pauseGame()));
     connect(ui->hintButton, SIGNAL(clicked(bool)), this, SLOT(findHint()));
@@ -68,14 +72,18 @@ void BasicModeWindow::startGame() {
     ui->hintButton->setEnabled(true);
     ui->resetButton->setEnabled(true);
     ui->startButton->setText("Restart");
-    //Set the different use for one button using the same strategy as "Play music"
+
+    // Set the different use for start game button
+
     if (disconnect(ui->startButton, SIGNAL(clicked(bool)), this, SLOT(startGame())))
         connect(ui->startButton, SIGNAL(clicked(bool)), this, SLOT(reStartGame()));
 }
 
 void BasicModeWindow::reStartGame() {
     auto children = ui->picWidget->children();
-    //Delete all the images and restart
+
+    // Delete all the images and restart
+
     for (int i = 1; i < 217; i++) {
         if (children[i]->objectName() != "") {
             grid->removeWidget((QWidget*)children[i]);
@@ -87,7 +95,9 @@ void BasicModeWindow::reStartGame() {
 
 
 void BasicModeWindow::resetMap() {
-    //Reset map by deleting all the exsisting map and reset
+
+    // Reset map by deleting all the exsisting map and then reset
+
     auto children = ui->picWidget->children();
     for (int i = 1; i < 217; i++) {
         if (children[i]->objectName() != "") {
@@ -101,9 +111,11 @@ void BasicModeWindow::resetMap() {
 }
 
 void BasicModeWindow::pauseGame() {
-    //Disable some buttons when pause the game
+
+    // Disable some buttons when pause the game
+
     if (timer->isActive()) {
-        ui->pauseButton->setText("Continue");
+        ui->pauseButton->setText("Resume");
         timer->stop();
         ui->picWidget->setDisabled(true);
         ui->startButton->setDisabled(true);
@@ -123,12 +135,16 @@ void BasicModeWindow::pauseGame() {
 void BasicModeWindow::initMap() {
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 16; j++) {
-            //Set up different images
+
+            // Set up different images
+
             gameModel.rawMap[i][j] = gameModel.totalPic++ % PIC_NUM + 1;
         }
     }
 
-    reset(false); //shuffle rawMap
+    // Shuffle rawMap
+
+    reset(false);
 }
 
 
@@ -140,14 +156,19 @@ void BasicModeWindow::select(const QString &msg) {
             sb->setChecked(false);
             gameModel.selectedPic = "";
 
-            //If not choose the image
+            // If not choose the image
+
         } else if (gameModel.selectedPic == "") {
             gameModel.selectedPic = sb->objectName();
-            //If the image can be deleted
+
+            // If the image can be deleted
+
         } else if (gameModel.linkWithNoCorner(gameModel.selectedPic, sb->objectName())
                    || gameModel.linkWithOneCorner(gameModel.selectedPic, sb->objectName(), pos2)
                    || gameModel.linkWithTwoCorner(gameModel.selectedPic, sb->objectName(), pos2, pos3)) {
-            //Applied draw line function
+
+            // Apply draw line function
+
             drawLine(gameModel.selectedPic, sb->objectName(), pos2, pos3);
 
             MapButton *p1 = ui->picWidget->findChild<MapButton*>(gameModel.selectedPic);
@@ -159,8 +180,8 @@ void BasicModeWindow::select(const QString &msg) {
 
             gameModel.selectedPic = "";
 
+            // Check whether it is the last pair
 
-            //Check whether it is the last pair
             if (gameModel.isWin()){
                 QMessageBox *box = new QMessageBox(this);
                 box->setInformativeText("Congratulations！");
@@ -172,11 +193,14 @@ void BasicModeWindow::select(const QString &msg) {
             }
 
         } else {
-            //If not match
+
+            // If not match
+
             MapButton *p1 = ui->picWidget->findChild<MapButton*>(gameModel.selectedPic);
             p1->setChecked(false);
             gameModel.selectedPic = sb->objectName();
-            //Set new image
+
+            // Set new image
             sb->setChecked(true);
         }
     }
@@ -190,7 +214,9 @@ void BasicModeWindow::findHint() {
     bool success = false;
     for (int i = 0; i < 216 && !success; i++) {
         for (int j = 0; j < 216 && !success && j!=i; j++) {
-            //Around image should be invisivle and set to 0
+
+            // Around image should be invisivle and set to 0
+
             if (i % 18 == 0 || i % 18 == 17 || i<18 || i>=198 || j % 18 == 0 || j % 18 == 17 || j<18 || j>=198)
                 continue;
             pic1 = QString::number(i);
@@ -199,7 +225,8 @@ void BasicModeWindow::findHint() {
             tmp1 = gameModel.map[i/18][i%18];
             tmp2 = gameModel.map[j/18][j%18];
 
-            //If it can be linked
+            // If it can be linked
+
             if (gameModel.linkWithNoCorner(pic1, pic2)
                     || gameModel.linkWithOneCorner(pic1, pic2, pos2)
                     || gameModel.linkWithTwoCorner(pic1, pic2, pos2, pos3)) {
@@ -218,8 +245,9 @@ void BasicModeWindow::findHint() {
 void BasicModeWindow::drawLine(QString pic1, QString pic2, QString pos2, QString pos3) {
     MapButton *p1 = ui->picWidget->findChild<MapButton*>(pic1);
     MapButton *p2 = ui->picWidget->findChild<MapButton*>(pic2);
-    //Three cases
-    //In the same line/ One corner/ Two corners respectively
+
+    //Three cases: In the same line/ One corner/ Two corners respectively
+
     if (gameModel.flagA) {
         drawLineLayer->setPos1(p1->pos());
         drawLineLayer->setPos2(p2->pos());
@@ -271,7 +299,9 @@ void BasicModeWindow::reset(bool flag) {
 
     srand((int)time(nullptr));
     int randx1, randx2, randy1, randy2;
+
     //Shuffle the rawMap
+
     for (int k = 0; k < 300; k++) {
         randx1 = random() % 10;
         randx2 = random() % 10;
@@ -283,7 +313,9 @@ void BasicModeWindow::reset(bool flag) {
     }
     for (int i = 0; i < 12; i++) {
         for (int j = 0; j < 18; j++) {
-            //Add Around Images
+
+            // Add surround images
+
             if (i == 0 || i == 11 || j == 0 || j == 17) {
                 MapButton *w = new MapButton();
                 w->setStyleSheet("background:transparent");
@@ -297,12 +329,18 @@ void BasicModeWindow::reset(bool flag) {
 
             int randomPicIndex = gameModel.rawMap[i-1][j-1];
             MapButton *pic = new MapButton();
-            //If the image is deleted, then set the randimPicIndex to be 0. Means it is deleted.
+
+            // If the image is deleted, then set the randimPicIndex to be 0. Means it is deleted.
+
             if (randomPicIndex == 0) {
                 pic->setStyleSheet("background:transparent");
-                //i means the number of rows and j is the number of columns.
+
+                // i means the number of rows and j is the number of columns.
+
                 pic->setObjectName(QString::number(i * 18 + j));
+
                 //Set the size of icons to fill the widge
+
                 pic->setIconSize(QSize(40, 40));
                 pic->setMinimumSize(40, 40);
                 pic->setMaximumSize(40, 40);

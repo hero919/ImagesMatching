@@ -17,7 +17,10 @@ class BasicModeWindow;
 }
 
 /**
- *Create a basic game mode
+ *Create a praactice mode. Some images will be shown when player
+ *clicks on startGame().Select two of the images. If both images
+ * are the same, those images will be removed.If they are different,
+ * nothing will be removed;
  */
 class BasicModeWindow : public QMainWindow
 {
@@ -51,18 +54,41 @@ private:
     Ui::BasicModeWindow *ui;
 
 protected:
-    //Game Model used for initialize the whole map and necessary parameters
+    /**
+     * basic game logic model
+     */
     Game gameModel;
+    /**
+     * grid for images
+     */
     QGridLayout *grid;
-    double totleTime = 10000000000000; //Total time used for timer
-    int PIC_NUM = 8; //number of different images, it can only be the divisors of 160
+    /**
+     * Timer help to decide game status
+     */
+    double totleTime = 10000000000000;
     QTimer *timer;
+
+    /**
+     * 8 Image patterns
+     */
+    int PIC_NUM = 8;
+
+    /**
+     *Paint the line
+     */
     QPainter* painter;
-    //For drawing the line, it has to be seperate because it has been used for many places
+
+    /**
+     * draw line between selected same images
+     */
     DrawLineLayer* drawLineLayer;
-    //Display help dialog
+    /**
+     * To display help dialog
+     */
     HelpDialog *helpDialog;
-    //Display BGM
+    /**
+     * To disply the BGM
+     */
     QSound sound;
 
     /**
@@ -78,19 +104,19 @@ protected:
      * mouse event
      * @param msg
      */
-    void select(const QString &msg); //Connect mouse action
+    void select(const QString &msg);
 
 public slots:
     /**
-     * start the game
+     * Start the game. Images is displayed.
      */
     void startGame();
     /**
-     * resart the game
+     * Resart the game.
      */
     void reStartGame();
     /**
-     * pause the game
+     * Pause the game.
      */
     void pauseGame();
     /**

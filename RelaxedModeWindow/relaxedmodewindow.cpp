@@ -9,6 +9,8 @@ RelaxedModeWindow::RelaxedModeWindow(QWidget *parent) :
     ui(new Ui::RelaxedModeWindow),
     sound(":/music/res/Pokemon02.wav")
 {
+    // Set up the initial window and the map, and start the music and timer
+
     ui->setupUi(this);
     setWindowTitle("IMages Matching Game");
     sound.play();
@@ -21,10 +23,15 @@ RelaxedModeWindow::RelaxedModeWindow(QWidget *parent) :
     drawLineLayer = new DrawLineLayer(this);
     drawLineLayer->hide();
     drawLineLayer->setGeometry(QRect(0, 0, 720, 480));
+
+    // Disable all of necessary buttons
+
     ui->pushButton_2->setEnabled(false);
     ui->pushButton_3->setEnabled(false);
     ui->pushButton_4->setEnabled(false);
     ui->pushButton_5->setEnabled(false);
+
+    // Set Sinal and slots for buttons
 
     connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(startGame()));
     connect(ui->pushButton_2, SIGNAL(clicked(bool)), this, SLOT(pauseGame()));
@@ -63,12 +70,16 @@ void RelaxedModeWindow::startGame() {
     ui->pushButton_2->setEnabled(true);
     ui->pushButton->setText("Restart");
 
+    // Set the different use for start game button
+
     if (disconnect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(startGame())))
         connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(reStartGame()));
 }
 
-void RelaxedModeWindow::reStartGame() { //重新开始游戏
-    //清除游戏棋盘
+void RelaxedModeWindow::reStartGame() {
+
+    // Clear the game board
+
     auto children = ui->picWidget->children();
     for (int i = 1; i < 217; i++) {
         if (children[i]->objectName() != "") {
@@ -76,10 +87,16 @@ void RelaxedModeWindow::reStartGame() { //重新开始游戏
             children[i]->deleteLater();
         }
     }
+
+    // Start a new game
+
     startGame();
 }
 
 void RelaxedModeWindow::pauseGame() {
+
+    // Resume the game if the timer is active
+
     if (timer->isActive()) {
         ui->pushButton_2->setText("Resume");
         timer->stop();
@@ -98,8 +115,17 @@ void RelaxedModeWindow::pauseGame() {
 }
 
 void RelaxedModeWindow::timerUpDate() {
-    totleTime -= speed; //timer每更新一次，总时间减去0.5s
-    ui->progressBar->setValue(totleTime); //更新progressBar的值
+
+    // Update the time by the speed
+
+    totleTime -= speed;
+
+    // Update the progress bar
+
+    ui->progressBar->setValue(totleTime);
+
+    // Show the message if the time is up
+
     if (totleTime == 0) {
         QMessageBox *box = new QMessageBox(this);
         box->setInformativeText("Time Up！");
@@ -109,6 +135,9 @@ void RelaxedModeWindow::timerUpDate() {
 }
 
 void RelaxedModeWindow::resetMap() {
+
+    // Clear the existing map
+
     auto children = ui->picWidget->children();
     for (int i = 1; i < 217; i++) {
         if (children[i]->objectName() != "") {
@@ -117,7 +146,11 @@ void RelaxedModeWindow::resetMap() {
         }
     }
 
+    // Reset the map
+
     reset(true);
+
+    // Consume 50 scores
 
     decreaseCredit(50);
 }
@@ -127,25 +160,31 @@ void RelaxedModeWindow::findHint() {
     QString pic1, pic2;
     int tmp1, tmp2;
     bool success = false;
+
+    // Keep looking for find a pair of pictures that can be connected until successful
+
     for (int i = 0; i < 216 && !success; i++) {
         for (int j = 0; j < 216 && !success && j!=i; j++) {
             if (i % 18 == 0 || i % 18 == 17 || i<18 || i>=198 || j % 18 == 0 || j % 18 == 17 || j<18 || j>=198)
                 continue;
             pic1 = QString::number(i);
             pic2 = QString::number(j);
-
             tmp1 = gameModel.map[i/18][i%18];
             tmp2 = gameModel.map[j/18][j%18];
+
+            // If find those two pictures can be connected, draw a line
 
             if (gameModel.linkWithNoCorner(pic1, pic2)
                                || gameModel.linkWithOneCorner(pic1, pic2, pos2)
                                || gameModel.linkWithTwoCorner(pic1, pic2, pos2, pos3)) {//可消去
                 drawLine(pic1, pic2, pos2, pos3);
-
                 success = true;
                 gameModel.map[i/18][i%18] = tmp1;
                 gameModel.map[j/18][j%18] = tmp2;
-                gameModel.totalPic += 2; //还原被减去的图片数
+
+                // Cover the reduced pictures that should be there
+
+                gameModel.totalPic += 2;
             }
         }
     }
@@ -161,12 +200,18 @@ void RelaxedModeWindow::showHelp() {
 void RelaxedModeWindow::backToMainPage(){
     sound.stop();
     timer->stop();
+
+    // Create a new main page
+
     MainWindow *mw = new MainWindow(0, 1);
     mw->show();
     this->hide();
 }
 
 void RelaxedModeWindow::reset(bool flag) {
+
+    // Clear the raw map and then create a new one
+
     if (flag) {
         gameModel.clearRawMap();
         for (int i = 0; i < 12; i++) {
@@ -180,7 +225,9 @@ void RelaxedModeWindow::reset(bool flag) {
     }
     srand((int)time(0));
     int randx1, randx2, randy1, randy2;
-    //将地图中的图片进行300次随机对调，从而打乱棋盘
+
+    // Exchange the pictures in the map 300 times to shuffle the map
+
     for (int k = 0; k < 300; k++) {
         randx1 = random() % 10;
         randx2 = random() % 10;
@@ -190,6 +237,8 @@ void RelaxedModeWindow::reset(bool flag) {
         gameModel.rawMap[randx1][randy1] = gameModel.rawMap[randx2][randy2];
         gameModel.rawMap[randx2][randy2] = tmp;
     }
+
+    // Add surround images
 
     for (int i = 0; i < 12; i++) {
         for (int j = 0; j < 18; j++) {
@@ -205,8 +254,9 @@ void RelaxedModeWindow::reset(bool flag) {
             }
 
             MapButton *pic = new MapButton();
-
             int randomPicIndex = gameModel.rawMap[i-1][j-1];
+
+            // If the image is deleted, then the randimPicIndex should be 0, and set the background as transparent.
 
             if (randomPicIndex == 0) {
                 pic->setStyleSheet("background: transparent");
@@ -216,6 +266,9 @@ void RelaxedModeWindow::reset(bool flag) {
                 pic->setMaximumSize(40, 40);
                 gameModel.map[i][j] = 0;
             } else {
+
+                // If the image exists, then set the background as white and add the picture.
+
                 pic->setStyleSheet("background: white");
                 pic->setIcon(QIcon(":/icon/res/" + QString::number(randomPicIndex) + ".png"));                
                 pic->setObjectName(QString::number(i * 18 + j));
@@ -232,24 +285,34 @@ void RelaxedModeWindow::reset(bool flag) {
 }
 
 void RelaxedModeWindow::initMap() {
+
+    // Initial the map
+
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 16; j++) {
-            gameModel.rawMap[i][j] = gameModel.totalPic++ % PIC_NUM + 1; //初始化未经打乱的棋盘
+            gameModel.rawMap[i][j] = gameModel.totalPic++ % PIC_NUM + 1;
         }
     }
-    reset(false); //打乱rawMap
+
+    // Shuffle the raw map
+
+    reset(false);
 }
 
-//鼠标点击图片时触发的事件
 void RelaxedModeWindow::select(const QString &msg) {
     QString pos2, pos3;
     MapButton *sb = ui->picWidget->findChild<MapButton*>(msg);
     if (sb != NULL) {
-        if (gameModel.selectedPic == sb->objectName()) { //连续点击同一个图片
+
+        // Click one picture multiple times.
+
+        if (gameModel.selectedPic == sb->objectName()) {
             sb->setChecked(false);
             gameModel.selectedPic = "";
 
-        } else if (gameModel.selectedPic == "") { //当前未选中任何一个图片
+            // There is no picture selected
+
+        } else if (gameModel.selectedPic == "") {
             gameModel.selectedPic = sb->objectName();
         } else if (isUsingTool || gameModel.linkWithNoCorner(gameModel.selectedPic, sb->objectName())
                    || gameModel.linkWithOneCorner(gameModel.selectedPic, sb->objectName(), pos2)
@@ -258,24 +321,26 @@ void RelaxedModeWindow::select(const QString &msg) {
                gameModel.useTool(gameModel.selectedPic, sb->objectName());
                ui->pushButton_5->setEnabled(true);
             }
-            drawLine(gameModel.selectedPic, sb->objectName(), pos2, pos3); //画线
 
-            //让两个图片弹起来并消除
+            // Draw a line
+
+            drawLine(gameModel.selectedPic, sb->objectName(), pos2, pos3);
+
+            // Two pictures match up
+
             MapButton *p1 = ui->picWidget->findChild<MapButton*>(gameModel.selectedPic);
             MapButton *p2 = ui->picWidget->findChild<MapButton*>(sb->objectName());
             p1->setVisible(false);
             p1->setStyleSheet("background:transparent");
             p2->setVisible(false);
             p2->setStyleSheet("background:transparent");
-
-            //消子成功，增加10积分
             increaseCredit();
 
-            //判断是否可以用提示和重排
+            // Determine if the player can use hint or reset
+
             if (creditIsEnoughForHint()) {
                 ui->pushButton_3->setEnabled(true);
-
-            }
+            }  
             if (creditIsEnoughForReset()) {
                 ui->pushButton_4->setEnabled(true);
             }
@@ -283,7 +348,8 @@ void RelaxedModeWindow::select(const QString &msg) {
             isUsingTool = false;
             gameModel.selectedPic = "";
 
-            //在消子之后判断是否获胜
+            // Determine if the player wins
+
             if (gameModel.isWin()){
                 QMessageBox *box = new QMessageBox(this);
                 box->setInformativeText("Congratulations！You are the winner!");
@@ -294,12 +360,16 @@ void RelaxedModeWindow::select(const QString &msg) {
                 ui->pushButton_4->setEnabled(false);
             }
 
-        } else { //不可消去
-            //让原来的pic1弹起来
+        } else {
+
+            // If the two pictures cannot be connected, the first picture should pop up
+
             MapButton *p1 = ui->picWidget->findChild<MapButton*>(gameModel.selectedPic);
             p1->setChecked(false);
             gameModel.selectedPic = sb->objectName();
-            //新的pic1按下去
+
+            // The original first picture is pressed
+
             sb->setChecked(true);
         }
     }
@@ -308,16 +378,24 @@ void RelaxedModeWindow::select(const QString &msg) {
 void RelaxedModeWindow::drawLine(QString pic1, QString pic2, QString pos2, QString pos3) {
     MapButton *p1 = ui->picWidget->findChild<MapButton*>(pic1);
     MapButton *p2 = ui->picWidget->findChild<MapButton*>(pic2);
-    //画线
-    if (gameModel.flagA) { //没有转折点
+
+    // No turning points
+
+    if (gameModel.flagA) {
         drawLineLayer->setPos1(p1->pos());
         drawLineLayer->setPos2(p2->pos());
         gameModel.flagA = false;
+
+        // Only one turning points
+
     } else if (gameModel.flagB) {
         drawLineLayer->setPos1(p1->pos());
         drawLineLayer->setPos2(ui->picWidget->findChild<MapButton*>(pos2)->pos());
         drawLineLayer->setPos3(p2->pos());
         gameModel.flagB = false;
+
+        // More than one turning points
+
     } else if (gameModel.flagC) {
         drawLineLayer->setPos1(p1->pos());
         QWidget *tmpP1;
@@ -339,7 +417,10 @@ void RelaxedModeWindow::drawLine(QString pic1, QString pic2, QString pos2, QStri
     drawLineLayer->show();
     QTime t;
     t.start();
-    while(t.elapsed()<200) //连线延迟0.2s
+
+    // Delay 2 seconds
+
+    while(t.elapsed()<200)
         QCoreApplication::processEvents();
     drawLineLayer->clear();
 }
@@ -347,6 +428,9 @@ void RelaxedModeWindow::drawLine(QString pic1, QString pic2, QString pos2, QStri
 void RelaxedModeWindow::increaseCredit() {
     credit += 10;
     creditIncrement += 10;
+
+    // Get a tool when the player successfully connects 20 pairs of pictures, and then show the message
+
     if (creditIncrement % 200 == 0 && gameModel.totalPic != 0) {
         QMessageBox *box = new QMessageBox(this);
         box->setInformativeText("Get a Tool！");
@@ -363,11 +447,13 @@ void RelaxedModeWindow::increaseCredit() {
         ui->label_5->setText(QString::number(toolsNum));
         ui->pushButton_5->setEnabled(true);
     }
-
     ui->label_2->setText(QString::number(credit));
 }
 
 void RelaxedModeWindow::decreaseCredit(int num) {
+
+    // Decrease the credits and then check if the player can use hints or resets
+
     credit -= num;
     ui->label_2->setText(QString::number(credit));
     if (credit < 20) {
@@ -387,6 +473,9 @@ bool RelaxedModeWindow::creditIsEnoughForReset() {
 }
 
 void RelaxedModeWindow::useTool() {
+
+    // Notify the player if he runs out of his tools
+
     if (toolsNum == 0) {
         QMessageBox *box = new QMessageBox(this);
         box->setInformativeText("Sorry, you have no tools！");
@@ -400,8 +489,10 @@ void RelaxedModeWindow::useTool() {
             QCoreApplication::processEvents();
         box->hide();
         ui->pushButton_5->setEnabled(false);
-    }
-    else {
+
+        // Otherwise reduce one number of tool
+
+    } else {
         toolsNum--;
         ui->label_5->setText(QString::number(toolsNum));
         isUsingTool = true;
