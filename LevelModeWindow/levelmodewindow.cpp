@@ -30,6 +30,7 @@ LevelModeWindow::LevelModeWindow(QWidget *parent) :
     drawLineLayer = new DrawLineLayer(this);
     drawLineLayer->hide();
     drawLineLayer->setGeometry(QRect(0, 0, 720, 480));
+    //Set Font
     QFont font;
     font.setBold(true);
     font.setPointSize(36);
@@ -47,6 +48,7 @@ LevelModeWindow::LevelModeWindow(QWidget *parent) :
     ui->pushButton_2->setEnabled(false);
     ui->pushButton_3->setEnabled(false);
     ui->pushButton_4->setEnabled(false);
+    //Set Model functions
     connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(startGame()));
     connect(ui->pushButton_2, SIGNAL(clicked(bool)), this, SLOT(pauseGame()));
     connect(timer,SIGNAL(timeout()),this,SLOT(timerUpDate())); //Connect timer and update function
@@ -73,6 +75,7 @@ void LevelModeWindow::initMap(){
         }
     }
 
+    //Different levels should has different pictures
     int PIC_NUM;
     if(LEVEL == 1){
         PIC_NUM = 8;
@@ -92,14 +95,18 @@ void LevelModeWindow::initMap(){
 
 
 void LevelModeWindow::timerUpDate(){
+    //Set up time
     totalTime -= speed;
     ui->NumberClock->display(totalTime);
+    //If time is out
     if(totalTime == 0){
+        //Using QMessage box for poping up messages
         QMessageBox *box = new QMessageBox(this);
         box->setInformativeText("Time is UP!!!");
         box->setStyleSheet("QLabel{height: 80px;min-height: 80px; max-height: 80px; width: 80px;min-width: 80px; max-wdith: 80px;}");
         box->show();
         timer->stop();
+        //Set buttons
         ui->pushButton->setEnabled(false);
         ui->pushButton_2->setEnabled(false);
         ui->pushButton_3->setEnabled(false);
