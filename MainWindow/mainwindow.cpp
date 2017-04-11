@@ -97,7 +97,7 @@ void MainWindow::setUpWelcomeWindow() { //Create Welcome Page
     QFont ft;
     ft.setPointSize(40);
     QPalette pa;
-    pa.setColor(QPalette::WindowText,Qt::red);
+    pa.setColor(QPalette::WindowText,Qt::black);
     welcomeLabel->setFont(ft);
     welcomeLabel->setPalette(pa);
     welcomeLabel->setAlignment(Qt::AlignCenter);

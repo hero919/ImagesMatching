@@ -435,7 +435,7 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(99, 200, 255);</string>
+   <string notr="true">background-image: url(:/images/res/bkg1.jpg);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="picWidget" native="true">
@@ -522,7 +522,7 @@
     <property name="geometry">
      <rect>
       <x>710</x>
-      <y>390</y>
+      <y>260</y>
       <width>91</width>
       <height>41</height>
      </rect>
@@ -538,7 +538,7 @@
     <property name="geometry">
      <rect>
       <x>710</x>
-      <y>450</y>
+      <y>350</y>
       <width>81</width>
       <height>41</height>
      </rect>
@@ -553,8 +553,8 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>730</x>
-      <y>260</y>
+      <x>260</x>
+      <y>520</y>
       <width>59</width>
       <height>16</height>
      </rect>
@@ -569,8 +569,8 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>730</x>
-      <y>290</y>
+      <x>320</x>
+      <y>520</y>
       <width>61</width>
       <height>16</height>
      </rect>
@@ -585,21 +585,21 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>500</y>
+      <x>10</x>
+      <y>550</y>
       <width>121</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>Remaining Time：</string>
+     <string>Remaining Time</string>
     </property>
    </widget>
    <widget class="QProgressBar" name="progressBar">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>530</y>
+      <x>10</x>
+      <y>560</y>
       <width>611</width>
       <height>21</height>
      </rect>
@@ -614,8 +614,8 @@
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>730</x>
-      <y>320</y>
+      <x>460</x>
+      <y>520</y>
       <width>59</width>
       <height>16</height>
      </rect>
@@ -627,8 +627,8 @@
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>730</x>
-      <y>350</y>
+      <x>520</x>
+      <y>520</y>
       <width>61</width>
       <height>16</height>
      </rect>
