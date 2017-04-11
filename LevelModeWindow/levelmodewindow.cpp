@@ -86,7 +86,6 @@ void LevelModeWindow::initMap(){
             gameModel.rawMap[i][j] = gameModel.totalPic++ % PIC_NUM + 1; //Init Map
         }
     }
-
     reset(false); //shuffle rawMap
 }
 
