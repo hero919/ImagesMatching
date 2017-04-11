@@ -50,24 +50,43 @@ private:
 
 
 protected:
-    //basic game logic
+    /**
+     * basic game logic
+     */
     Game gameModel;
-   //basic game board
+   /**
+    * basic game board
+    */
     QGridLayout *grid;
-    //time settings
+    /**
+     * Time Settings
+     */
     double totalTime = 400;
     double speed = 1;
-    //Init level
+    /**
+     * Init Level
+     */
     int LEVEL = 1;
-    //Timer
+    /**
+     * Timer
+     */
     QTimer *timer;
-    //Painter
+    /**
+     * painter used for drawing lines
+     */
     QPainter* painter;
-    //Draw Line Layer
+    /**
+     * DrawLineLayer is used for drawLineLayer
+     */
     DrawLineLayer* drawLineLayer;
-    //Help dialog
+    /**
+     * Create DrawLineLayer for drawing
+     */
     HelpDialog *helpDialog;
-    //score
+    /**
+     *
+     *Scores used for calculate the scores
+     */
     int scores = 0;
     QSound sound;
     /**
