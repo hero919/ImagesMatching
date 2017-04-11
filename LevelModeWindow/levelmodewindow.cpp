@@ -202,6 +202,7 @@ void LevelModeWindow::BackToMainPage(){
 
 //If flag is true, it means totally restarted the whole game,
 //If it is false, it only reset the images but keep the deleted images.
+
 void LevelModeWindow::reset(bool flag){
     if (flag) {
         gameModel.clearRawMap();
@@ -228,7 +229,9 @@ void LevelModeWindow::reset(bool flag){
 
     srand((int)time(nullptr));
     int randx1, randx2, randy1, randy2;
+
     //Shuffle the rawMap
+
     for (int k = 0; k < 300; k++) {
         randx1 = random() % 10;
         randx2 = random() % 10;
@@ -240,7 +243,9 @@ void LevelModeWindow::reset(bool flag){
     }
     for (int i = 0; i < 12; i++) {
         for (int j = 0; j < 18; j++) {
+
             //Add Around Images
+
             if (i == 0 || i == 11 || j == 0 || j == 17) {
                 MapButton *w = new MapButton();
                 w->setStyleSheet("background:transparent");
@@ -254,7 +259,9 @@ void LevelModeWindow::reset(bool flag){
 
             int randomPicIndex = gameModel.rawMap[i-1][j-1];
             MapButton *pic = new MapButton();
+
             //If the image is deleted, then set the randimPicIndex to be 0. Means it is deleted.
+
             if (randomPicIndex == 0) {
                 pic->setStyleSheet("background:transparent");
                 //i means the number of rows and j is the number of columns.
@@ -329,11 +336,11 @@ void LevelModeWindow::select(const QString &msg){
             }
 
         } else {
-            //Old image unchecked
+            // Old image unchecked
             MapButton *p1 = ui->picWidget->findChild<MapButton*>(gameModel.selectedPic);
             p1->setChecked(false);
             gameModel.selectedPic = sb->objectName();
-            //New images chosen
+            // New images chosen
             sb->setChecked(true);
         }
     }
