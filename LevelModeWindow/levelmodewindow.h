@@ -12,6 +12,14 @@
 #include <QSpinBox>
 #include <QSound>
 
+/**
+ * Level Mode is set to 3 levels, the image styles will be increasing, time will decrease level by level,
+ * the total scores will be accumulated.
+ *
+ *
+ *
+ */
+
 namespace Ui {
 class LevelModeWindow;
 }
