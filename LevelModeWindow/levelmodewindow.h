@@ -54,7 +54,7 @@ protected:
    //basic game board
     QGridLayout *grid;
     //time settings
-    double totalTime = 200;
+    double totalTime = 400;
     double speed = 1;
     //Init level
     int LEVEL = 1;
