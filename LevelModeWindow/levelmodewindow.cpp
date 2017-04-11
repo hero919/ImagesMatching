@@ -180,10 +180,6 @@ void LevelModeWindow::resetMap(){
 }
 
 
-void LevelModeWindow::changeSpeed(){
-
-}
-
 void LevelModeWindow::showHelp(){
     helpDialog->showHelpDialog();
 }
@@ -301,33 +297,6 @@ void LevelModeWindow::select(const QString &msg){
             ui->Scores->setText(QString::number(scores));
 
 
-//            if(LEVEL == 1){
-//                int first = gameModel.selectedPic.toInt();
-//                int second = sb->objectName().toInt();
-//                //Handle first
-//                int rows = first / 18;
-//                int columns = first % 18;
-//                //set rawMap
-//                int index = 9;
-//                for(int i = 10; i > 0; i--){
-//                    if((ui->picWidget->findChild<MapButton*>((i + 1) * 18 + columns))->isVisible()){
-//                        gameModel.rawMap[index--][rows - 1] = gameModel.rawMap[i - 1][rows - 1];
-//                    }
-//                }
-
-//                for(int j = index; j > 0; j--){
-//                    gameModel.rawMap[index--][rows - 1] = 0;
-//                }
-
-
-//                for(int i = 10; i > 0; i--){      
-//                    if (i == 0 || i == 11 || j == 0 || j == 17) {
-
-//                    }
-//                }
-//            }
-
-
             gameModel.selectedPic = "";
 
             if(gameModel.isWin() && LEVEL == 3){
@@ -349,37 +318,6 @@ void LevelModeWindow::select(const QString &msg){
                 LEVEL += 1;
                 initMap();
 
-//                QCoreApplication::processEvents();
-//                QWidget *cenWidget = new QWidget(window);
-//                window->setCentralWidget(cenWidget);
-//                QLabel *emptyLabel = new QLabel(cenWidget);
-//                QLabel *welcomeLabel = new QLabel(cenWidget);
-//                welcomeLabel->setText("CS3650 Project: Images Matching Game");
-//                QLabel *nameLabel = new QLabel(cenWidget);
-//                nameLabel->setText("\t\t by Zeqing Zhang, Kaimong Wong, Zhaoxing Hong");
-//                QGridLayout *gridLayout = new QGridLayout(cenWidget);
-//                QFont ft;
-//                ft.setPointSize(40);
-//                QPalette pa;
-//                pa.setColor(QPalette::WindowText,Qt::red);
-//                welcomeLabel->setFont(ft);
-//                welcomeLabel->setPalette(pa);
-//                welcomeLabel->setAlignment(Qt::AlignCenter);
-//                ft.setPointSize(24);
-//                nameLabel->setFont(ft);
-//                nameLabel->setPalette(pa);
-//                nameLabel->setAlignment(Qt::AlignCenter);
-
-//                gridLayout->addWidget(emptyLabel);
-//                gridLayout->addWidget(welcomeLabel);
-//                gridLayout->addWidget(nameLabel);
-
-//                window->show();
-//                QTime t;
-//                t.start();
-//                while(t.elapsed()<4000) //Delay 4 seconds for starting page
-//                    QCoreApplication::processEvents();
-//                window->close();
             }
 
         } else {
@@ -404,9 +342,6 @@ void LevelModeWindow::reStartGame(){
     startGame();
 }
 
-void LevelModeWindow::_changeSpeed(){
-
-}
 
 
 void LevelModeWindow::drawLine(QString pic1, QString pic2, QString pos2, QString pos3) {

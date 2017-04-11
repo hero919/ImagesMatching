@@ -113,8 +113,7 @@ public slots:
      */
     void showHelp();
 
-    void changeSpeed();
-    void _changeSpeed();
+
     /**
      * navigate user back to main page
      */
