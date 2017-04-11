@@ -61,6 +61,13 @@ LevelModeWindow::~LevelModeWindow()
 
 
 void LevelModeWindow::initMap(){
+    auto children = ui->picWidget->children();
+    for (int i = 1; i < children.size(); i++) {
+        if (children[i]->objectName() != "") {
+            grid->removeWidget((QWidget*)children[i]);
+            children[i]->deleteLater();
+        }
+    }
 
     int PIC_NUM;
     if(LEVEL == 1){
@@ -169,7 +176,7 @@ void LevelModeWindow::findHint(){
 
 void LevelModeWindow::resetMap(){
     auto children = ui->picWidget->children();
-    for (int i = 1; i < 217; i++) {
+    for (int i = 1; i < children.size(); i++) {
         if (children[i]->objectName() != "") {
             grid->removeWidget((QWidget*)children[i]);
             children[i]->deleteLater();
