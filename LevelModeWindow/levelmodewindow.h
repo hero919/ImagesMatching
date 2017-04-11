@@ -50,7 +50,9 @@ private:
 
 
 protected:
-    //basic game logic
+    /*
+     * basic game logic
+     */
     Game gameModel;
    //basic game board
     QGridLayout *grid;
