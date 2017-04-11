@@ -62,6 +62,8 @@ LevelModeWindow::~LevelModeWindow()
 
 
 void LevelModeWindow::initMap(){
+    //Every time when it initMap, it needs to delete all the old images since the previous
+    //Level may cover the new version
     auto children = ui->picWidget->children();
     for (int i = 1; i < children.size(); i++) {
         if (children[i]->objectName() != "") {
