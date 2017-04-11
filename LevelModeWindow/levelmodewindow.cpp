@@ -16,10 +16,8 @@ LevelModeWindow::LevelModeWindow(QWidget *parent) :
     ui(new Ui::LevelModeWindow),
     sound(":/music/res/Pokemon02.wav")
 {
-//    parent->hide();
     ui->setupUi(this);
     sound.play();
-//    p = parent;
     setWindowTitle("Level Mode");
     gameModel.init();
     grid = new QGridLayout(ui->picWidget);
