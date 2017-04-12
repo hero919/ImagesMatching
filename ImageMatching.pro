@@ -14,7 +14,10 @@ SOURCES += main.cpp\
     LevelModeWindow/levelmodewindow.cpp \
     Model/game.cpp \
     HelpDialog/helpdialog.cpp \
-    Model/DrawLineLayer.cpp
+    Model/DrawLineLayer.cpp \
+    ToolNotification/toolnotification.cpp \
+    toolnotification.cpp \
+    Mode/mode.cpp
 
 HEADERS  += MainWindow/mainwindow.h \
     BasicModeWindow/basicmodewindow.h \
@@ -24,7 +27,10 @@ HEADERS  += MainWindow/mainwindow.h \
     Model/game.h \
     Dao/scoredao.h \
     HelpDialog/helpdialog.h \
-    Model/DrawLineLayer.h
+    Model/DrawLineLayer.h \
+    ToolNotification/toolnotification.h \
+    toolnotification.h \
+    Mode/mode.h
 
 FORMS    += mainwindow.ui \
     basicmodewindow.ui \
