@@ -38,35 +38,43 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+//Play Music
 void MainWindow::playMusic(){
+    //Create icons for paly music
     QPushButton *musicButton = ui->MusicButton;
     musicButton->setIcon(QIcon(":/icon/res/pause.png"));
     musicButton->setIconSize(QSize(30,30));
     sound.play();
+    sound.setLoops(-1);
+    //Set the same button for different uses
     if(disconnect(ui->MusicButton, SIGNAL(clicked(bool)), this, SLOT(playMusic()))){
         connect(ui->MusicButton, SIGNAL(clicked(bool)), this, SLOT(stopMusic()));
     }
 }
 
 void MainWindow::stopMusic(){
+    //Set stop button style and size
     QPushButton *musicButton = ui->MusicButton;
     musicButton->setIcon(QIcon(":/icon/res/play.png"));
     musicButton->setIconSize(QSize(30,30));
     sound.stop();
+    //Set button different functionality
     if(disconnect(ui->MusicButton, SIGNAL(clicked(bool)), this, SLOT(stopMusic()))){
         connect(ui->MusicButton, SIGNAL(clicked(bool)), this, SLOT(playMusic()));
     }
 }
 
 void MainWindow::showBasicModeWindow() {
+    //Create a basic mode for showing
     BasicModeWindow *bmw = new BasicModeWindow();
     bmw->setWindowTitle("Basic Mode");
-       bmw->show();
-       this->hide();
-       this->stopMusic();
+    bmw->show();
+    this->hide();
+    this->stopMusic();
 }
 
 void MainWindow::showRelaxedModeWindow() {
+    //Create relaxed mode
     RelaxedModeWindow *rmw = new RelaxedModeWindow();
     rmw->setWindowTitle("Relaxed Mode");
     rmw->show();
@@ -74,6 +82,7 @@ void MainWindow::showRelaxedModeWindow() {
     this->stopMusic();
 }
 
+//Create level mode
 void MainWindow::showLevelModeWindow() {
     LevelModeWindow *lmw = new LevelModeWindow();
     lmw->setWindowTitle("Level Mode");
@@ -82,11 +91,13 @@ void MainWindow::showLevelModeWindow() {
     this->stopMusic();
 }
 
+//Set up the begin image
 void MainWindow::setUpWelcomeWindow() {
     QMainWindow *window = new QMainWindow();
     window->setFixedSize(800,600);
     QCoreApplication::processEvents();
 
+    //Using widget for start image and set label to show the sentences
     QWidget *cenWidget = new QWidget(window);
     window->setCentralWidget(cenWidget);
     QLabel *emptyLabel = new QLabel(cenWidget);
@@ -95,10 +106,12 @@ void MainWindow::setUpWelcomeWindow() {
     QLabel *nameLabel = new QLabel(cenWidget);
     nameLabel->setText("\t\t by Zeqing Zhang, Jiameng Wang, Zhaoxing Hong");
     QGridLayout *gridLayout = new QGridLayout(cenWidget);
+    //Add font style
     QFont ft;
     ft.setPointSize(40);
     QPalette pa;
     pa.setColor(QPalette::WindowText,Qt::black);
+    //Set style
     welcomeLabel->setFont(ft);
     welcomeLabel->setPalette(pa);
     welcomeLabel->setAlignment(Qt::AlignCenter);
@@ -123,12 +136,15 @@ void MainWindow::setUpWelcomeWindow() {
 }
 
 void MainWindow::showHelp() {
+    //Using HelpDialog for showing help dialog
     HelpDialog *helpDialog = new HelpDialog(this);
     helpDialog->showHelpDialog();
 }
 
 void MainWindow::showMainWindow() {
+    //Check whether this is the first time to open the page
     if(isBack_) {
+        //If we entered the page before, we don't need to set up the start page
         ui->setupUi(this);
         playMusic();
     } else {

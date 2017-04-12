@@ -18,7 +18,7 @@ public:
      */
     DrawLineLayer(QWidget *parent = 0);
     /**
-     * set posns of two images
+     * set posns of different images
      * @param pos
      */
     void setPos1(QPoint pos);
