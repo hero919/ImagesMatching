@@ -12,6 +12,14 @@
 #include <QSpinBox>
 #include <QSound>
 
+
+
+/**
+ * Level Mode is created for different levels, we set three levels and the difficulties increases
+ * level by level. Game time will decrease level by level.
+ */
+
+
 namespace Ui {
 class LevelModeWindow;
 }

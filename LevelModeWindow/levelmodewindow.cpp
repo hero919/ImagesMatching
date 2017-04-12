@@ -27,9 +27,11 @@ LevelModeWindow::LevelModeWindow(QWidget *parent) :
     timer->setInterval(totalTime * 1000);
     timer->start(1000);
     painter = new QPainter(this);
+    //Initialize layer
     drawLineLayer = new DrawLineLayer(this);
     drawLineLayer->hide();
     drawLineLayer->setGeometry(QRect(0, 0, 720, 480));
+    //Set Styles
     QFont font;
     font.setBold(true);
     font.setPointSize(36);
@@ -47,6 +49,7 @@ LevelModeWindow::LevelModeWindow(QWidget *parent) :
     ui->pushButton_2->setEnabled(false);
     ui->pushButton_3->setEnabled(false);
     ui->pushButton_4->setEnabled(false);
+    //Create Signal and slots.
     connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(startGame()));
     connect(ui->pushButton_2, SIGNAL(clicked(bool)), this, SLOT(pauseGame()));
     connect(timer,SIGNAL(timeout()),this,SLOT(timerUpDate())); //Connect timer and update function
@@ -73,6 +76,7 @@ void LevelModeWindow::initMap(){
         }
     }
 
+    //Different number of images for different levels
     int PIC_NUM;
     if(LEVEL == 1){
         PIC_NUM = 8;
@@ -81,6 +85,7 @@ void LevelModeWindow::initMap(){
     }else{
         PIC_NUM = 16;
     }
+    //Set different images
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 16; j++) {
             gameModel.rawMap[i][j] = gameModel.totalPic++ % PIC_NUM + 1; //Init Map
@@ -89,11 +94,12 @@ void LevelModeWindow::initMap(){
     reset(false); //shuffle rawMap
 }
 
-
+//Update the time
 void LevelModeWindow::timerUpDate(){
     totalTime -= speed;
     ui->NumberClock->display(totalTime);
     if(totalTime == 0){
+        //Create pop up box
         QMessageBox *box = new QMessageBox(this);
         box->setInformativeText("Time is UP!!!");
         box->setStyleSheet("QLabel{height: 80px;min-height: 80px; max-height: 80px; width: 80px;min-width: 80px; max-wdith: 80px;}");
@@ -120,6 +126,7 @@ void LevelModeWindow::startGame(){
 
 
 void LevelModeWindow::pauseGame(){
+    //Disable the buttons when pause the game
     if(timer->isActive()){
         timer->stop();
         ui->pushButton->setDisabled(true);
@@ -146,6 +153,7 @@ void LevelModeWindow::findHint(){
     QString pic1, pic2;
     int tmp1, tmp2;
     bool success = false;
+    //Loop over the whole pic widgets
     for (int i = 0; i < 216 && !success; i++) {
         for (int j = 0; j < 216 && !success && j!=i; j++) {
             if (i % 18 == 0 || i % 18 == 17 || i<18 || i>=198 || j % 18 == 0 || j % 18 == 17 || j<18 || j>=198)
@@ -175,6 +183,7 @@ void LevelModeWindow::findHint(){
 
 
 void LevelModeWindow::resetMap(){
+    //Map need to be deleted since new map may cover the old one and old ones still exists
     auto children = ui->picWidget->children();
     for (int i = 1; i < children.size(); i++) {
         if (children[i]->objectName() != "") {
@@ -188,10 +197,12 @@ void LevelModeWindow::resetMap(){
 
 
 void LevelModeWindow::showHelp(){
+    //Create a dialog showing messages
     helpDialog->showHelpDialog();
 }
 
 void LevelModeWindow::BackToMainPage(){
+    //Stop the timer and sound
     timer->stop();
     sound.stop();
     MainWindow *mainWindow = new MainWindow(0,1);
