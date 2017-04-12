@@ -205,6 +205,7 @@ void LevelModeWindow::BackToMainPage(){
     //Stop the timer and sound
     timer->stop();
     sound.stop();
+    //Takes in the isBack_ to be true
     MainWindow *mainWindow = new MainWindow(0,1);
     mainWindow->show();
     this->hide();
