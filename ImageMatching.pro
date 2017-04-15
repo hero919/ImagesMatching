@@ -15,8 +15,6 @@ SOURCES += main.cpp\
     Model/game.cpp \
     HelpDialog/helpdialog.cpp \
     Model/DrawLineLayer.cpp \
-    ToolNotification/toolnotification.cpp \
-    toolnotification.cpp \
     Mode/mode.cpp
 
 HEADERS  += MainWindow/mainwindow.h \
@@ -28,9 +26,7 @@ HEADERS  += MainWindow/mainwindow.h \
     Dao/scoredao.h \
     HelpDialog/helpdialog.h \
     Model/DrawLineLayer.h \
-    ToolNotification/toolnotification.h \
-    toolnotification.h \
-    Mode/mode.h
+    ToolNotification/toolnotification.h
 
 FORMS    += mainwindow.ui \
     basicmodewindow.ui \

@@ -19,8 +19,8 @@ class BasicModeWindow;
 /**
  *Create a praactice mode. Some images will be shown when player
  *clicks on startGame().Select two of the images. If both images
- * are the same, those images will be removed.If they are different,
- * nothing will be removed;
+ *are the same, those images will be removed.If they are different,
+ *nothing will be removed;
  */
 class BasicModeWindow : public QMainWindow
 {
@@ -33,6 +33,12 @@ public:
      * @param parent
      */
     explicit BasicModeWindow(QWidget *parent = 0);
+
+    /**
+      destructor
+    */
+    ~BasicModeWindow();
+
     /**
      * draw a line between images
      * @brief drawLine
@@ -42,10 +48,7 @@ public:
      * @param pos3
      */
     void drawLine(QString pic1, QString pic2, QString pos2, QString pos3);
-    /**
-      destructor
-    */
-    ~BasicModeWindow();
+
 
 private:
     /**
@@ -58,10 +61,12 @@ protected:
      * basic game logic model
      */
     Game gameModel;
+
     /**
      * grid for images
      */
     QGridLayout *grid;
+
     /**
      * Timer help to decide game status
      */
@@ -82,10 +87,12 @@ protected:
      * draw line between selected same images
      */
     DrawLineLayer* drawLineLayer;
+
     /**
      * To display help dialog
      */
     HelpDialog *helpDialog;
+
     /**
      * To disply the BGM
      */
@@ -95,11 +102,13 @@ protected:
      * initialize the game board
      */
     void initMap();
+
     /**
      * shuffle images
      * @param flag
      */
     void reset(bool flag);
+
     /**
      * mouse event
      * @param msg
@@ -111,31 +120,36 @@ public slots:
      * Start the game. Images is displayed.
      */
     void startGame();
+
     /**
      * Resart the game.
      */
     void reStartGame();
+
     /**
      * Pause the game.
      */
     void pauseGame();
+
     /**
      * shuffle images
      */
     void resetMap();
+
     /**
      * find images that can be eliminated
      */
     void findHint();
+
     /**
      * display help dialog
      */
     void showHelp();
+
     /**
      * navigate player to main page
      */
     void BackToMainPage();
-
 };
 
 #endif // BASICMODEWINDOW_H

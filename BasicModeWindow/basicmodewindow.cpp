@@ -63,8 +63,6 @@ void BasicModeWindow::BackToMainPage(){
     this->hide();
 }
 
-
-
 void BasicModeWindow::startGame() {
     initMap();
     totleTime = 1000000000;

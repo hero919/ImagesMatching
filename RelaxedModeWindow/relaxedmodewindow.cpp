@@ -3,9 +3,10 @@
 #include <QMessageBox>
 #include <QTime>
 #include "MainWindow/mainwindow.h"
+#include "BasicModeWindow/basicmodewindow.h"
 
 RelaxedModeWindow::RelaxedModeWindow(QWidget *parent) :
-    QMainWindow(parent),
+    BasicModeWindow(parent),
     ui(new Ui::RelaxedModeWindow),
     sound(":/music/res/Pokemon02.wav")
 {
@@ -208,7 +209,7 @@ void RelaxedModeWindow::backToMainPage(){
     this->hide();
 }
 
-void RelaxedModeWindow::reset(bool flag) {
+/*void RelaxedModeWindow::reset(bool flag) {
 
     // Clear the raw map and then create a new one
 
@@ -282,9 +283,9 @@ void RelaxedModeWindow::reset(bool flag) {
             grid->addWidget(pic, i, j);
         }
     }
-}
+}*/
 
-void RelaxedModeWindow::initMap() {
+/*void RelaxedModeWindow::initMap() {
 
     // Initial the map
 
@@ -297,7 +298,7 @@ void RelaxedModeWindow::initMap() {
     // Shuffle the raw map
 
     reset(false);
-}
+}*/
 
 void RelaxedModeWindow::select(const QString &msg) {
     QString pos2, pos3;
@@ -375,7 +376,7 @@ void RelaxedModeWindow::select(const QString &msg) {
     }
 }
 
-void RelaxedModeWindow::drawLine(QString pic1, QString pic2, QString pos2, QString pos3) {
+/*void RelaxedModeWindow::drawLine(QString pic1, QString pic2, QString pos2, QString pos3) {
     MapButton *p1 = ui->picWidget->findChild<MapButton*>(pic1);
     MapButton *p2 = ui->picWidget->findChild<MapButton*>(pic2);
 
@@ -423,7 +424,7 @@ void RelaxedModeWindow::drawLine(QString pic1, QString pic2, QString pos2, QStri
     while(t.elapsed()<200)
         QCoreApplication::processEvents();
     drawLineLayer->clear();
-}
+}*/
 
 void RelaxedModeWindow::increaseCredit() {
     credit += 10;

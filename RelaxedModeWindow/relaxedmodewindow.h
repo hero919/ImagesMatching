@@ -14,6 +14,7 @@
 #include "Model/DrawLineLayer.h"
 #include "MainWindow/mainwindow.h"
 #include "Model/mapbutton.h"
+#include "BasicModeWindow/basicmodewindow.h"
 
 
 namespace Ui {
@@ -26,7 +27,7 @@ class RelaxedModeWindow;
  * In addition, as the player conducts the game,
  * he will find some tools to connect any images without constraints.
  */
-class RelaxedModeWindow : public QMainWindow
+class RelaxedModeWindow : public BasicModeWindow
 {
     Q_OBJECT
 
@@ -96,12 +97,12 @@ private:
     /**
      * The game model
      */
-    Game gameModel;
+    //Game gameModel;
 
     /**
      * The grid of layout
      */
-    QGridLayout *grid;
+    //QGridLayout *grid;
 
     /**
      * The remaining time
@@ -116,7 +117,7 @@ private:
     /**
      * 8 picture patterns
      */
-    int PIC_NUM = 8;
+    //int PIC_NUM = 8;
 
     /**
      * The timer of the relaxed mode
@@ -126,17 +127,17 @@ private:
     /**
      * The painter
      */
-    QPainter* painter;
+    //QPainter* painter;
 
     /**
      * The line layer
      */
-    DrawLineLayer* drawLineLayer;
+    //DrawLineLayer* drawLineLayer;
 
     /**
      * The game instruction
      */
-    HelpDialog *helpDialog;
+   // HelpDialog *helpDialog;
 
     /**
      * The speed of progess bar
@@ -173,7 +174,7 @@ public slots:
     /**
      * Start a game
      */
-    void startGame();
+   void startGame();
 
     /**
      * Restart a game
