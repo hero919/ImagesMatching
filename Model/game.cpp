@@ -105,6 +105,7 @@ bool Game::linkWithOneCorner(QString pic1, QString pic2, QString& pos2) {
             map[x1][y1] = 0;
             map[x2][y2] = 0;
         }
+        //Push the value back
         map[x1][y2] = 0;
     }
 

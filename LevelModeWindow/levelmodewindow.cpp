@@ -205,6 +205,7 @@ void LevelModeWindow::BackToMainPage(){
     //Stop the timer and sound
     timer->stop();
     sound.stop();
+    //Takes in the isBack_ to be true
     MainWindow *mainWindow = new MainWindow(0,1);
     mainWindow->show();
     this->hide();
@@ -298,9 +299,11 @@ void LevelModeWindow::reset(bool flag){
 }
 
 void LevelModeWindow::select(const QString &msg){
+    //Applied select method, same strategy as basic mode
     QString pos2, pos3;
     MapButton *sb = ui->picWidget->findChild<MapButton*>(msg);
     if (sb != NULL) {
+        //Three cases
         if (gameModel.selectedPic == sb->objectName()) {
             sb->setChecked(false);
             gameModel.selectedPic = "";
@@ -311,6 +314,7 @@ void LevelModeWindow::select(const QString &msg){
                    || gameModel.linkWithOneCorner(gameModel.selectedPic, sb->objectName(), pos2)
                    || gameModel.linkWithTwoCorner(gameModel.selectedPic, sb->objectName(), pos2, pos3)) {
 
+            //Draw Lines and make the map buttons invisible
             drawLine(gameModel.selectedPic, sb->objectName(), pos2, pos3);
             MapButton *p1 = ui->picWidget->findChild<MapButton*>(gameModel.selectedPic);
             MapButton *p2 = ui->picWidget->findChild<MapButton*>(sb->objectName());
@@ -324,6 +328,8 @@ void LevelModeWindow::select(const QString &msg){
 
             gameModel.selectedPic = "";
 
+            //Check if the level us already get to level three, the
+            //winner wins
             if(gameModel.isWin() && LEVEL == 3){
                 QMessageBox *box = new QMessageBox(this);
                 box->setInformativeText("Congratulations！You are the winner!");
@@ -334,6 +340,7 @@ void LevelModeWindow::select(const QString &msg){
                 return;
             }
 
+            //Level by level change the time to increase the difficulty
             if (gameModel.isWin()){
                 QMessageBox *box = new QMessageBox(this);
                 box->setInformativeText("Congratulations！You have entered next level!");

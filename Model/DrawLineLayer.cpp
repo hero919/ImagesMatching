@@ -37,6 +37,7 @@ void DrawLineLayer::paintEvent(QPaintEvent *)
     }
 }
 
+//Set different positions
 void DrawLineLayer::setPos1(QPoint pos) {
     this->pos1 = pos;
 }

@@ -66,6 +66,8 @@ void BasicModeWindow::BackToMainPage(){
     this->hide();
 }
 
+
+
 void BasicModeWindow::startGame() {
     //Initilize the map
     initMap();
@@ -254,7 +256,7 @@ void BasicModeWindow::drawLine(QString pic1, QString pic2, QString pos2, QString
         drawLineLayer->setPos1(p1->pos());
         drawLineLayer->setPos2(p2->pos());
         gameModel.flagA = false;
-
+    
     } else if (gameModel.flagB) {
         drawLineLayer->setPos1(p1->pos());
         drawLineLayer->setPos2(ui->picWidget->findChild<MapButton*>(pos2)->pos());
